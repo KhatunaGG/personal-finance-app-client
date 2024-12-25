@@ -108,7 +108,6 @@
 // export default SignUp;
 
 "use client";
-import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

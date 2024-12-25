@@ -266,7 +266,7 @@ const Dashboard = () => {
   // Ensure context is available before proceeding
   if (!context) return null;
 
-  const { setAccessToken, accessToken } = context;
+  const { setAccessToken, accessToken } = context || {};
 
   // Handle the loading state
   const [loading, setLoading] = useState(true);
@@ -279,14 +279,14 @@ const Dashboard = () => {
       } else {
         setAccessToken(token as string);
       }
-      setLoading(false); // Set loading to false once the token is fetched
+      setLoading(false); 
     };
 
     fetchToken();
   }, [setAccessToken, router]);
 
-  // Prevent rendering until the token is fetched
-  if (loading || !accessToken) return null;
+
+  if (loading || !accessToken || !context) return null;
 
   return (
     <section className="w-full h-full min-h-screen">

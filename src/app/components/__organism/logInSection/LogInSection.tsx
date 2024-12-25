@@ -94,7 +94,7 @@
 // export default SignUp;
 
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -121,7 +121,7 @@ const LogInSection = () => {
   if (!context) {
     return <div>Loading...</div>; 
   }
-  const { setAccessToken, accessToken } = context;
+  const { setAccessToken, accessToken } = context || {};
 
   const schema = yup.object().shape({
     email: yup

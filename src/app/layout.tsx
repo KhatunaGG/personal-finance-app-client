@@ -95,7 +95,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Context from "./context/Context";
-import { Public_Sans, Barlow, Work_Sans } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 // import { SideBar } from "./components/__organism";
 
 const ps = Public_Sans({ subsets: ["latin"], weight: ["400", "700"] });
