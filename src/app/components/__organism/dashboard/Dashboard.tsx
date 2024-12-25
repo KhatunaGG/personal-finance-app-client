@@ -93,8 +93,6 @@
 
 // export default Dashboard;
 
-
-
 //****************************************************************************************************** */
 
 // "use client";
@@ -162,20 +160,7 @@
 
 // export default Dashboard;
 
-
-
-
-
-
-
-
-
-
-
 //****************************************************************************************************** */
-
-
-
 
 // "use client";
 // import { GlobalContext } from "@/app/context/Context";
@@ -200,7 +185,7 @@
 //       if (!token) {
 //         router.push("/sign-up");
 //       } else {
-//         setAccessToken(token as string); 
+//         setAccessToken(token as string);
 //       }
 //     };
 
@@ -240,21 +225,7 @@
 
 // export default Dashboard;
 
-
-
-
-
 //****************************************************************************************************** */
-
-
-
-
-
-
-
-
-
-
 
 "use client";
 import { GlobalContext } from "@/app/context/Context";
@@ -269,10 +240,12 @@ import BillsFragment from "../billsFragment/BillsFragment";
 
 const Dashboard = () => {
   const context = useContext(GlobalContext);
-  const [isLoading, setIsLoading] = useState(true);
-  if (!context) return null;
-  const { setAccessToken, accessToken } = context;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  if (!context) {
+    return <div>Loading...</div>; // Show loading if context is not available yet
+  }
+  const { setAccessToken, accessToken } = context;
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -280,7 +253,7 @@ const Dashboard = () => {
       if (!token) {
         router.push("/sign-up");
       } else {
-        setAccessToken(token as string); 
+        setAccessToken(token as string);
       }
       setIsLoading(false);
     };
@@ -288,8 +261,16 @@ const Dashboard = () => {
     fetchToken();
   }, [setAccessToken, router]);
 
- if (isLoading) return <div>Loading...</div>;
-  if (!accessToken) return null;
+  //  if (isLoading) return <div>Loading...</div>;
+  //   if (!accessToken) return null;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!accessToken) {
+    return <div>Access Denied</div>;
+  }
 
   return (
     <section className="w-full h-full min-h-screen  ">
@@ -304,7 +285,7 @@ const Dashboard = () => {
 
         <TotalsFragment />
 
-        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]" >
+        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
             <PotsFragment />
             <TransactionsFragment />
@@ -321,4 +302,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
