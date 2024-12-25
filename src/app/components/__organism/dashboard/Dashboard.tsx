@@ -268,10 +268,10 @@ import BudgetFragment from "../budgetFragment/BudgetFragment";
 import BillsFragment from "../billsFragment/BillsFragment";
 
 const Dashboard = () => {
-  const router = useRouter();
   const context = useContext(GlobalContext);
   if (!context) return null;
   const { setAccessToken, accessToken } = context;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchToken = async () => {
