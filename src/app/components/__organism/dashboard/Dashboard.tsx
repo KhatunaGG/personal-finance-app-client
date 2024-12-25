@@ -248,7 +248,7 @@
 
 
 
-
+"use client"
 import { GlobalContext } from "@/app/context/Context";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
