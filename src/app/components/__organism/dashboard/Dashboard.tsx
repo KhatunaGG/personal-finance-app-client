@@ -242,10 +242,24 @@ const Dashboard = () => {
   const context = useContext(GlobalContext);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  if (!context) {
-    return <div>Loading...</div>; // Show loading if context is not available yet
+  const [isContextLoading, setIsContextLoading] = useState(true);
+  // const { setAccessToken, accessToken } = context;
+
+
+
+  useEffect(() => {
+    if (context) {
+      setIsContextLoading(false); // Set context loading as false once context is available
+    }
+  }, [context]);
+
+
+  if (isContextLoading) {
+    return <div>Loading...</div>;
   }
-  const { setAccessToken, accessToken } = context;
+
+
+  const { setAccessToken, accessToken } = context!; 
 
   useEffect(() => {
     const fetchToken = async () => {
