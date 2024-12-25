@@ -177,13 +177,82 @@
 
 
 
-"use client";
+// "use client";
+// import { GlobalContext } from "@/app/context/Context";
+// import { getCookie } from "cookies-next";
+// import { useRouter } from "next/navigation";
+// import { useContext, useEffect } from "react";
+// import PotsFragment from "../potsFragment/PotsFragment";
+// import TotalsFragment from "../totalFragment/TotalsFragment";
+// import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
+// import BudgetFragment from "../budgetFragment/BudgetFragment";
+// import BillsFragment from "../billsFragment/BillsFragment";
+
+// const Dashboard = () => {
+//   const router = useRouter();
+//   const context = useContext(GlobalContext);
+//   if (!context) return null;
+//   const { setAccessToken, accessToken } = context;
+
+//   useEffect(() => {
+//     const fetchToken = async () => {
+//       const token = await getCookie("accessToken");
+//       if (!token) {
+//         router.push("/sign-up");
+//       } else {
+//         setAccessToken(token as string); 
+//       }
+//     };
+
+//     fetchToken();
+//   }, [setAccessToken, router]);
+
+//   if (!accessToken) return null;
+
+//   return (
+//     <section className="w-full h-full min-h-screen  ">
+//       {/* <div className="max-h-[52px] md:max-h-[74px]  lg:w-full lg:min-h-full h-screen  bg-[#201F24] lg:rounded-t-xl lg:rounded-tl-none lg:rounded-r-3xl order-last lg:order-none">
+//         <SideBar />
+//       </div> */}
+
+//       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
+//         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
+//           Overview
+//         </h1>
+
+//         <TotalsFragment />
+
+//         <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]" >
+//           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
+//             <PotsFragment />
+//             <TransactionsFragment />
+//           </div>
+
+//           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
+//             <BudgetFragment />
+//             <BillsFragment />
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default Dashboard;
+
+
+
+
+
+//****************************************************************************************************** */
+
+
+
+
 import { GlobalContext } from "@/app/context/Context";
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import SideBar from "../sideBar/SideBar";
-import { ArrowRight, PotIcon, PotLargeIcon } from "../../__atoms";
+import { useContext, useEffect, useState } from "react";
 import PotsFragment from "../potsFragment/PotsFragment";
 import TotalsFragment from "../totalFragment/TotalsFragment";
 import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
@@ -191,32 +260,36 @@ import BudgetFragment from "../budgetFragment/BudgetFragment";
 import BillsFragment from "../billsFragment/BillsFragment";
 
 const Dashboard = () => {
-  const context = useContext(GlobalContext);
-  if (!context) return null;
-  const { setAccessToken, accessToken } = context;
   const router = useRouter();
+  const context = useContext(GlobalContext);
+  
+  // Ensure context is available before proceeding
+  if (!context) return null;
+
+  const { setAccessToken, accessToken } = context;
+
+  // Handle the loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchToken = async () => {
-      const token = await getCookie("accessToken"); // await to resolve the Promise
+      const token = await getCookie("accessToken");
       if (!token) {
         router.push("/sign-up");
       } else {
-        setAccessToken(token as string); // cast to string if necessary
+        setAccessToken(token as string);
       }
+      setLoading(false); // Set loading to false once the token is fetched
     };
 
     fetchToken();
   }, [setAccessToken, router]);
 
-  if (!accessToken) return null;
+  // Prevent rendering until the token is fetched
+  if (loading || !accessToken) return null;
 
   return (
-    <section className="w-full h-full min-h-screen  ">
-      {/* <div className="max-h-[52px] md:max-h-[74px]  lg:w-full lg:min-h-full h-screen  bg-[#201F24] lg:rounded-t-xl lg:rounded-tl-none lg:rounded-r-3xl order-last lg:order-none">
-        <SideBar />
-      </div> */}
-
+    <section className="w-full h-full min-h-screen">
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Overview
@@ -224,15 +297,12 @@ const Dashboard = () => {
 
         <TotalsFragment />
 
-        {/* <div className="w-full grid grid-cols-1 gap-y-6 lg:grid-cols-[57.35%_40.37%] lg:gap-x-[2.26%]"> */}
-        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]" >
-          {/* <div className=" grid grid-rows-[auto_auto] gap-y-4 md:gap-y-6 lg:w-[57.35%]"> */}
+        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
             <PotsFragment />
             <TransactionsFragment />
           </div>
 
-          {/* <div className="bg-pink-200 h-full w-full grid grid-cols-1 gap-y-4 md:gap-y-6 lg:w-[40.37%]"> */}
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
             <BudgetFragment />
             <BillsFragment />

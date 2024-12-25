@@ -1,8 +1,5 @@
 "use client";
-import Link from "next/link";
-import { ArrowRight, DotIcon } from "../../__atoms";
-import Image from "next/image";
-import { BudgetPieChart, ProgressBar } from "../../__molecules";
+import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 

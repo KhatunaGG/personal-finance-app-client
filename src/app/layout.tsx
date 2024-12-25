@@ -96,11 +96,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Context from "./context/Context";
 import { Public_Sans, Barlow, Work_Sans } from "next/font/google";
-import { SideBar } from "./components/__organism";
+// import { SideBar } from "./components/__organism";
 
 const ps = Public_Sans({ subsets: ["latin"], weight: ["400", "700"] });
-const barlow = Barlow({ subsets: ["latin"], weight: ["400"] });
-const ws = Work_Sans({ subsets: ["latin"], weight: ["700"] });
+// const barlow = Barlow({ subsets: ["latin"], weight: ["400"] });
+// const ws = Work_Sans({ subsets: ["latin"], weight: ["700"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

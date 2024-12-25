@@ -99,7 +99,7 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Legend, Label } from "recharts";
+import { PieChart, Pie, Label } from "recharts";
 
 const data = [
   { name: "Group A", value: 400, fill: "#0088FE" },
@@ -108,15 +108,15 @@ const data = [
   { name: "Group D", value: 200, fill: "#FF8042" },
 ];
 
-const renderColorfulLegendText = (value: string, entry: any) => {
-  return (
-    <span style={{ color: "#596579", fontWeight: 500, padding: "10px" }}>
-      {value}
-    </span>
-  );
-};
+// const renderColorfulLegendText = (value: string, entry: any) => {
+//   return (
+//     <span style={{ color: "#596579", fontWeight: 500, padding: "10px" }}>
+//       {value}
+//     </span>
+//   );
+// };
 
-const totalValue = "$338";
+
 
 const BudgetPieChart = () => {
   const [mounted, setMounted] = useState(false);

@@ -45,18 +45,14 @@
 "use client";
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { ChartDataType } from "../budgets/budgetFragment/BudgetFragment";
+import { ChartDataType } from "../budgetFragment/BudgetFragment";
 
-// ChartDataPropsType for data passed in
 export type ChartDataPropsType = {
   data: ChartDataType[];
 };
 
 
-const size = {
-  width: 240,
-  height: 240,
-};
+
 
 const Chart = ({ data }: ChartDataPropsType) => {
   return (

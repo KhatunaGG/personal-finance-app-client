@@ -1,5 +1,5 @@
 import React from "react";
-import { BudgetPieChart, ProgressBar } from "../../__molecules";
+import { ProgressBar } from "../../__molecules";
 import Image from "next/image";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";

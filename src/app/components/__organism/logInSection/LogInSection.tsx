@@ -114,15 +114,14 @@ export type LogInType = {
 };
 
 const LogInSection = () => {
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const context = useContext(GlobalContext);
-  if(!context) return null;
-  const { setAccessToken, accessToken } = context
-
-
-
+  if (!context) {
+    return <div>Loading...</div>; 
+  }
+  const { setAccessToken, accessToken } = context;
 
   const schema = yup.object().shape({
     email: yup
@@ -157,12 +156,10 @@ const LogInSection = () => {
         setAccessToken(token);
         setCookie("accessToken", token, { maxAge: 60 * 60 });
         reset();
-        if(token) {
+        if (token) {
           router.push("/overview");
         }
-       
       }
-
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message || "An error occurred";
@@ -179,9 +176,7 @@ const LogInSection = () => {
     }
   };
 
-
-
-  console.log(accessToken, 'accessToken')
+  console.log(accessToken, "accessToken");
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
@@ -232,7 +227,11 @@ const LogInSection = () => {
                 placeholder="Email"
                 {...register("email")}
               />
-              <span className="absolute"></span>
+              {errors.email && (
+                <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
 
             <div className="relative flex flex-col mb-8 ">
@@ -261,7 +260,11 @@ const LogInSection = () => {
                 </button>
               </div>
 
-              <span className="absolute"></span>
+              {errors.password && (
+                <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                  {errors.password.message}
+                </span>
+              )}
             </div>
 
             <button

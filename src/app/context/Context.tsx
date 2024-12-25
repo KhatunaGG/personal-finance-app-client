@@ -1,8 +1,6 @@
 "use client";
 
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 export type GlobalContextType = {
   accessToken: string;
@@ -12,7 +10,7 @@ export type GlobalContextType = {
 export const GlobalContext = createContext<GlobalContextType | null>(null);
 
 const Context = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
+
 
   const [accessToken, setAccessToken] = useState('')
 

@@ -147,7 +147,7 @@ const schema = yup.object().shape({
 });
 
 const SignUpSection = () => {
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const {

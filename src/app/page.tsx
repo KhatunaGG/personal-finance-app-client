@@ -1,6 +1,6 @@
 
-import Image from "next/image";
-import { Dashboard, Header, SignUpSection } from "./components/__organism";
+
+import {  Header, SignUpSection } from "./components/__organism";
 
 
 
