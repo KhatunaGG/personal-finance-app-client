@@ -116,10 +116,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { Logo } from "../../__atoms";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-
+import { useState } from "react";
 
 export type signUpType = {
   userName: string;
@@ -146,7 +146,7 @@ const schema = yup.object().shape({
 });
 
 const SignUpSection = () => {
-  // const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const {
@@ -171,11 +171,13 @@ const SignUpSection = () => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message || "An error occurred";
+        setErrorMessage(message);
         toast.error(message, {
           position: "top-left",
           autoClose: 2000,
         });
       } else {
+        setErrorMessage("An unexpected error occurred");
         toast.error("An error occurred", {
           position: "top-left",
           autoClose: 2000,
@@ -183,8 +185,6 @@ const SignUpSection = () => {
       }
     }
   };
-
-
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
@@ -233,10 +233,16 @@ const SignUpSection = () => {
                 placeholder="userName"
                 {...register("userName")}
               />
-              {errors.userName && (
+              {/* {errors.userName && (
                 <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                   {errors.userName.message}
                 </span>
+              )} */}
+
+              {errorMessage && (
+                <div className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                  {errorMessage}
+                </div>
               )}
             </div>
 
@@ -253,10 +259,16 @@ const SignUpSection = () => {
                 {...register("email")}
                 className="border border-beige-500 py-3 px-5 rounded-[8px] outline-none"
               />
-              {errors.email && (
+              {/* {errors.email && (
                 <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                   {errors.email.message}
                 </span>
+              )} */}
+
+              {errorMessage && (
+                <div className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                  {errorMessage}
+                </div>
               )}
             </div>
 
@@ -274,10 +286,16 @@ const SignUpSection = () => {
                   {...register("password")}
                   className="border border-beige-500 py-3 px-5 rounded-[8px] w-full outline-none"
                 />
-                {errors.password && (
+                {/* {errors.password && (
                   <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                     {errors.password.message}
                   </span>
+                )} */}
+
+                {errorMessage && (
+                  <div className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                    {errorMessage}
+                  </div>
                 )}
                 <button className="absolute top-1/2 right-5 transform -translate-y-1/2 translate-x-1/2 w-6 h-6 cursor-pointer">
                   <Image

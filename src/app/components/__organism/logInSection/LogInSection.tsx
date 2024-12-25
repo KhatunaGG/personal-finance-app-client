@@ -314,7 +314,6 @@
 //*********************************************************************************************************** */
 
 
-
 "use client";
 import { GlobalContext } from "@/app/context/Context";
 import { getCookie } from "cookies-next";
@@ -329,36 +328,36 @@ import BillsFragment from "../billsFragment/BillsFragment";
 const Dashboard = () => {
   const router = useRouter();
   const context = useContext(GlobalContext);
+  
+  // Always call hooks outside of any conditional logic
+  const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState<string | null>(null); // or use context directly if applicable
 
-  // Ensure context is available before proceeding
+  // Early return if context is not available
   if (!context) {
-    return null; // Prevent component rendering if context is not available
+    return null;
   }
 
-  const { setAccessToken, accessToken } = context;
+  const { setAccessToken: setContextAccessToken } = context;
 
-  // Handle the loading state
-  const [loading, setLoading] = useState(true);
-
-  // useEffect for fetching token, this will always be called, hooks will not be conditional
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCookie("accessToken");
       if (!token) {
         router.push("/sign-up");
       } else {
-        // Ensure that context is available before calling setAccessToken
-        setAccessToken(token as string);
+        setContextAccessToken(token as string);
+        setAccessToken(token as string); // update local state as well if needed
       }
-      setLoading(false); // Set loading to false once the token is fetched
+      setLoading(false);
     };
 
     fetchToken();
-  }, [setAccessToken, router]);
+  }, [setContextAccessToken, router]);
 
-  // Now render conditionally after hooks, no conditional hook call anymore
+  // Early return if loading or accessToken is not available yet
   if (loading || !accessToken) {
-    return null; // Or render a loading spinner if you prefer
+    return null;
   }
 
   return (
