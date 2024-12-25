@@ -248,11 +248,19 @@
 
 
 
-"use client"
+
+
+
+
+
+
+
+
+"use client";
 import { GlobalContext } from "@/app/context/Context";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import PotsFragment from "../potsFragment/PotsFragment";
 import TotalsFragment from "../totalFragment/TotalsFragment";
 import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
@@ -262,14 +270,8 @@ import BillsFragment from "../billsFragment/BillsFragment";
 const Dashboard = () => {
   const router = useRouter();
   const context = useContext(GlobalContext);
-  
-  // Ensure context is available before proceeding
   if (!context) return null;
-
-  const { setAccessToken, accessToken } = context || {};
-
-  // Handle the loading state
-  const [loading, setLoading] = useState(true);
+  const { setAccessToken, accessToken } = context;
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -277,19 +279,21 @@ const Dashboard = () => {
       if (!token) {
         router.push("/sign-up");
       } else {
-        setAccessToken(token as string);
+        setAccessToken(token as string); 
       }
-      setLoading(false); 
     };
 
     fetchToken();
-  }, [setAccessToken, router]);
+  }, [setAccessToken, router, accessToken]);
 
-
-  if (loading || !accessToken || !context) return null;
+  if (!accessToken) return null;
 
   return (
-    <section className="w-full h-full min-h-screen">
+    <section className="w-full h-full min-h-screen  ">
+      {/* <div className="max-h-[52px] md:max-h-[74px]  lg:w-full lg:min-h-full h-screen  bg-[#201F24] lg:rounded-t-xl lg:rounded-tl-none lg:rounded-r-3xl order-last lg:order-none">
+        <SideBar />
+      </div> */}
+
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Overview
@@ -297,7 +301,7 @@ const Dashboard = () => {
 
         <TotalsFragment />
 
-        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
+        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]" >
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
             <PotsFragment />
             <TransactionsFragment />
@@ -314,3 +318,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
