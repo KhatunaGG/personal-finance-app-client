@@ -260,7 +260,7 @@
 import { GlobalContext } from "@/app/context/Context";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import PotsFragment from "../potsFragment/PotsFragment";
 import TotalsFragment from "../totalFragment/TotalsFragment";
 import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
@@ -269,6 +269,7 @@ import BillsFragment from "../billsFragment/BillsFragment";
 
 const Dashboard = () => {
   const context = useContext(GlobalContext);
+  const [isLoading, setIsLoading] = useState(true);
   if (!context) return null;
   const { setAccessToken, accessToken } = context;
   const router = useRouter();
@@ -281,11 +282,13 @@ const Dashboard = () => {
       } else {
         setAccessToken(token as string); 
       }
+      setIsLoading(false);
     };
 
     fetchToken();
-  }, [setAccessToken, router, accessToken]);
+  }, [setAccessToken, router]);
 
+ if (isLoading) return <div>Loading...</div>;
   if (!accessToken) return null;
 
   return (

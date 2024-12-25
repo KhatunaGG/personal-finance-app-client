@@ -119,29 +119,27 @@ export type LogInType = {
   password: string;
 };
 
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Email cannot be empty")
+    .email("Looks like this is not an email"),
+  password: yup
+    .string()
+    .required("Password cannot be empty")
+    .matches(
+      /^(?=[A-Za-z0-9]*$)[A-Za-z0-9]{4,20}$/,
+      "Letters and Numbers only"
+    ),
+});
+
+
+
+
 const LogInSection = () => {
   // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-
-  const context = useContext(GlobalContext);
-  if (!context) {
-    return <div>Loading...</div>; 
-  }
-  const { setAccessToken, accessToken } = context || {};
-
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Email cannot be empty")
-      .email("Looks like this is not an email"),
-    password: yup
-      .string()
-      .required("Password cannot be empty")
-      .matches(
-        /^(?=[A-Za-z0-9]*$)[A-Za-z0-9]{4,20}$/,
-        "Letters and Numbers only"
-      ),
-  });
 
   const {
     register,
@@ -151,6 +149,16 @@ const LogInSection = () => {
   } = useForm<LogInType>({
     resolver: yupResolver(schema),
   });
+
+  const context = useContext(GlobalContext);
+  if (!context) {
+    return <div>Loading...</div>; 
+  }
+  const { setAccessToken, accessToken } = context || {};
+
+
+
+
 
   const onSubmit = async (data: LogInType) => {
     console.log(data, "data");
@@ -308,68 +316,3 @@ export default LogInSection;
 
 
 
-
-
-
-// //*********************************************************************************************************** */
-
-
-// "use client";
-// import { GlobalContext } from "@/app/context/Context";
-// import { getCookie } from "cookies-next";
-// import { useRouter } from "next/navigation";
-// import { useContext, useEffect, useState } from "react";
-// import PotsFragment from "../potsFragment/PotsFragment";
-// import TotalsFragment from "../totalFragment/TotalsFragment";
-// import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
-// import BudgetFragment from "../budgetFragment/BudgetFragment";
-// import BillsFragment from "../billsFragment/BillsFragment";
-
-// const Dashboard = () => {
-//   const [errorMessage, setErrorMessage] = useState("");
-//   const router = useRouter();
-
-//   const context = useContext(GlobalContext);
-//   if(!context) return null;
-//   const { setAccessToken, accessToken } = context
- 
-
-
-//   useEffect(() => {
-//     const token = getCookie("accessToken");
-//     if (!token) {
-//       router.push("/sign-up");
-//     } else {
-//       setAccessToken(token);
-//     }
-//   }, [setAccessToken, router]);
-//   if (!accessToken) return null;
-
-
-
-//   return (
-//     <section className="w-full h-full min-h-screen">
-//       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
-//         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
-//           Overview
-//         </h1>
-
-//         <TotalsFragment />
-
-//         <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
-//           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
-//             <PotsFragment />
-//             <TransactionsFragment />
-//           </div>
-
-//           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
-//             <BudgetFragment />
-//             <BillsFragment />
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Dashboard;
