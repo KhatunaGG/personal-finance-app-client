@@ -169,10 +169,10 @@ const LogInSection = () => {
         // setTokenFromCookie(token);
         setAccessToken(token);
         setCookie("accessToken", token, { maxAge: 60 * 60 });
-        reset();
         if (token) {
           router.push("/overview");
         }
+        reset();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

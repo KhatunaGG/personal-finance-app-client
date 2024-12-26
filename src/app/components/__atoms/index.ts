@@ -8,3 +8,5 @@ export { default as MinimizeMenu } from "./minimizeMenu/MinimizeMenu";
 export { default as ArrowRight } from "./arrowRight/ArrowRight";
 export { default as PotLargeIcon } from "./potLargeIcon/PotLargeIcon";
 export { default as DotIcon } from "./dotIcon/DotIcon";
+export { default as CloseIcon } from "./closeIcon/CloseIcon";
+export { default as ArrowDown } from "./arrowDown/ArrowDown";

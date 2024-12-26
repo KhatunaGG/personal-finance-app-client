@@ -360,12 +360,12 @@ import BudgetFragment from "../budgetFragment/BudgetFragment";
 import BillsFragment from "../billsFragment/BillsFragment";
 
 const Dashboard = () => {
-  const context = useContext(GlobalContext); // Context is accessed unconditionally
+  const context = useContext(GlobalContext); 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState<string | null>(null); // Local state for accessToken
+  const [accessToken, setAccessToken] = useState<string | null>(null); 
 
-  // Ensure useEffect is always called unconditionally
+
   useEffect(() => {
     if (context) {
       const fetchToken = async () => {
@@ -380,16 +380,16 @@ const Dashboard = () => {
 
       fetchToken();
     } else {
-      setIsLoading(false); // If context is not available, don't show loading
+      setIsLoading(false); 
     }
   }, [context, router]);
 
-  // If loading, show loading state
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  // If no accessToken, show access denied state
+
   if (!accessToken) {
     return <div>Access Denied</div>;
   }
