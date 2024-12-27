@@ -270,17 +270,12 @@ const PageModal = () => {
             </div>
           </div>
 
-
-
-
           <button
             type="submit"
             className="w-full bg-[#201F24] rounded-lg text-white font-bold text-sm py-4"
           >
             Add Budget
           </button>
-
-
         </form>
       </div>
     </section>

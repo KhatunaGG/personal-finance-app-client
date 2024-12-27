@@ -93,8 +93,6 @@
 
 // export default Dashboard;
 
-
-
 //****************************************************************************************************** */
 
 // "use client";
@@ -162,20 +160,7 @@
 
 // export default Dashboard;
 
-
-
-
-
-
-
-
-
-
-
 //****************************************************************************************************** */
-
-
-
 
 // "use client";
 // import { GlobalContext } from "@/app/context/Context";
@@ -200,7 +185,7 @@
 //       if (!token) {
 //         router.push("/sign-up");
 //       } else {
-//         setAccessToken(token as string); 
+//         setAccessToken(token as string);
 //       }
 //     };
 
@@ -240,21 +225,7 @@
 
 // export default Dashboard;
 
-
-
-
-
 //****************************************************************************************************** */
-
-
-
-
-
-
-
-
-
-
 
 // "use client";
 // import { GlobalContext } from "@/app/context/Context";
@@ -272,7 +243,7 @@
 //   const router = useRouter();
 //   const [isLoading, setIsLoading] = useState(true);
 //   if (!context) {
-//     return <div>Loading...</div>; 
+//     return <div>Loading...</div>;
 //   }
 //   const { setAccessToken, accessToken } = context;
 
@@ -282,7 +253,7 @@
 //       if (!token) {
 //         router.push("/sign-up");
 //       } else {
-//         setAccessToken(token as string); 
+//         setAccessToken(token as string);
 //       }
 //       setIsLoading(false);
 //     };
@@ -293,9 +264,8 @@
 // //  if (isLoading) return <div>Loading...</div>;
 // //   if (!accessToken) return null;
 
-
 // if (isLoading) {
-//   return <div>Loading...</div>; 
+//   return <div>Loading...</div>;
 // }
 
 // if (!accessToken) {
@@ -333,38 +303,18 @@
 
 // export default Dashboard;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 import { GlobalContext } from "@/app/context/Context";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import PotsFragment from "../potsFragment/PotsFragment";
-import TotalsFragment from "../totalFragment/TotalsFragment";
-import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
-import BudgetFragment from "../budgetFragment/BudgetFragment";
-import BillsFragment from "../billsFragment/BillsFragment";
+import Home from "../home/Home";
 
 const Dashboard = () => {
-  const context = useContext(GlobalContext); 
+  const context = useContext(GlobalContext);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState<string | null>(null); 
-
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (context) {
@@ -380,43 +330,19 @@ const Dashboard = () => {
 
       fetchToken();
     } else {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   }, [context, router]);
-
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-
   if (!accessToken) {
     return <div>Access Denied</div>;
   }
 
-  return (
-    <section className="w-full h-full min-h-screen">
-      <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
-        <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
-          Overview
-        </h1>
-
-        <TotalsFragment />
-
-        <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
-          <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
-            <PotsFragment />
-            <TransactionsFragment />
-          </div>
-
-          <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
-            <BudgetFragment />
-            <BillsFragment />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return <Home />;
 };
 
 export default Dashboard;

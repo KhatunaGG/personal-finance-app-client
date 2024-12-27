@@ -34,19 +34,19 @@ import Box from '@mui/material/Box';
 const ProgressBar = () => {
   return (
     <Box sx={{
-      padding: '4px', // Apply padding to the rail here
-      borderRadius: '8px', // Optional: round the corners of the rail
-      backgroundColor: '#F8F4F0', // Rail color (green)
+      padding: '4px', 
+      borderRadius: '8px',
+      backgroundColor: '#F8F4F0', 
       height: "32px",
 
     }}>
       <LinearProgress
         sx={{
-          height: "24px", // Adjust height to fit inside the wrapper with padding
-          borderRadius: "4px", // Optional: round the corners of the progress bar itself
-          background: '#F8F4F0', // Background color of the rail (light color)
+          height: "24px", 
+          borderRadius: "4px", 
+          background: '#F8F4F0', 
           '& .MuiLinearProgress-bar': {
-            backgroundColor: '#277C78', // Color of the progress bar (blue)
+            backgroundColor: '#277C78', 
           },
         }}
         variant="determinate"

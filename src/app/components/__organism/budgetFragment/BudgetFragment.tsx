@@ -46,27 +46,27 @@
 
 // export default BudgetFragment;
 
+
+
 "use client";
 import Link from "next/link";
-// import { ArrowRight } from "../../../__atoms";
 import { PieChart } from "@mui/x-charts";
 import { ArrowRight } from "../../__atoms";
-// import { Chart } from "../..";
 
-// Define ChartDataType as an array of objects
+
+
 export type ChartDataType = {
   id: number;
   value: number;
   label: string;
-  color?: string; // Make color optional
+  color?: string; 
 };
 
-// Correctly define the data as an array of objects
 const data: ChartDataType[] = [
   { id: 0, value: 159.0, label: "Entertainment", color: "#277C78" },
-  { id: 1, value: 75.0, label: "Bills", color: "#82C9D7"  },
-  { id: 2, value: 100.0, label: "Dining Out", color: "#626070"  },
-  { id: 3, value: 150.0, label: "Personal Care", color: "#F2CDAC"  },
+  { id: 1, value: 75.0, label: "Bills", color: "#82C9D7" },
+  { id: 2, value: 100.0, label: "Dining Out", color: "#626070" },
+  { id: 3, value: 150.0, label: "Personal Care", color: "#F2CDAC" },
 ];
 
 const BudgetFragment = () => {
@@ -80,12 +80,11 @@ const BudgetFragment = () => {
         </Link>
       </div>
 
-
       {/* <div className="w-full flex flex-col  md:flex-row relative my-[31px]"> */}
       <div className="w-full flex flex-col gap-y-4  md:flex-row relative my-[31px]">
         <div className="w-full h-[240px]  flex  lg:items-start">
           <PieChart
-          className="lg:-ml-8 flex items-center justify-center"
+            className="lg:-ml-8 flex items-center justify-center"
             series={[
               {
                 data: data.map((item) => ({
@@ -103,7 +102,7 @@ const BudgetFragment = () => {
           {data.map((item, i) => (
             <div key={i} className="flex flex-row gap-4">
               <div
-              style={{backgroundColor: item.color}}
+                style={{ backgroundColor: item.color }}
                 className={`w-[5px] bg-[${
                   item.color ?? "#000000"
                 }] h-full min-h-[43px] rounded-sm`}

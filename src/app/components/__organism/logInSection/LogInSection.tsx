@@ -170,7 +170,7 @@ const LogInSection = () => {
         setAccessToken(token);
         setCookie("accessToken", token, { maxAge: 60 * 60 });
         if (token) {
-          router.push("/overview");
+          router.push("/");
         }
         reset();
       }

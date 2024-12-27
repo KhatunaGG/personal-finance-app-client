@@ -4,6 +4,7 @@ import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 
 const BudgetSections = () => {
+
   return (
     <section className="w-full h-full min-h-screen ">
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
@@ -11,7 +12,9 @@ const BudgetSections = () => {
           <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
             Budgets
           </h1>
-          <button className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap">
+          <button
+
+          className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap">
             + Add New Budget
           </button>
         </div>
