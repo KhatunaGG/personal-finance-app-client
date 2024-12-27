@@ -28,7 +28,7 @@ const BudgetSections = () => {
             <Spending />
           </div>
 
-          <div className="bg-red-200 w-full lg:w-[57.36%] flex flex-col gap-y-6">
+          <div className="w-full lg:w-[57.36%] flex flex-col gap-y-6">
             <BudgetItem />
             <BudgetItem />
           </div>
