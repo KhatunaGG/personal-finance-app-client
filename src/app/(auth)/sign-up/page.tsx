@@ -20,7 +20,6 @@ export default function page() {
   return (
     <>
 
-    {/* <Dashboard /> */}
       <Header />
       <SignUpSection />
     </>

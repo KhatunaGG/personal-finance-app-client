@@ -100,7 +100,7 @@
 //*********************************************************************************************************** */
 
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -190,7 +190,7 @@ const LogInSection = () => {
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
       <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen rounded-[12px] lg:flex">
-        <div className="w-vw h-full px-10 py-10 flex flex-col justify-between">
+        <div className="w-vw h-full px-10 py-10 flex flex-col justify-between ">
           {/* <div className="w-[121.45px] h-[21.76px]">
             <Image
               src={"/assets/Logo.png"}

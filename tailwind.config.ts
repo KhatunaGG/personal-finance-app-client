@@ -13,6 +13,9 @@ export default {
         foreground: "var(--foreground)",
       },
     },
+    backgroundImage: {
+      bannerImage: "url('/assets/hero.png')"
+    },
   },
   plugins: [],
 } satisfies Config;
