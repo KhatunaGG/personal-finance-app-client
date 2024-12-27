@@ -100,7 +100,7 @@
 //*********************************************************************************************************** */
 
 "use client";
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -110,7 +110,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import { GlobalContext } from "@/app/context/Context";
 import Link from "next/link";
 import { Logo } from "../../__atoms";
 
@@ -140,6 +139,7 @@ const schema = yup.object().shape({
 const LogInSection = () => {
   // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  const [accessToken, setAccessToken] = useState('')
 
   const {
     register,
@@ -150,11 +150,6 @@ const LogInSection = () => {
     resolver: yupResolver(schema),
   });
 
-  const context = useContext(GlobalContext);
-  if (!context) {
-    return <div>Loading...</div>; 
-  }
-  const { setAccessToken, accessToken } = context || {};
 
 
 
@@ -194,8 +189,8 @@ const LogInSection = () => {
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
-      <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen  bg-red-300  rounded-[12px] lg:flex">
-        <div className="w-vw h-full px-10 py-10 flex flex-col justify-between">
+      <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen rounded-[12px] lg:flex">
+        <div className="w-vw h-full px-10 py-10 flex flex-col justify-between ">
           {/* <div className="w-[121.45px] h-[21.76px]">
             <Image
               src={"/assets/Logo.png"}
