@@ -49,17 +49,37 @@ export type BudgetType = {
 //   image: string;
 // };
 
+
+
+
 export const schema = Yup.object().shape({
   category: Yup.mixed<CategoryEnum>()
     .oneOf(Object.values(CategoryEnum))
-    .required("Category is required"),
-  amount: Yup.number().required("Amount is required"),
+    .required("Select category"),
+  amount: Yup.number()
+    .typeError("Enter a valid amount")
+    .required("Amount is required"),
   color: Yup.mixed<ColorEnum>()
     .oneOf(Object.values(ColorEnum))
-    .required("Color is required"),
+    .required("Choose color"),
 });
 
-type ModalPropsType = {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -89,6 +109,8 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
     resolver: yupResolver(schema),
   });
 
+  console.log(errors, "errors");
+
   const handleCategorySelection = (category: CategoryEnum) => {
     setCategory(category);
     setValue("category", category);
@@ -115,7 +137,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
             <h1 className="text-[#201F24] text-[32px] font-bold">
               Add New Budget
             </h1>
-            <CloseIcon />
+            <CloseIcon setIsModal={setIsModal} />
           </div>
 
           <div className="TEXT  ">
@@ -164,7 +186,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
                             handleCategorySelection(categoryItem);
                             setIsCategoryDropDownOpen(false);
                           }}
-                          className="OPTION  w-full  border-b-[1px] border-b- py-3 flex items-center justify-between bg-green-300 cursor-pointer"
+                          className="OPTION  w-full  border-b-[1px] border-b- py-3 flex items-center justify-between cursor-pointer"
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-4 h-4 rounded-full bg-[#277C78]  hidden"></div>
@@ -178,6 +200,12 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
                         </div>
                       ))}
                     </div>
+                  )}
+
+                  {errors.category && (
+                    <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                      {errors.category.message}
+                    </span>
                   )}
                 </div>
               </div>
@@ -199,6 +227,11 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
                     placeholder="Amount"
                     {...register("amount")}
                   />
+                  {errors.amount && (
+                    <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                      {errors.amount.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -236,7 +269,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
                             handleColorSelection(colorItem);
                             setIsColorDropDownOpen(false);
                           }}
-                          className="OPTION  w-full  border-b-[1px] border-b- py-3 flex items-center justify-between"
+                          className="OPTION  w-full  border-b-[1px] border-b- py-3 flex items-center justify-between cursor-pointer"
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-4 h-4 rounded-full bg-[#277C78]  hidden"></div>
@@ -250,6 +283,12 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
                         </div>
                       ))}
                     </div>
+                  )}
+
+                  {errors.color && (
+                    <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
+                      {errors.color.message}
+                    </span>
                   )}
                 </div>
               </div>

@@ -1,8 +1,10 @@
 import React from "react";
+import { ModalPropsType } from "../../__organism/modal/Modal";
 
-const CloseIcon = () => {
+const CloseIcon = ({ setIsModal }: ModalPropsType) => {
   return (
     <svg
+      onClick={() => setIsModal(false)}
       width="26"
       height="26"
       viewBox="0 0 26 26"
