@@ -15,7 +15,7 @@ const BudgetSections = () => {
     <section className="w-full h-full min-h-screen ">
 
       {isModal && (
-        <Modal />
+        <Modal setIsModal={setIsModal} />
       )}
 
 
