@@ -12,4 +12,4 @@ export { default as BillsFragment } from "./billsFragment/BillsFragment";
 export { default as BudgetSections } from "./budgets/BudgetSections";
 export { default as Spending } from "./budgets/Spending";
 export { default as BudgetItem } from "./budgets/BudgetItem";
-export { default as PageModal} from "./pageModal/PageModal";
+export { default as Modal} from "./modal/Modal";
