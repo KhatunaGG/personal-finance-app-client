@@ -1,23 +1,16 @@
 "use client";
 import { useState } from "react";
-import { BudgetPieChart} from "../../__molecules";
+import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
 
-
 const BudgetSections = () => {
-  const [isModal, setIsModal] = useState(false)
-  console.log(isModal, "isModal")
-
+  const [isModal, setIsModal] = useState(false);
 
   return (
     <section className="w-full h-full min-h-screen ">
-
-      {isModal && (
-        <Modal setIsModal={setIsModal} />
-      )}
-
+      {isModal && <Modal setIsModal={setIsModal} />}
 
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <div className="w-full flex flex-row items-center justify-between">
@@ -25,8 +18,9 @@ const BudgetSections = () => {
             Budgets
           </h1>
           <button
-          onClick={() => setIsModal(true)}
-          className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap">
+            onClick={() => setIsModal(true)}
+            className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap"
+          >
             + Add New Budget
           </button>
         </div>
