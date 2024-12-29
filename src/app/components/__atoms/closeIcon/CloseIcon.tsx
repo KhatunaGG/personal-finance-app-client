@@ -1,5 +1,5 @@
+import { ModalPropsType } from "@/app/interfaces/interface";
 import React from "react";
-import { ModalPropsType } from "../../__organism/modal/Modal";
 
 const CloseIcon = ({ setIsModal }: ModalPropsType) => {
   return (
