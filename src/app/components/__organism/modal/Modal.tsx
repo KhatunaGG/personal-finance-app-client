@@ -26,6 +26,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
+  const { getColorHex, getLogo } = useBudgetUtils();
 
 
   const {
@@ -42,7 +43,6 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   const { accessToken } = context;
 
 
- const { getColorHex, getLogo } = useBudgetUtils();
 
 
   const toggleCategoryDropdown = () => {
