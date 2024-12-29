@@ -93,14 +93,10 @@
 
 // export default SignUp;
 
-
-
-
-
 //*********************************************************************************************************** */
 
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -112,13 +108,11 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { Logo } from "../../__atoms";
-import { GlobalContext } from "@/app/context/Context";
 
 export type LogInType = {
   email: string;
   password: string;
 };
-
 
 const schema = yup.object().shape({
   email: yup
@@ -134,13 +128,10 @@ const schema = yup.object().shape({
     ),
 });
 
-
-
-
 const LogInSection = () => {
   // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState('')
+  const [accessToken, setAccessToken] = useState("");
 
   const {
     register,
@@ -150,11 +141,6 @@ const LogInSection = () => {
   } = useForm<LogInType>({
     resolver: yupResolver(schema),
   });
-
-
-
-
-
 
   const onSubmit = async (data: LogInType) => {
     console.log(data, "data");
@@ -167,7 +153,7 @@ const LogInSection = () => {
         setCookie("accessToken", token, { maxAge: 60 * 60 });
         if (token) {
           router.push("/");
-        } 
+        }
         reset();
       }
     } catch (error) {
@@ -192,19 +178,7 @@ const LogInSection = () => {
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
       <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen rounded-[12px] lg:flex">
         <div className="w-vw h-full px-10 py-10 flex flex-col justify-between ">
-          {/* <div className="w-[121.45px] h-[21.76px]">
-            <Image
-              src={"/assets/Logo.png"}
-              alt={"logo"}
-              width={121.45}
-              height={21.76}
-              // style={{ objectFit: "contain" }}
-              className=""
-            />
-          </div> */}
-
           <Logo />
-
           <div className="flex flex-col gap-6">
             <h3 className="font-bold text-white text-[32px] w-[20ch]">
               Keep track of your money and save for your future
@@ -262,7 +236,6 @@ const LogInSection = () => {
                   <Image
                     src="/assets/eye.png"
                     alt="eye"
-                    // layout="intrinsic"
                     width={24}
                     height={24}
                     // style={{ objectFit: "contain" }}
@@ -303,12 +276,3 @@ const LogInSection = () => {
 };
 
 export default LogInSection;
-
-
-
-
-
-
-
-
-

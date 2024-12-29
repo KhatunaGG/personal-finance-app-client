@@ -9,18 +9,17 @@ const useAccessToken = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if running in the browser (client-side)
     if (typeof window !== "undefined") {
       const token = getCookie("accessToken");
-      console.log("Token from cookies: ", token);  // Debugging log
+      console.log("Token from cookies: ", token);
 
       if (!token) {
         console.log("No token found, redirecting to sign-up.");
-        router.push("/sign-up");  // Redirect if no token
+        router.push("/sign-up");
       } else {
-        setAccessToken(token as string);  // Set token state
+        setAccessToken(token as string);
       }
-      setIsLoading(false);  // Loading state complete
+      setIsLoading(false);
     }
   }, [router]);
 
