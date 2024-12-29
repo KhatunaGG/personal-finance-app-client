@@ -87,9 +87,6 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
 
-  if (!context) return null;
-  const { accessToken } = context;
-
   const {
     register,
     handleSubmit,
@@ -99,6 +96,9 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   } = useForm<BudgetType>({
     resolver: yupResolver(schema),
   });
+
+  if (!context) return null;
+  const { accessToken } = context;
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
