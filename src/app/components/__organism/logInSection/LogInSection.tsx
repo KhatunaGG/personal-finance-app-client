@@ -100,7 +100,7 @@
 //*********************************************************************************************************** */
 
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -112,6 +112,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { Logo } from "../../__atoms";
+import { GlobalContext } from "@/app/context/Context";
 
 export type LogInType = {
   email: string;
@@ -166,7 +167,7 @@ const LogInSection = () => {
         setCookie("accessToken", token, { maxAge: 60 * 60 });
         if (token) {
           router.push("/");
-        }
+        } 
         reset();
       }
     } catch (error) {
@@ -185,7 +186,7 @@ const LogInSection = () => {
     }
   };
 
-  console.log(accessToken, "accessToken");
+  console.log(accessToken, "accessToken from Loginsection");
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">

@@ -47,12 +47,13 @@
 "use client";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PotsFragment from "../potsFragment/PotsFragment";
 import TotalsFragment from "../totalFragment/TotalsFragment";
 import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
 import BudgetFragment from "../budgetFragment/BudgetFragment";
 import BillsFragment from "../billsFragment/BillsFragment";
+import { GlobalContext } from "@/app/context/Context";
 
 const Dashboard = () => {
   // const context = useContext(GlobalContext);
@@ -75,6 +76,12 @@ const Dashboard = () => {
   }, [setAccessToken, router]);
 
   if (!accessToken) return null;
+
+  console.log(accessToken, 'accessToken from dashboard')
+
+
+
+
 
   return (
     <section className="w-full h-full min-h-screen bg-yellow-400">
