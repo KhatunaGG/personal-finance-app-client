@@ -1,17 +1,11 @@
 "use client";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { GlobalContext } from "@/app/context/Context";
-
 
 export enum CategoryEnum {
   Entertainment = "Entertainment",
@@ -93,19 +87,8 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
 
-
   if (!context) return null;
   const { accessToken } = context;
-
-  const toggleCategoryDropdown = () => {
-    setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
-    setIsColorDropDownOpen(false);
-  };
-
-  const toggleColorDropdown = () => {
-    setIsColorDropDownOpen(!isColorDropDownOpen);
-    setIsCategoryDropDownOpen(false);
-  };
 
   const {
     register,
@@ -117,7 +100,15 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
     resolver: yupResolver(schema),
   });
 
-  console.log(errors, "errors");
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
+    setIsColorDropDownOpen(false);
+  };
+
+  const toggleColorDropdown = () => {
+    setIsColorDropDownOpen(!isColorDropDownOpen);
+    setIsCategoryDropDownOpen(false);
+  };
 
   const handleCategorySelection = (category: CategoryEnum) => {
     setCategory(category);
@@ -175,15 +166,10 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   };
 
   const onSubmit = async (data: BudgetType) => {
-    console.log(data);
-
     const newData = {
       ...data,
       categoryLogo: getLogo(data.category),
     };
-
-    console.log(newData, "newData");
-
     try {
       const res = await axiosInstance.post("/budgets", newData, {
         headers: {
@@ -200,9 +186,6 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
       console.log(errors);
     }
   };
-
-
-
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">
