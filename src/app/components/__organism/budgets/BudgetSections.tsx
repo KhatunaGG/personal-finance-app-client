@@ -1,16 +1,57 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
+import { CategoryEnum, ColorEnum } from "@/app/schema/schema";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import { useRouter } from "next/navigation";
+import useAccessToken from "@/app/hooks/use-toke";
+
+export type DataType = {
+  category: CategoryEnum;
+  amount: number;
+  color: ColorEnum;
+  categoryLogo: string;
+  createAt: string;
+  updatedAt: string;
+};
 
 const BudgetSections = () => {
   const [isModal, setIsModal] = useState(false);
+  const [data, setData] = useState<DataType[]>([]);
+  // const [accessToken, setAccessToken] = useState("");
+  const router = useRouter();
+  const { accessToken, isLoading } = useAccessToken();
+
+  const getBudgets = async () => {
+    try {
+      const res = await axiosInstance.get("/budgets", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(res.data, "API response data");
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getBudgets();
+  }, [router]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(data, "data");
 
   return (
     <section className="w-full h-full min-h-screen ">
-      {isModal && <Modal setIsModal={setIsModal} />}
+      {isModal && <Modal setIsModal={setIsModal} data={data} />}
 
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <div className="w-full flex flex-row items-center justify-between">

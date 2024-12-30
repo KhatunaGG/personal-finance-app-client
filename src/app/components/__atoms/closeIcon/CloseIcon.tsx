@@ -1,7 +1,11 @@
 import { ModalPropsType } from "@/app/interfaces/interface";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const CloseIcon = ({ setIsModal }: ModalPropsType) => {
+export type CloseIconPropsType = {
+  setIsModal: Dispatch<SetStateAction<boolean>>;
+};
+
+const CloseIcon = ({ setIsModal }: CloseIconPropsType) => {
   return (
     <svg
       onClick={() => setIsModal(false)}
