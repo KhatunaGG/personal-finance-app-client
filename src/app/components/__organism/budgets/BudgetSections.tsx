@@ -41,7 +41,7 @@ const BudgetSections = () => {
 
   useEffect(() => {
     getBudgets();
-  }, [router]);
+  }, [getBudgets, router]);
 
   if (isLoading) {
     return <div>Loading...</div>;

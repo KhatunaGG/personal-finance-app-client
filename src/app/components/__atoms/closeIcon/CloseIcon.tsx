@@ -1,4 +1,3 @@
-import { ModalPropsType } from "@/app/interfaces/interface";
 import React, { Dispatch, SetStateAction } from "react";
 
 export type CloseIconPropsType = {
