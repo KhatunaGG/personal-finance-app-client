@@ -188,7 +188,7 @@ const SignUpSection = () => {
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
-      <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen  bg-green-400  rounded-[12px] lg:flex">
+      <div className="hidden bg-bannerImage  bg-no-repeat    bg-cover bg-button  w-[41.66%] h-screen rounded-[12px] lg:flex">
         <div className="w-vw h-full px-10 py-10 flex flex-col justify-between">
           {/* <div className="w-[121.45px] h-[21.76px]">
             <Image

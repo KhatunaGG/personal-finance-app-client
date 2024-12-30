@@ -1,11 +1,10 @@
 "use client";
-import {  useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { GlobalContext } from "@/app/context/Context";
-// import { categoryLogos } from "@/app/commons/data";
 import { CategoryEnum, ColorEnum, schema } from "@/app/schema/schema";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { ModalPropsType } from "@/app/interfaces/interface";
@@ -16,11 +15,9 @@ export type BudgetType = {
   color: ColorEnum;
 };
 
-// export type ModalPropsType = {
-//   setIsModal: Dispatch<SetStateAction<boolean>>;
-// };
 
-const Modal = ({ setIsModal }: ModalPropsType) => {
+
+const Modal = ({ setIsModal, data }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
@@ -28,6 +25,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
 
+  console.log(data)
 
   const {
     register,
@@ -39,11 +37,11 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
     resolver: yupResolver(schema),
   });
 
+
+
+
   if (!context) return null;
   const { accessToken } = context;
-
-
-
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
@@ -66,9 +64,6 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
     setValue("color", color);
     setIsColorDropDownOpen(false);
   };
-
-
-
 
   // const getColorHex = (color: ColorEnum | null): string => {
   //   if (color === null) return "transparent";
@@ -113,10 +108,6 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
   //   return logo ? logo[category] : null;
   // };
 
-
-
-
-
   const onSubmit = async (data: BudgetType) => {
     const newData = {
       ...data,
@@ -131,6 +122,7 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
 
       if (res.status === 200 || res.status === 201) {
         reset();
+        // await getBudgets();
       }
 
       setIsModal(false);
@@ -138,6 +130,8 @@ const Modal = ({ setIsModal }: ModalPropsType) => {
       console.log(errors);
     }
   };
+
+
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">

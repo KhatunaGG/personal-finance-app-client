@@ -1,4 +1,3 @@
-// hooks/useAccessToken.ts
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,18 +8,17 @@ const useAccessToken = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = getCookie("accessToken");
-      console.log("Token from cookies: ", token);
-
-      if (!token) {
-        console.log("No token found, redirecting to sign-up.");
-        router.push("/sign-up");
-      } else {
+    const fetchToken = async () => {
+      const token = await getCookie("accessToken");
+      if (token) {
         setAccessToken(token as string);
+      } else {
+        router.push("/sign-up");
       }
       setIsLoading(false);
-    }
+    };
+
+    fetchToken();
   }, [router]);
 
   return { accessToken, isLoading };
