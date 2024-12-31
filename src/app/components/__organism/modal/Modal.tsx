@@ -15,9 +15,16 @@ export type BudgetType = {
   color: ColorEnum;
 };
 
+export type NewDataStateType = {
+  category: CategoryEnum;
+  amount: number;
+  color: ColorEnum;
+  categoryLogo: string;
+};
 
 
-const Modal = ({ setIsModal, data }: ModalPropsType) => {
+
+const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
@@ -25,7 +32,7 @@ const Modal = ({ setIsModal, data }: ModalPropsType) => {
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
 
-  console.log(data)
+  console.log(data);
 
   const {
     register,
@@ -36,9 +43,6 @@ const Modal = ({ setIsModal, data }: ModalPropsType) => {
   } = useForm<BudgetType>({
     resolver: yupResolver(schema),
   });
-
-
-
 
   if (!context) return null;
   const { accessToken } = context;
@@ -109,12 +113,13 @@ const Modal = ({ setIsModal, data }: ModalPropsType) => {
   // };
 
   const onSubmit = async (data: BudgetType) => {
-    const newData = {
+    const newDataState: NewDataStateType = {
       ...data,
-      categoryLogo: getLogo(data.category),
+      categoryLogo: getLogo(data.category) || "",
+      // isColorSelected : true
     };
     try {
-      const res = await axiosInstance.post("/budgets", newData, {
+      const res = await axiosInstance.post("/budgets", newDataState, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -122,7 +127,7 @@ const Modal = ({ setIsModal, data }: ModalPropsType) => {
 
       if (res.status === 200 || res.status === 201) {
         reset();
-        // await getBudgets();
+        getBudgets();
       }
 
       setIsModal(false);
@@ -130,8 +135,6 @@ const Modal = ({ setIsModal, data }: ModalPropsType) => {
       console.log(errors);
     }
   };
-
-
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">

@@ -15,7 +15,7 @@
 //           borderRadius: "4px",
 //         },
 //         '& .MuiLinearProgress-root': {
-//           padding: "4px", 
+//           padding: "4px",
 //         }
 //       }}
 //       variant="determinate"
@@ -26,34 +26,57 @@
 
 // export default ProgressBar;
 
+import LinearProgress from "@mui/material/LinearProgress";
+import Box from "@mui/material/Box";
 
+export type ProgressBarPropsType = {
+  category: string;
+  groupSpending: number;
+  color: string;
+  groupTotalAmount: number;
+};
 
-import LinearProgress from '@mui/material/LinearProgress';
-import Box from '@mui/material/Box';
+const ProgressBar = ({
+  category,
+  groupSpending,
+  color,
+  groupTotalAmount,
+}: ProgressBarPropsType) => {
+  // Safely calculate percentage, ensure it's between 0 and 100
+  const percentage =
+    groupTotalAmount > 0 ? (Math.abs(groupSpending) / groupTotalAmount) * 100 : 0;
+  const progress = Math.min(percentage, 100);
 
-const ProgressBar = () => {
+  console.log("Category:", category);
+  console.log("Group Spending:", groupSpending);
+  console.log("Group Total Amount:", groupTotalAmount);
+  console.log("Percentage:", percentage);
+  console.log("Progress (min 100):", progress);
+
   return (
-    <Box sx={{
-      padding: '4px', 
-      borderRadius: '8px',
-      backgroundColor: '#F8F4F0', 
-      height: "32px",
-
-    }}>
+    <Box
+      sx={{
+        padding: "4px",
+        borderRadius: "8px",
+        backgroundColor: "#F8F4F0",
+        height: "32px",
+      }}
+    >
       <LinearProgress
         sx={{
-          height: "24px", 
-          borderRadius: "4px", 
-          background: '#F8F4F0', 
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#277C78', 
+          height: "24px",
+          width: "100%", // Ensure it's full-width
+          borderRadius: "4px",
+          background: "#F8F4F0",
+          "& .MuiLinearProgress-bar": {
+            backgroundColor: color,
           },
         }}
         variant="determinate"
-        value={30}
+        value={progress} // Pass the calculated progress value (0-100)
       />
     </Box>
   );
-}
+};
 
 export default ProgressBar;

@@ -30,14 +30,14 @@ export const navLinks = [
 ];
 
 export const categoryLogos = [
-  { Entertainment: "/images/Logo-5.jpg" },
-  { Bills: "/images/Logo-3.jpg" },
-  { Groceries: "/images/Logo-1.jpg" },
-  { "Dining Out": "/images/Logo-2.jpg" },
-  { Transportation: "/images/Logo-4.jpg" },
-  { "Personal Care": "/images/Logo-2.jpg" },
-  { Education: "/images/Logo-3.jpg" },
-  { Lifestyle: "/images/Logo-5.jpg" },
-  { Shopping: "/images/Logo-6.jpg" },
-  { General: "/images/Logo-8.jpg" },
+  { Entertainment: "/assets/logos/logo1.svg"},
+  { Bills: "/assets/logos/logo2.svg"},
+  { Groceries: "/assets/logos/logo3.svg"},
+  { "Dining Out": "/assets/logos/logo4.svg"},
+  { Transportation: "/assets/logos/logo5.svg"},
+  { "Personal Care": "/assets/logos/logo6.svg"},
+  { Education: "/assets/logos/logo7.svg"},
+  { Lifestyle: "/assets/logos/logo8.svg"},
+  { Shopping: "/assets/logos/logo9.svg"},
+  { General: "/assets/logos/logo1-.svg"},
 ];
