@@ -4,19 +4,23 @@ import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
-import { CategoryEnum, ColorEnum } from "@/app/schema/schema";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useRouter } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
+import { DataType } from "@/app/interfaces/interface";
+import { useGroupedData } from "@/app/hooks/use-categoryGrope";
+import useBudgetUtils from "@/app/hooks/use-budgetUtils";
+// import { useGroupedData } from "@/app/hooks/use-categoryGrope";
 
-export type DataType = {
-  category: CategoryEnum;
-  amount: number;
-  color: ColorEnum;
-  categoryLogo: string;
-  createAt: string;
-  updatedAt: string;
-};
+// export type DataType = {
+//   category: CategoryEnum;
+//   amount: number;
+//   color: ColorEnum;
+//   categoryLogo: string;
+//   createAt: string;
+//   updatedAt: string;
+//   id: string;
+// };
 
 const BudgetSections = () => {
   const [isModal, setIsModal] = useState(false);
@@ -24,6 +28,11 @@ const BudgetSections = () => {
   // const [accessToken, setAccessToken] = useState("");
   const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
+  const { getColorHex, getLogo } = useBudgetUtils();
+  const groupedData = useGroupedData(data);
+
+  console.log(groupedData, "groupedData");
+  const isGroupSpending = groupedData.some((item) => item.spending < 0);
 
   const getBudgets = async () => {
     try {
@@ -41,17 +50,25 @@ const BudgetSections = () => {
 
   useEffect(() => {
     getBudgets();
-  }, [getBudgets, router]);
+  }, [router]);
+
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     console.log(groupedData, "Grouped Data");
+  //   }
+  // }, [data, groupedData]);
+
+  // console.log(data, "data");
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  console.log(data, "data");
-
   return (
     <section className="w-full h-full min-h-screen ">
-      {isModal && <Modal setIsModal={setIsModal} data={data} />}
+      {isModal && (
+        <Modal setIsModal={setIsModal} data={data} getBudgets={getBudgets} />
+      )}
 
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <div className="w-full flex flex-row items-center justify-between">
@@ -76,8 +93,21 @@ const BudgetSections = () => {
           </div>
 
           <div className="w-full lg:w-[57.36%] flex flex-col gap-y-6">
-            <BudgetItem />
-            <BudgetItem />
+            {groupedData.map((group, i) => {
+              if (group.spending < 0) {
+                return (
+                  <BudgetItem
+                    key={i}
+                    logo={group.categoryLogo}
+                    category={group.category}
+                    color={getColorHex(group.color)}
+                    groupSpending={group.spending}
+                    groupTotalAmount={group.totalAmount}
+                  />
+                );
+              }
+              return null; 
+            })}
           </div>
         </div>
       </div>

@@ -4,33 +4,63 @@ import Image from "next/image";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
 
-const BudgetItem = () => {
+export type BudgetItemPropsType = {
+  category: string;
+  groupSpending: number;
+  logo: string;
+  color: string;
+  groupTotalAmount: number;
+};
+
+const BudgetItem = ({
+  category,
+  logo,
+  groupSpending,
+  color,
+  groupTotalAmount,
+}: BudgetItemPropsType) => {
+  const remaining = groupTotalAmount - Math.abs(groupSpending);
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          <div className="bg-[#277C78] w-4 h-4 rounded-full"></div>
-          <h2 className="text-[20px] font-bold text-[#201F24]">
-            Entertainment
-          </h2>
+          <div
+            style={{ backgroundColor: color }}
+            className="w-4 h-4 rounded-full"
+          ></div>
+          <h2 className="text-[20px] font-bold text-[#201F24]">{category}</h2>
         </div>
         <DotIcon />
       </div>
 
       <div className="flex flex-col gap-y-4">
         <p className="text-[14px] font-normal text-[#696868]">
-          Maximum of $50.00
+          Maximum of ${groupTotalAmount.toFixed(2)}
         </p>
         <div className="SLIDER w-full">
-          <ProgressBar />
+          <ProgressBar
+            category={category}
+            groupSpending={groupSpending}
+            color={color}
+            groupTotalAmount={groupTotalAmount}
+          />
         </div>
 
         <div className="flex items-center justify-start">
           <div className="flex flex-row gap-4 w-1/2">
-            <div className="w-[5px] bg-[#277C78] h-full min-h-[43px] rounded-sm"></div>
+            {/* <div className="w-[5px] bg-[#277C78] h-full min-h-[43px] rounded-sm"></div> */}
+            <div
+              className="w-[5px] h-full min-h-[43px] rounded-sm"
+              style={{ backgroundColor: color }}
+            ></div>
             <div className="flex flex-col items-start justify-center gap-1">
-              <p className="text-[12px] font-normal text-[#696868]">Savings</p>
-              <p className="text-[#201F24] font-bold text-[14px]">$15</p>
+              <p className="text-[12px] font-normal text-[#696868]">Spent</p>
+              <p className="text-[#201F24] font-bold text-[14px]">
+                $
+                {groupSpending < 0
+                  ? Math.abs(groupSpending).toFixed(2)
+                  : "0.00"}
+              </p>
             </div>
           </div>
 
@@ -40,7 +70,10 @@ const BudgetItem = () => {
               <p className="text-[12px] font-normal text-[#696868]">
                 Remaining
               </p>
-              <p className="text-[#201F24] font-bold text-[14px] ">$35</p>
+              <p className="text-[#201F24] font-bold text-[14px] ">
+                
+                ${groupSpending < groupTotalAmount ? remaining.toFixed(2) : "0.00"}
+              </p>
             </div>
           </div>
         </div>
@@ -64,7 +97,7 @@ const BudgetItem = () => {
               <div className="relative w-8 h-8 md:w-[40px] md:h-[40px] rounded-full overflow-hidden object-cover">
                 <Image
                   className="absolute inset-0 w-full h-full object-cover"
-                  src={"/assets/images/Person-1.jpg"}
+                  src={logo}
                   fill
                   alt={""}
                 />
@@ -85,7 +118,7 @@ const BudgetItem = () => {
               <div className="relative w-8 h-8 md:w-[40px] md:h-[40px] rounded-full overflow-hidden object-cover">
                 <Image
                   className="absolute inset-0 w-full h-full object-cover"
-                  src={"/assets/images/Person-1.jpg"}
+                  src={logo}
                   fill
                   alt={""}
                 />
