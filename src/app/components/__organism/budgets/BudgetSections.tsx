@@ -28,11 +28,10 @@ const BudgetSections = () => {
   // const [accessToken, setAccessToken] = useState("");
   const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
-  const { getColorHex, getLogo } = useBudgetUtils();
+  const { getColorHex } = useBudgetUtils();
   const groupedData = useGroupedData(data);
 
-  console.log(groupedData, "groupedData");
-  const isGroupSpending = groupedData.some((item) => item.spending < 0);
+
 
   const getBudgets = async () => {
     try {
