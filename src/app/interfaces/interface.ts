@@ -1,13 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
-// import { DataType } from "../components/__organism/budgets/BudgetSections";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
+import { GroupedCategory } from "../hooks/use-categoryGrope";
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
   data: DataType[];
   getBudgets: () => void;
+  setIsAddBudget: Dispatch<SetStateAction<boolean>>;
+  isAddBudget: boolean;
+  groupedData: GroupedCategory[];
 };
-
 
 export type DataType = {
   category: CategoryEnum;

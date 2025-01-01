@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +8,8 @@ import { GlobalContext } from "@/app/context/Context";
 import { CategoryEnum, ColorEnum, schema } from "@/app/schema/schema";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { ModalPropsType } from "@/app/interfaces/interface";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type BudgetType = {
   category: CategoryEnum;
@@ -22,9 +24,12 @@ export type NewDataStateType = {
   categoryLogo: string;
 };
 
-
-
-const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
+const Modal = ({
+  setIsModal,
+  getBudgets,
+  setIsAddBudget,
+  groupedData,
+}: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
@@ -32,7 +37,6 @@ const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
 
-  console.log(data);
 
   const {
     register,
@@ -69,72 +73,131 @@ const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
     setIsColorDropDownOpen(false);
   };
 
-  // const getColorHex = (color: ColorEnum | null): string => {
-  //   if (color === null) return "transparent";
-  //   switch (color) {
-  //     case ColorEnum.GREEN:
-  //       return "#277C78";
-  //     case ColorEnum.YELLOW:
-  //       return "#F2CDAC";
-  //     case ColorEnum.CYAN:
-  //       return "#82C9D7";
-  //     case ColorEnum.NAVY:
-  //       return "#626070";
-  //     case ColorEnum.RED:
-  //       return "#C94736";
-  //     case ColorEnum.PURPLE:
-  //       return "#826CB0";
-  //     case ColorEnum.TURQUOISE:
-  //       return "#597C7C";
-  //     case ColorEnum.BROWN:
-  //       return "#93674F";
-  //     case ColorEnum.MAGENTA:
-  //       return "#934F6F";
-  //     case ColorEnum.BLUE:
-  //       return "#3F82B2";
-  //     case ColorEnum.GREY:
-  //       return "#696868";
-  //     case ColorEnum.ARMY:
-  //       return "#7F9161";
-  //     case ColorEnum.PINK:
-  //       return "#AF81BA";
-  //     case ColorEnum.YELLOWGREEN:
-  //       return "#CAB361";
-  //     case ColorEnum.ORANGE:
-  //       return "#BE6C49";
-  //     default:
-  //       return "transparent";
+  // const onSubmit = async (data: BudgetType) => {
+  //   const newDataState: NewDataStateType = {
+  //     ...data,
+  //     categoryLogo: getLogo(data.category) || "",
+  //     // isColorSelected : true
+  //   };
+  //   try {
+  //     const res = await axiosInstance.post("/budgets", newDataState, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+
+  //     if (res.status === 200 || res.status === 201) {
+  //       reset();
+  //       getBudgets();
+  //       setIsAddBudget(false)
+  //     }
+
+  //     setIsModal(false);
+  //   } catch (errors) {
+  //     console.log(errors);
   //   }
   // };
 
-  // const getLogo = (category: CategoryEnum) => {
-  //   const logo = categoryLogos.find((item) => item[category]);
-  //   return logo ? logo[category] : null;
+  // const onSubmit = async (formData: BudgetType) => {
+  //   // Step 1: Find the corresponding grouped category
+  //   const categoryData = groupedData.find(
+  //     (group) => group.category === formData.category
+  //   );
+
+  //   if (!categoryData) {
+  //     toast.error("Category not found in grouped data!");
+  //     return;
+  //   }
+
+  //   const { amount } = formData;
+  //   const { remaining } = categoryData;
+
+  //   if (remaining === 0 && amount <= 0) {
+  //     toast.error("Not enough amount available for the category.");
+  //     return; // Prevent form submission
+  //   }
+
+  //   if (remaining > 0 && Math.abs(amount) > remaining) {
+  //     toast.error("Not enough amount available for the category.");
+  //     return;
+  //   }
+
+  //   const newDataState: NewDataStateType = {
+  //     ...formData,
+  //     categoryLogo: getLogo(formData.category) || "",
+  //   };
+
+  //   try {
+  //     const res = await axiosInstance.post("/budgets", newDataState, {
+  //       headers: { Authorization: `Bearer ${accessToken}` },
+  //     });
+
+  //     if (res.status === 200 || res.status === 201) {
+  //       reset();
+  //       getBudgets();
+  //       setIsAddBudget(false);
+  //       toast.success("Budget added successfully!");
+  //     }
+
+  //     setIsModal(false);
+  //   } catch (errors) {
+  //     console.error(errors);
+  //     toast.error("Failed to add budget. Please try again.");
+  //   }
   // };
 
-  const onSubmit = async (data: BudgetType) => {
+
+
+
+
+  const onSubmit = async (formData: BudgetType) => {
+    const categoryData = groupedData.find(
+      (group) => group.category === formData.category
+    );
+    const { amount } = formData;
+  
+    if (categoryData) {
+      const { remaining } = categoryData;
+      if (remaining > 0 && Math.abs(amount) > remaining) {
+        toast.error("Not enough amount available for the category.");
+        return;
+      }
+    } 
+   
+    if(!categoryData && amount <= 0) {
+      toast.error("Not enough amount available for the category.");
+      return;
+    }
+  
     const newDataState: NewDataStateType = {
-      ...data,
-      categoryLogo: getLogo(data.category) || "",
-      // isColorSelected : true
+      ...formData,
+      categoryLogo: getLogo(formData.category) || "",
     };
+  
     try {
       const res = await axiosInstance.post("/budgets", newDataState, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
-
+  
       if (res.status === 200 || res.status === 201) {
         reset();
         getBudgets();
+        setIsAddBudget(false);
+        toast.success("Budget added successfully!");
       }
-
+  
       setIsModal(false);
     } catch (errors) {
-      console.log(errors);
+      console.error(errors);
+      toast.error("Failed to add budget. Please try again.");
     }
   };
+  
+
+
+
+
+  
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">
@@ -144,7 +207,10 @@ const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
             <h1 className="text-[#201F24] text-[32px] font-bold">
               Add New Budget
             </h1>
-            <CloseIcon setIsModal={setIsModal} />
+            <CloseIcon
+              setIsModal={setIsModal}
+              setIsAddBudget={setIsAddBudget}
+            />
           </div>
 
           <div className="TEXT  ">
@@ -332,6 +398,7 @@ const Modal = ({ setIsModal, data, getBudgets }: ModalPropsType) => {
           </form>
         </div>
       </section>
+      <ToastContainer />
     </section>
   );
 };

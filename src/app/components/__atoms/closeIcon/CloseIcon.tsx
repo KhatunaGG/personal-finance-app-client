@@ -2,12 +2,16 @@ import React, { Dispatch, SetStateAction } from "react";
 
 export type CloseIconPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
+  setIsAddBudget: Dispatch<SetStateAction<boolean>>;
 };
 
-const CloseIcon = ({ setIsModal }: CloseIconPropsType) => {
+const CloseIcon = ({ setIsModal, setIsAddBudget }: CloseIconPropsType) => {
   return (
     <svg
-      onClick={() => setIsModal(false)}
+      onClick={() => {
+        setIsModal(false);
+        setIsAddBudget(false);
+      }}
       width="26"
       height="26"
       viewBox="0 0 26 26"
