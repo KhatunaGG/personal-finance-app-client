@@ -10,17 +10,6 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { DataType } from "@/app/interfaces/interface";
 import { useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
-// import { useGroupedData } from "@/app/hooks/use-categoryGrope";
-
-// export type DataType = {
-//   category: CategoryEnum;
-//   amount: number;
-//   color: ColorEnum;
-//   categoryLogo: string;
-//   createAt: string;
-//   updatedAt: string;
-//   id: string;
-// };
 
 const BudgetSections = () => {
   const [isModal, setIsModal] = useState(false);
@@ -30,6 +19,7 @@ const BudgetSections = () => {
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
   const groupedData = useGroupedData(data);
+  const [isAddBudget, setIsAddBudget] = useState(false);
 
 
 
@@ -66,7 +56,14 @@ const BudgetSections = () => {
   return (
     <section className="w-full h-full min-h-screen ">
       {isModal && (
-        <Modal setIsModal={setIsModal} data={data} getBudgets={getBudgets} />
+        <Modal
+          setIsModal={setIsModal}
+          data={data}
+          getBudgets={getBudgets}
+          setIsAddBudget={setIsAddBudget}
+          isAddBudget={isAddBudget}
+          groupedData={groupedData}
+        />
       )}
 
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
@@ -75,7 +72,10 @@ const BudgetSections = () => {
             Budgets
           </h1>
           <button
-            onClick={() => setIsModal(true)}
+            onClick={() => {
+              setIsModal(true);
+              setIsAddBudget(true);
+            }}
             className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap"
           >
             + Add New Budget
@@ -85,7 +85,7 @@ const BudgetSections = () => {
         <div className="w-full flex flex-col lg:flex-row items-start gap-y-6 lg:gap-x-[2.26%]">
           <div className="bg-white w-full max-w-[375px] md:max-w-[758px] lg:w-[40.38%] p-8 rounded-lg flex flex-col md:flex-row lg:flex-col items-center justify-center gap-y-8 md:gap-x-8 lg:gap-y-8">
             <div className="w-[240px] h-[240px]  flex flex-col md:flex-row lg:flex-col items-center justify-center">
-              <BudgetPieChart />
+              <BudgetPieChart groupedData={groupedData} data={data} />
             </div>
 
             <Spending />
@@ -105,7 +105,7 @@ const BudgetSections = () => {
                   />
                 );
               }
-              return null; 
+              return null;
             })}
           </div>
         </div>
