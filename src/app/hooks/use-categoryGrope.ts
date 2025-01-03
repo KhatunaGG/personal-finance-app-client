@@ -46,6 +46,11 @@ export const useGroupedData = (data: DataType[]) => {
           groups[category].totalAmount - Math.abs(groups[category].spending);
       });
       setGroupedData(Object.values(groups));
+
+
+
+
+
     };
 
     groupData();
@@ -53,3 +58,5 @@ export const useGroupedData = (data: DataType[]) => {
 
   return groupedData;
 };
+
+
