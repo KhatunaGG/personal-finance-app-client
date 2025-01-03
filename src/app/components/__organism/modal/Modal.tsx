@@ -1,5 +1,5 @@
 "use client";
-import {  useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,6 +37,7 @@ const Modal = ({
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
 
+  const usedColors = groupedData.map((item) => item.color);
 
   const {
     register,
@@ -65,11 +66,30 @@ const Modal = ({
     setCategory(category);
     setValue("category", category);
     setIsCategoryDropDownOpen(false);
+
+    setColor(null);
   };
 
-  const handleColorSelection = (color: ColorEnum) => {
-    setColor(color);
-    setValue("color", color);
+  // const handleColorSelection = (color: ColorEnum) => {
+  //   setColor(color);
+  //   setValue("color", color);
+  //   setIsColorDropDownOpen(false);
+  // };
+
+  const handleColorSelection = (selectedColor: ColorEnum) => {
+    const currentCategoryColor = groupedData.find(
+      (group) => group.category === category
+    )?.color;
+
+    if (
+      usedColors.includes(selectedColor) &&
+      currentCategoryColor !== selectedColor
+    ) {
+      toast.error("This color is already used for another category.");
+      return;
+    }
+
+    setColor(selectedColor); // Correctly set the color
     setIsColorDropDownOpen(false);
   };
 
@@ -146,58 +166,48 @@ const Modal = ({
   //   }
   // };
 
-
-
-
-
   const onSubmit = async (formData: BudgetType) => {
     const categoryData = groupedData.find(
       (group) => group.category === formData.category
     );
     const { amount } = formData;
-  
+
     if (categoryData) {
       const { remaining } = categoryData;
       if (remaining > 0 && Math.abs(amount) > remaining) {
         toast.error("Not enough amount available for the category.");
         return;
       }
-    } 
-   
-    if(!categoryData && amount <= 0) {
+    }
+
+    if (!categoryData && amount <= 0) {
       toast.error("Not enough amount available for the category.");
       return;
     }
-  
+
     const newDataState: NewDataStateType = {
       ...formData,
       categoryLogo: getLogo(formData.category) || "",
     };
-  
+
     try {
       const res = await axiosInstance.post("/budgets", newDataState, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-  
+
       if (res.status === 200 || res.status === 201) {
-        reset();
         getBudgets();
         setIsAddBudget(false);
         toast.success("Budget added successfully!");
+        reset();
       }
-  
+
       setIsModal(false);
     } catch (errors) {
       console.error(errors);
       toast.error("Failed to add budget. Please try again.");
     }
   };
-  
-
-
-
-
-  
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">
@@ -359,7 +369,15 @@ const Modal = ({
                             handleColorSelection(colorItem);
                             setIsColorDropDownOpen(false);
                           }}
-                          className="OPTION  w-full  border-b-[1px] border-b- py-3 flex items-center justify-between cursor-pointer"
+                          className={`OPTION w-full border-b-[1px] py-3 flex items-center justify-between cursor-pointer ${
+                            usedColors.includes(colorItem) &&
+                            groupedData.find(
+                              (group) => group.category === category
+                            )?.color !== colorItem
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`
+                        }
                         >
                           <div className="flex items-center gap-3">
                             <div
@@ -372,7 +390,12 @@ const Modal = ({
                               {colorItem}
                             </p>
                           </div>
-                          <p className="text-[#696868] text-xs font-normal  hidden">
+                          {/* <p className="text-[#696868] text-xs font-normal  hidden"> */}
+                          <p
+                            className={`text-[#696868] text-xs font-normal ${
+                              usedColors.includes(colorItem) ? "hidden" : "flex"
+                            }`}
+                          >
                             Already used
                           </p>
                         </div>
