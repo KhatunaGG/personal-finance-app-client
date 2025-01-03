@@ -18,8 +18,8 @@ const BudgetSections = () => {
   const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
-  const groupedData = useGroupedData(data);
   const [isAddBudget, setIsAddBudget] = useState(false);
+  const groupedData = useGroupedData(data);
 
 
 
@@ -88,7 +88,7 @@ const BudgetSections = () => {
               <BudgetPieChart groupedData={groupedData} data={data} />
             </div>
 
-            <Spending />
+            <Spending groupedData={groupedData} />
           </div>
 
           <div className="w-full lg:w-[57.36%] flex flex-col gap-y-6">
