@@ -37,21 +37,16 @@ export type ProgressBarPropsType = {
 };
 
 const ProgressBar = ({
-  category,
+  // category,
   groupSpending,
   color,
   groupTotalAmount,
 }: ProgressBarPropsType) => {
-  // Safely calculate percentage, ensure it's between 0 and 100
   const percentage =
-    groupTotalAmount > 0 ? (Math.abs(groupSpending) / groupTotalAmount) * 100 : 0;
+    groupTotalAmount > 0
+      ? (Math.abs(groupSpending) / groupTotalAmount) * 100
+      : 0;
   const progress = Math.min(percentage, 100);
-
-  console.log("Category:", category);
-  console.log("Group Spending:", groupSpending);
-  console.log("Group Total Amount:", groupTotalAmount);
-  console.log("Percentage:", percentage);
-  console.log("Progress (min 100):", progress);
 
   return (
     <Box
@@ -65,7 +60,7 @@ const ProgressBar = ({
       <LinearProgress
         sx={{
           height: "24px",
-          width: "100%", // Ensure it's full-width
+          width: "100%",
           borderRadius: "4px",
           background: "#F8F4F0",
           "& .MuiLinearProgress-bar": {
@@ -73,7 +68,7 @@ const ProgressBar = ({
           },
         }}
         variant="determinate"
-        value={progress} // Pass the calculated progress value (0-100)
+        value={progress}
       />
     </Box>
   );
