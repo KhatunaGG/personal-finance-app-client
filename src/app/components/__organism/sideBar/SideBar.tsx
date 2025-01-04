@@ -126,7 +126,7 @@ export type NavLinkType = {
 
 const SideBar = () => {
   const path = usePathname();
-  console.log("Current Path:", path);
+
 
   const normalizePath = (str: string): string => {
     return decodeURIComponent(str)
