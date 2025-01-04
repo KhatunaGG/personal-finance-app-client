@@ -4,6 +4,8 @@ import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
+// import { GlobalContext } from "@/app/context/Context";
+// import { useContext } from "react";
 
 export type BudgetItemPropsType = {
   category: string;
@@ -22,21 +24,22 @@ const BudgetItem = ({
   groupTotalAmount,
   data,
 }: BudgetItemPropsType) => {
+
+
+  // const context = useContext(GlobalContext);
+  // if (!context) return null;
+  // const { isModal, setIsModal, isDelete, setIsDelete} = context;
+
+
+
+
+
   const remaining = groupTotalAmount - Math.abs(groupSpending);
   const { latestSpendingData, isLastEl } = useLatestSpendingData(
     data,
     category
   );
 
-  // const latestSpending = data
-  //   .filter((item) => item.category === category)
-  //   .filter((item) => item.amount < 0);
-  // const latestSpendingData =
-  //   latestSpending.length < 3
-  //     ? latestSpending
-  //     : latestSpending.slice(latestSpending.length - 3);
-
-  //     const isLastEl = latestSpendingData.length - 1;
 
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
@@ -116,12 +119,6 @@ const BudgetItem = ({
         <div className=" grid grid-cols-1   ">
           {latestSpendingData.map((spending, i) => {
             if (spending.amount < 0) {
-              console.log(
-                spending.createdAt,
-                spending.updatedAt,
-                "Spending Dates"
-              );
-
               return (
                 <LatestSpending
                   key={i}

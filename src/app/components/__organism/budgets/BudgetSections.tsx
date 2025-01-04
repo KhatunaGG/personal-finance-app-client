@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
@@ -10,9 +10,13 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { DataType } from "@/app/interfaces/interface";
 import { useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
+import { GlobalContext } from "@/app/context/Context";
 
 const BudgetSections = () => {
-  const [isModal, setIsModal] = useState(false);
+
+
+
+  // const [isModal, setIsModal] = useState(false);
   const [data, setData] = useState<DataType[]>([]);
   // const [accessToken, setAccessToken] = useState("");
   const router = useRouter();
@@ -21,6 +25,12 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
 
+
+  const context = useContext(GlobalContext);
+
+
+
+
   const getBudgets = async () => {
     try {
       const res = await axiosInstance.get("/budgets", {
@@ -28,7 +38,6 @@ const BudgetSections = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(res.data, "API response data");
       setData(res.data);
     } catch (error) {
       console.log(error);
@@ -38,6 +47,11 @@ const BudgetSections = () => {
   useEffect(() => {
     getBudgets();
   }, [router]);
+
+
+  
+  if (!context) return null;
+  const { isModal, setIsModal } = context;
 
   // useEffect(() => {
   //   if (data.length > 0) {
