@@ -1,28 +1,27 @@
-"use client";
 import Image from "next/image";
-
 
 export type LatestSpendingPropsType = {
   logo: string;
   category: string;
   amount: number;
   isLastEl: number;
-  // createdAt: string;
-  // updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 const LatestSpending = ({
   logo,
-  category,
+  // category,
   amount,
   isLastEl,
-  // createdAt,
+  createdAt,
   // updatedAt,
 }: LatestSpendingPropsType) => {
+
   return (
     <div
       className={`w-full grid grid-cols-[70%_30%] md:grid-cols-2 py-[20px] ${
-        isLastEl !== -1 ? "border-b-[1px] border-b-[#dedada]" : ""
+        isLastEl !== -1 ? "border-b-[1px] border-b-[#dedada] items-center" : ""
       }`}
     >
       <div className="flex flex-row items-center gap-4">
@@ -34,13 +33,10 @@ const LatestSpending = ({
             alt={"logo"}
           />
         </div>
-        <p className="text-[14px] font-bold">{category}</p>
+        <p className="text-[12px] text-[#696868] font-normal">{createdAt}</p>
       </div>
 
-      <div className="flex flex-col gap-y-2 text-right">
-        <p className="text-[14px] font-bold">-${Math.abs(amount).toFixed(2)}</p>
-        <p className="text-[12px] text-[#696868] font-normal"></p>
-      </div>
+        <p className="text-[14px] font-bold text-right">-${Math.abs(amount).toFixed(2)}</p>
     </div>
   );
 };

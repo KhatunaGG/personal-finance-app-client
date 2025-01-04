@@ -21,10 +21,6 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
 
-  console.log(data, "data")
-
-
-
   const getBudgets = async () => {
     try {
       const res = await axiosInstance.get("/budgets", {
