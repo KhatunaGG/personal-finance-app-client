@@ -21,6 +21,8 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
 
+  console.log(data, "data")
+
 
 
   const getBudgets = async () => {
@@ -97,11 +99,12 @@ const BudgetSections = () => {
                 return (
                   <BudgetItem
                     key={i}
-                    logo={group.categoryLogo}
+                    // logo={group.categoryLogo}
                     category={group.category}
                     color={getColorHex(group.color)}
                     groupSpending={group.spending}
                     groupTotalAmount={group.totalAmount}
+                    data={data}
                   />
                 );
               }
