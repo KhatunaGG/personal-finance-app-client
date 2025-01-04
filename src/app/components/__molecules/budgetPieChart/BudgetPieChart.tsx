@@ -129,8 +129,8 @@ export type BudgetPieChartPropsType = {
     amount: number;
     color: ColorEnum;
     categoryLogo: string;
-    createAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
     id: string;
   }[];
 };

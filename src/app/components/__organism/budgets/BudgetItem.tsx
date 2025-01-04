@@ -23,8 +23,10 @@ const BudgetItem = ({
   data,
 }: BudgetItemPropsType) => {
   const remaining = groupTotalAmount - Math.abs(groupSpending);
-  const { latestSpendingData, isLastEl } = useLatestSpendingData(data, category);
-
+  const { latestSpendingData, isLastEl } = useLatestSpendingData(
+    data,
+    category
+  );
 
   // const latestSpending = data
   //   .filter((item) => item.category === category)
@@ -35,7 +37,6 @@ const BudgetItem = ({
   //     : latestSpending.slice(latestSpending.length - 3);
 
   //     const isLastEl = latestSpendingData.length - 1;
-
 
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
@@ -115,6 +116,12 @@ const BudgetItem = ({
         <div className=" grid grid-cols-1   ">
           {latestSpendingData.map((spending, i) => {
             if (spending.amount < 0) {
+              console.log(
+                spending.createdAt,
+                spending.updatedAt,
+                "Spending Dates"
+              );
+
               return (
                 <LatestSpending
                   key={i}
@@ -122,8 +129,8 @@ const BudgetItem = ({
                   category={spending.category}
                   amount={spending.amount}
                   isLastEl={i === isLastEl ? -1 : i}
-                  // createdAt={spending.createAt}
-                  // updatedAt={spending.updatedAt}
+                  createdAt={spending.createdAt}
+                  updatedAt={spending.updatedAt}
                 />
               );
             }

@@ -9,6 +9,7 @@ export type ModalPropsType = {
   setIsAddBudget: Dispatch<SetStateAction<boolean>>;
   isAddBudget: boolean;
   groupedData: GroupedCategory[];
+  createdAt?: string;
 };
 
 export type DataType = {
@@ -16,7 +17,7 @@ export type DataType = {
   amount: number;
   color: ColorEnum;
   categoryLogo: string;
-  createAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   id: string;
 };
