@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
-import { format } from "date-fns";
+
 
 export type LatestSpendingPropsType = {
   logo: string;
   category: string;
   amount: number;
   isLastEl: number;
-  createdAt: string;
-  updatedAt: string;
+  // createdAt: string;
+  // updatedAt: string;
 };
 
 const LatestSpending = ({
@@ -16,8 +16,8 @@ const LatestSpending = ({
   category,
   amount,
   isLastEl,
-  createdAt,
-  updatedAt,
+  // createdAt,
+  // updatedAt,
 }: LatestSpendingPropsType) => {
   return (
     <div

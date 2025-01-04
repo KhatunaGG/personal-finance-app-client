@@ -3,7 +3,6 @@ import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
-import { Foldit } from "next/font/google";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
 
 export type BudgetItemPropsType = {
@@ -123,8 +122,8 @@ const BudgetItem = ({
                   category={spending.category}
                   amount={spending.amount}
                   isLastEl={i === isLastEl ? -1 : i}
-                  createdAt={spending.createAt}
-                  updatedAt={spending.updatedAt}
+                  // createdAt={spending.createAt}
+                  // updatedAt={spending.updatedAt}
                 />
               );
             }

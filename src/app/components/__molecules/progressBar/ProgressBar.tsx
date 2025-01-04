@@ -37,7 +37,7 @@ export type ProgressBarPropsType = {
 };
 
 const ProgressBar = ({
-  category,
+  // category,
   groupSpending,
   color,
   groupTotalAmount,
