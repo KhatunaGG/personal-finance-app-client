@@ -13,13 +13,9 @@ import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
 
 const BudgetSections = () => {
-  const context = useContext(GlobalContext);
-  if (!context) return null;
-  const { isModal, setIsModal } = context;
 
 
 
-  
   // const [isModal, setIsModal] = useState(false);
   const [data, setData] = useState<DataType[]>([]);
   // const [accessToken, setAccessToken] = useState("");
@@ -28,6 +24,12 @@ const BudgetSections = () => {
   const { getColorHex } = useBudgetUtils();
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
+
+
+  const context = useContext(GlobalContext);
+
+
+
 
   const getBudgets = async () => {
     try {
@@ -45,6 +47,11 @@ const BudgetSections = () => {
   useEffect(() => {
     getBudgets();
   }, [router]);
+
+
+  
+  if (!context) return null;
+  const { isModal, setIsModal } = context;
 
   // useEffect(() => {
   //   if (data.length > 0) {
