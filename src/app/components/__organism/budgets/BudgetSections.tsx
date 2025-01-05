@@ -13,23 +13,13 @@ import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
 
 const BudgetSections = () => {
-
-
-
-  // const [isModal, setIsModal] = useState(false);
   const [data, setData] = useState<DataType[]>([]);
-  // const [accessToken, setAccessToken] = useState("");
   const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
-
-
   const context = useContext(GlobalContext);
-
-
-
 
   const getBudgets = async () => {
     try {
@@ -48,8 +38,6 @@ const BudgetSections = () => {
     getBudgets();
   }, [router]);
 
-
-  
   if (!context) return null;
   const { isModal, setIsModal } = context;
 
@@ -77,6 +65,14 @@ const BudgetSections = () => {
           groupedData={groupedData}
         />
       )}
+      {/* {isDelete && (
+        <DeleteModal
+          setIsDelete={setIsDelete}
+          setIsModal={setIsModal}
+          groupedData={groupedData}
+          deleteBudgetCategory={deleteBudgetCategory}
+        />
+      )} */}
 
       <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <div className="w-full flex flex-row items-center justify-between">
@@ -115,6 +111,7 @@ const BudgetSections = () => {
                     groupSpending={group.spending}
                     groupTotalAmount={group.totalAmount}
                     data={data}
+                    getBudgets={getBudgets}
                   />
                 );
               }

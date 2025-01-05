@@ -1,16 +1,11 @@
 "use client";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 
-
 export type GlobalContextType = {
   accessToken: string;
   setAccessToken: Dispatch<SetStateAction<string>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   isModal: boolean;
-
-
-  setIsDelete: Dispatch<SetStateAction<boolean>>;
-  isDelete: boolean;
 };
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -18,14 +13,6 @@ export const GlobalContext = createContext<GlobalContextType | null>(null);
 const Context = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState("");
   const [isModal, setIsModal] = useState(false);
-
-  const [isDelete, setIsDelete] = useState(false);
-  
-
-
-
-
-
 
   // const path = useRouter()
   // console.log("Current Path:", path);
@@ -60,11 +47,6 @@ const Context = ({ children }: { children: React.ReactNode }) => {
         accessToken,
         setIsModal,
         isModal,
-
-
-
-        setIsDelete,
-        isDelete
       }}
     >
       <div>{children}</div>

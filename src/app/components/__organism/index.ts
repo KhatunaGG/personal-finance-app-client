@@ -14,3 +14,4 @@ export { default as Spending } from "./budgets/Spending";
 export { default as BudgetItem } from "./budgets/BudgetItem";
 export { default as Modal} from "./modal/Modal";
 export { default as LatestSpending} from "./budgets/LatestSpending";
+export { default as DeleteModal} from "./deleteModal/DeleteModal";

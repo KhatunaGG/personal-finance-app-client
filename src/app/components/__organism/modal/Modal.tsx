@@ -211,7 +211,7 @@ const Modal = ({
 
   return (
     <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">
-      <section className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-screen flex items-center justify-center">
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]">
           <div className="TITLE w-full flex items-center justify-between">
             <h1 className="text-[#201F24] text-[32px] font-bold">
@@ -420,7 +420,7 @@ const Modal = ({
             </button>
           </form>
         </div>
-      </section>
+      </div>
       <ToastContainer />
     </section>
   );

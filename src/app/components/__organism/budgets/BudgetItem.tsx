@@ -1,11 +1,12 @@
-import { ProgressBar } from "../../__molecules";
+"use client";
+import { ModalItem, ProgressBar } from "../../__molecules";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
-// import { GlobalContext } from "@/app/context/Context";
-// import { useContext } from "react";
+import { useState } from "react";
+import DeleteModal from "../deleteModal/DeleteModal";
 
 export type BudgetItemPropsType = {
   category: string;
@@ -14,6 +15,7 @@ export type BudgetItemPropsType = {
   color: string;
   groupTotalAmount: number;
   data: DataType[];
+  getBudgets: () => void;
 };
 
 const BudgetItem = ({
@@ -23,23 +25,16 @@ const BudgetItem = ({
   color,
   groupTotalAmount,
   data,
+  getBudgets,
 }: BudgetItemPropsType) => {
-
-
-  // const context = useContext(GlobalContext);
-  // if (!context) return null;
-  // const { isModal, setIsModal, isDelete, setIsDelete} = context;
-
-
-
-
+  const [isModalItem, setIsModalItem] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   const remaining = groupTotalAmount - Math.abs(groupSpending);
   const { latestSpendingData, isLastEl } = useLatestSpendingData(
     data,
     category
   );
-
 
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
@@ -51,7 +46,17 @@ const BudgetItem = ({
           ></div>
           <h2 className="text-[20px] font-bold text-[#201F24]">{category}</h2>
         </div>
-        <DotIcon />
+
+        <div className="relative" onClick={() => setIsModalItem(!isModalItem)}>
+          <DotIcon />
+
+          {isModalItem && (
+            <ModalItem
+              setIsDelete={setIsDelete}
+              setIsModalItem={setIsModalItem}
+            />
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col gap-y-4">
@@ -155,6 +160,14 @@ const BudgetItem = ({
           </div> */}
         </div>
       </section>
+      {isDelete && (
+        <DeleteModal
+          setIsDelete={setIsDelete}
+          setIsModal={setIsModalItem}
+          category={category}
+          getBudgets={getBudgets}
+        />
+      )}
     </div>
   );
 };
