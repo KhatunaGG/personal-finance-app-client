@@ -41,7 +41,7 @@ const DeleteModal = ({
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]  ">
           <div className="TITLE w-full flex items-center justify-between">
             <h1 className="text-[#201F24] text-[32px] font-bold">
-              Delete "{category}"?
+              Delete {`"${category}"`}?
             </h1>
             <CloseIcon setIsDelete={setIsDelete} />
           </div>
