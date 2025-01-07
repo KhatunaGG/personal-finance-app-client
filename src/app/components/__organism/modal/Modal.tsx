@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,6 +29,9 @@ const Modal = ({
   getBudgets,
   setIsAddBudget,
   groupedData,
+  data,
+  isEdit,
+  categoryToEdit,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -38,6 +41,9 @@ const Modal = ({
   const { getColorHex, getLogo } = useBudgetUtils();
 
   const usedColors = groupedData.map((item) => item.color);
+
+  console.log(categoryToEdit, "categoryToEdit");
+  console.log(data, "data");
 
   const {
     register,
@@ -49,8 +55,6 @@ const Modal = ({
     resolver: yupResolver(schema),
   });
 
-  if (!context) return null;
-  const { accessToken } = context;
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
@@ -93,51 +97,44 @@ const Modal = ({
     setIsColorDropDownOpen(false);
   };
 
-  // const onSubmit = async (data: BudgetType) => {
-  //   const newDataState: NewDataStateType = {
-  //     ...data,
-  //     categoryLogo: getLogo(data.category) || "",
-  //     // isColorSelected : true
-  //   };
-  //   try {
-  //     const res = await axiosInstance.post("/budgets", newDataState, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
+  useEffect(() => {
+    if (isEdit && categoryToEdit) {
+      setValue("category", categoryToEdit.category);
+      setValue("amount", categoryToEdit.spending);
+      setValue("color", categoryToEdit.color);
+      setCategory(categoryToEdit.category);
+      setColor(categoryToEdit.color);
+    }
 
-  //     if (res.status === 200 || res.status === 201) {
-  //       reset();
-  //       getBudgets();
-  //       setIsAddBudget(false)
-  //     }
+    const filteredData = data.filter(
+      (item) => item.category === categoryToEdit?.category
+    );
+    console.log(filteredData, "filteredData");
+  }, [isEdit, categoryToEdit, setValue]);
 
-  //     setIsModal(false);
-  //   } catch (errors) {
-  //     console.log(errors);
-  //   }
-  // };
+
+  if (!context) return null;
+  const { accessToken } = context;
+
+
+
+
 
   // const onSubmit = async (formData: BudgetType) => {
-  //   // Step 1: Find the corresponding grouped category
   //   const categoryData = groupedData.find(
   //     (group) => group.category === formData.category
   //   );
-
-  //   if (!categoryData) {
-  //     toast.error("Category not found in grouped data!");
-  //     return;
-  //   }
-
   //   const { amount } = formData;
-  //   const { remaining } = categoryData;
 
-  //   if (remaining === 0 && amount <= 0) {
-  //     toast.error("Not enough amount available for the category.");
-  //     return; // Prevent form submission
+  //   if (categoryData) {
+  //     const { remaining } = categoryData;
+  //     if (remaining > 0 && Math.abs(amount) > remaining) {
+  //       toast.error("Not enough amount available for the category.");
+  //       return;
+  //     }
   //   }
 
-  //   if (remaining > 0 && Math.abs(amount) > remaining) {
+  //   if (!categoryData && amount <= 0) {
   //     toast.error("Not enough amount available for the category.");
   //     return;
   //   }
@@ -153,10 +150,10 @@ const Modal = ({
   //     });
 
   //     if (res.status === 200 || res.status === 201) {
-  //       reset();
   //       getBudgets();
   //       setIsAddBudget(false);
   //       toast.success("Budget added successfully!");
+  //       reset();
   //     }
 
   //     setIsModal(false);
@@ -191,15 +188,23 @@ const Modal = ({
     };
 
     try {
-      const res = await axiosInstance.post("/budgets", newDataState, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      if (!isEdit) {
+        const res = await axiosInstance.post("/budgets", newDataState, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
 
-      if (res.status === 200 || res.status === 201) {
-        getBudgets();
-        setIsAddBudget(false);
-        toast.success("Budget added successfully!");
-        reset();
+        if (res.status === 200 || res.status === 201) {
+          getBudgets();
+          setIsAddBudget(false);
+          toast.success("Budget added successfully!");
+          reset();
+        }
+      } else {
+        const category = categoryToEdit?.category;
+        const res = await axiosInstance.patch(`/budgets/category/${category}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        console.log(res)
       }
 
       setIsModal(false);
@@ -215,7 +220,7 @@ const Modal = ({
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]">
           <div className="TITLE w-full flex items-center justify-between">
             <h1 className="text-[#201F24] text-[32px] font-bold">
-              Add New Budget
+              {isEdit ? "Edit Budget" : "Add New Budget"}
             </h1>
             <CloseIcon
               setIsModal={setIsModal}
@@ -225,8 +230,9 @@ const Modal = ({
 
           <div className="TEXT  ">
             <p className="text-[#696868] text-2xl md:text-[14px] leading-[21px] font-normal">
-              Choose a category to set a spending budget. These categories can
-              help you monitor spending.
+              {isEdit
+                ? "As your budgets change, feel free to update your spending limits."
+                : "Choose a category to set a spending budget. These categories can"}
             </p>
           </div>
 
@@ -250,8 +256,8 @@ const Modal = ({
                     className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
                     placeholder="Category"
                     {...register("category")}
-                    // value={category || ""}
                     value={category}
+                    // value={isEdit ? categoryToEdit?.category : category}
                     readOnly
                   />
                   <button
@@ -376,8 +382,7 @@ const Modal = ({
                             )?.color !== colorItem
                               ? "opacity-50 cursor-not-allowed"
                               : ""
-                          }`
-                        }
+                          }`}
                         >
                           <div className="flex items-center gap-3">
                             <div

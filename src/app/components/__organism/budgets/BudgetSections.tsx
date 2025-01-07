@@ -8,9 +8,10 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useRouter } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
 import { DataType } from "@/app/interfaces/interface";
-import { useGroupedData } from "@/app/hooks/use-categoryGrope";
+import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
+
 
 const BudgetSections = () => {
   const [data, setData] = useState<DataType[]>([]);
@@ -20,6 +21,33 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
   const context = useContext(GlobalContext);
+
+
+  const [isEdit, setIsEdit] = useState(false)
+  const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
+  // const [categoryToEdit, setCategoryToEdit] = useState<string | undefined>()
+
+  const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(null);
+
+
+// console.log(isEdit, "isEdit")
+// console.log(activeModalItem, "activeModalItem from BudgetSection")
+
+useEffect(() => {
+  if (activeModalItem !== null) {
+    setCategoryToEdit(groupedData[activeModalItem]);
+  } else {
+    setCategoryToEdit(null);
+  }
+}, [activeModalItem, groupedData]);
+
+
+
+
+
+
+
+
 
   const getBudgets = async () => {
     try {
@@ -53,6 +81,8 @@ const BudgetSections = () => {
     return <div>Loading...</div>;
   }
 
+
+
   return (
     <section className="w-full h-full min-h-screen ">
       {isModal && (
@@ -63,6 +93,12 @@ const BudgetSections = () => {
           setIsAddBudget={setIsAddBudget}
           isAddBudget={isAddBudget}
           groupedData={groupedData}
+
+
+
+          isEdit={isEdit}
+          categoryToEdit={categoryToEdit}
+      
         />
       )}
       {/* {isDelete && (
@@ -112,6 +148,17 @@ const BudgetSections = () => {
                     groupTotalAmount={group.totalAmount}
                     data={data}
                     getBudgets={getBudgets}
+
+
+                    setIsEdit={setIsEdit}
+                    activeModalItem={activeModalItem}
+                    setActiveModalItem={setActiveModalItem}
+                    index={i}
+
+
+                    setIsModal={setIsModal}
+
+
                   />
                 );
               }

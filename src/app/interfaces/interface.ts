@@ -10,6 +10,9 @@ export type ModalPropsType = {
   isAddBudget: boolean;
   groupedData: GroupedCategory[];
   createdAt?: string;
+  isEdit: boolean;
+  categoryToEdit: GroupedCategory | null;
+  
 };
 
 export type DataType = {
