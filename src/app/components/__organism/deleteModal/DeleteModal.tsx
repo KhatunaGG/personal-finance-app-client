@@ -6,7 +6,7 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 
 export type DeleteModalPropsType = {
   setIsDelete: Dispatch<SetStateAction<boolean>>;
-  setIsModal: Dispatch<SetStateAction<boolean>>;
+  // setIsModal: Dispatch<SetStateAction<boolean>>;
   category: string;
   getBudgets: () => void;
 };

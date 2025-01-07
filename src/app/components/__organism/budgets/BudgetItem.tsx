@@ -5,8 +5,11 @@ import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
+import { CategoryEnum } from "@/app/schema/schema";
+import { GroupedCategory } from "@/app/hooks/use-categoryGrope";
+
 
 export type BudgetItemPropsType = {
   category: string;
@@ -16,6 +19,16 @@ export type BudgetItemPropsType = {
   groupTotalAmount: number;
   data: DataType[];
   getBudgets: () => void;
+
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  activeModalItem: number | null;
+  setActiveModalItem: Dispatch<SetStateAction<number | null>>;
+  index: number;
+  
+
+
+  setIsModal: Dispatch<SetStateAction<boolean>>;
+ 
 };
 
 const BudgetItem = ({
@@ -26,15 +39,34 @@ const BudgetItem = ({
   groupTotalAmount,
   data,
   getBudgets,
-}: BudgetItemPropsType) => {
-  const [isModalItem, setIsModalItem] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
 
+  setIsEdit,
+  activeModalItem,
+  setActiveModalItem,
+  index,
+
+
+  setIsModal,
+ 
+
+}: BudgetItemPropsType) => {
+  const [isDelete, setIsDelete] = useState(false);
   const remaining = groupTotalAmount - Math.abs(groupSpending);
   const { latestSpendingData, isLastEl } = useLatestSpendingData(
     data,
     category
   );
+
+
+
+  const handleOpenModal = () => {
+    setActiveModalItem(
+      activeModalItem === null || activeModalItem !== index ? index : null
+    ); 
+ 
+  };
+
+  // console.log(category, "category from BudgetItem")
 
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
@@ -47,13 +79,27 @@ const BudgetItem = ({
           <h2 className="text-[20px] font-bold text-[#201F24]">{category}</h2>
         </div>
 
-        <div className="relative" onClick={() => setIsModalItem(!isModalItem)}>
+        <div
+          className="relative cursor-pointer"
+          //  onClick={() => setIsModalItem(!isModalItem)}
+          onClick={handleOpenModal}
+        >
           <DotIcon />
 
-          {isModalItem && (
+          {/* {isModalItem && (
             <ModalItem
               setIsDelete={setIsDelete}
               setIsModalItem={setIsModalItem}
+              setIsEdit={setIsEdit}
+            />
+          )} */}
+
+          {activeModalItem === index && (
+            <ModalItem
+              setIsDelete={setIsDelete}
+              // setIsModalItem={handleOpenModal} 
+              setIsEdit={setIsEdit}
+              setIsModal={setIsModal}
             />
           )}
         </div>
@@ -163,7 +209,7 @@ const BudgetItem = ({
       {isDelete && (
         <DeleteModal
           setIsDelete={setIsDelete}
-          setIsModal={setIsModalItem}
+          // setIsModal={setIsModalItem}
           category={category}
           getBudgets={getBudgets}
         />
