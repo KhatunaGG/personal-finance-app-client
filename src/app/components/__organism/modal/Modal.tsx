@@ -55,8 +55,6 @@ const Modal = ({
     resolver: yupResolver(schema),
   });
 
-  if (!context) return null;
-  const { accessToken } = context;
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
@@ -113,6 +111,14 @@ const Modal = ({
     );
     console.log(filteredData, "filteredData");
   }, [isEdit, categoryToEdit, setValue]);
+
+
+  if (!context) return null;
+  const { accessToken } = context;
+
+
+
+
 
   // const onSubmit = async (formData: BudgetType) => {
   //   const categoryData = groupedData.find(
@@ -198,6 +204,7 @@ const Modal = ({
         const res = await axiosInstance.patch(`/budgets/category/${category}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
+        console.log(res)
       }
 
       setIsModal(false);

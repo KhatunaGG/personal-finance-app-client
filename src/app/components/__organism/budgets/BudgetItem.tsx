@@ -5,10 +5,9 @@ import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
-import { CategoryEnum } from "@/app/schema/schema";
-import { GroupedCategory } from "@/app/hooks/use-categoryGrope";
+
 
 
 export type BudgetItemPropsType = {
