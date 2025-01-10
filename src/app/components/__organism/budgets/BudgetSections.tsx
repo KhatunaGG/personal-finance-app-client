@@ -42,12 +42,7 @@ useEffect(() => {
 }, [activeModalItem, groupedData]);
 
 
-
-
-
-
-
-
+console.log((-40) + (-30))
 
   const getBudgets = async () => {
     try {

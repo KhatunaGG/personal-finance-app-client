@@ -42,8 +42,8 @@ const Modal = ({
 
   const usedColors = groupedData.map((item) => item.color);
 
-  console.log(categoryToEdit, "categoryToEdit");
-  console.log(data, "data");
+  // console.log(categoryToEdit, "categoryToEdit");
+  // console.log(data, "data");
 
   const {
     register,
@@ -72,6 +72,9 @@ const Modal = ({
     setIsCategoryDropDownOpen(false);
 
     setColor(null);
+
+
+    // setValue("color", categoryToEdit?.color);
   };
 
   // const handleColorSelection = (color: ColorEnum) => {
@@ -93,7 +96,8 @@ const Modal = ({
       return;
     }
 
-    setColor(selectedColor); // Correctly set the color
+    setColor(selectedColor);
+    setValue("color", selectedColor); 
     setIsColorDropDownOpen(false);
   };
 
@@ -169,13 +173,13 @@ const Modal = ({
     );
     const { amount } = formData;
 
-    if (categoryData) {
-      const { remaining } = categoryData;
-      if (remaining > 0 && Math.abs(amount) > remaining) {
-        toast.error("Not enough amount available for the category.");
-        return;
-      }
-    }
+    // if (categoryData) {
+    //   const { remaining } = categoryData;
+    //   if (remaining > 0 && Math.abs(amount) > remaining) {
+    //     toast.error("Not enough amount available for the category.");
+    //     return;
+    //   }
+    // }
 
     if (!categoryData && amount <= 0) {
       toast.error("Not enough amount available for the category.");
@@ -186,6 +190,8 @@ const Modal = ({
       ...formData,
       categoryLogo: getLogo(formData.category) || "",
     };
+
+  
 
     try {
       if (!isEdit) {
@@ -201,7 +207,9 @@ const Modal = ({
         }
       } else {
         const category = categoryToEdit?.category;
-        const res = await axiosInstance.patch(`/budgets/category/${category}`, {
+        console.log(newDataState, "newDataState")
+
+        const res = await axiosInstance.patch(`/budgets/category/${category}`, newDataState, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         console.log(res)
@@ -398,7 +406,7 @@ const Modal = ({
                           {/* <p className="text-[#696868] text-xs font-normal  hidden"> */}
                           <p
                             className={`text-[#696868] text-xs font-normal ${
-                              usedColors.includes(colorItem) ? "hidden" : "flex"
+                              usedColors.includes(colorItem) ? "flex" : "hidden" 
                             }`}
                           >
                             Already used
