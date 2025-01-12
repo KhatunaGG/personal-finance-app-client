@@ -30,14 +30,16 @@ export enum ColorEnum {
   ORANGE = "Orange",
 }
 
+
 export const schema = Yup.object().shape({
   category: Yup.mixed<CategoryEnum>()
-    .oneOf(Object.values(CategoryEnum))
-    .required("Select category"),
+    .oneOf(Object.values(CategoryEnum), "Select category")
+    .required("Select category"), 
   amount: Yup.number()
     .typeError("Enter a valid amount")
     .required("Amount is required"),
+
   color: Yup.mixed<ColorEnum>()
-    .oneOf(Object.values(ColorEnum))
-    .required("Choose color"),
+    .oneOf(Object.values(ColorEnum), "Select color")  
+    .required("Select color"), 
 });
