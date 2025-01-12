@@ -42,11 +42,7 @@ const Modal = ({
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
-
   const usedColors = groupedData.map((item) => item.color);
-
-  // console.log(categoryToEdit, "categoryToEdit");
-  console.log(data, "data");
 
   const {
     register,
@@ -241,16 +237,6 @@ const Modal = ({
 
       toast.error(errorMessage);
     }
-
-  //   if (axios.isAxiosError(error)) {
-  //     const errorMessage = error.response?.data?.message || "An unexpected error occurred. Please try again.";
-  //     toast.error(errorMessage);
-  //   } else {
-  //     toast.error("An unexpected error occurred. Please try again.");
-  //   }
-  // }
-
-
   };
 
   return (
