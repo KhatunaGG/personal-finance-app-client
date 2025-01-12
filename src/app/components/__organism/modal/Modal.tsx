@@ -54,6 +54,8 @@ const Modal = ({
     resolver: yupResolver(schema),
   });
 
+  console.log(errors, 'errors')
+
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
     setIsColorDropDownOpen(false);
