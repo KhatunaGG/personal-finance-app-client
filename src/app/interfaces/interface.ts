@@ -12,6 +12,8 @@ export type ModalPropsType = {
   createdAt?: string;
   isEdit: boolean;
   categoryToEdit: GroupedCategory | null;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  setActiveModalItem:  Dispatch<SetStateAction<number | null>>
   
 };
 

@@ -25,11 +25,10 @@ const BudgetSections = () => {
 
   const [isEdit, setIsEdit] = useState(false)
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
-  // const [categoryToEdit, setCategoryToEdit] = useState<string | undefined>()
 
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(null);
 
-
+console.log(categoryToEdit, "categoryToEdit")
 // console.log(isEdit, "isEdit")
 // console.log(activeModalItem, "activeModalItem from BudgetSection")
 
@@ -42,7 +41,7 @@ useEffect(() => {
 }, [activeModalItem, groupedData]);
 
 
-console.log((-40) + (-30))
+
 
   const getBudgets = async () => {
     try {
@@ -93,6 +92,8 @@ console.log((-40) + (-30))
 
           isEdit={isEdit}
           categoryToEdit={categoryToEdit}
+          setIsEdit={setIsEdit}
+          setActiveModalItem={setActiveModalItem}
       
         />
       )}
