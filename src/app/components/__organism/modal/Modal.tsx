@@ -10,6 +10,7 @@ import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { ModalPropsType } from "@/app/interfaces/interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import  { AxiosError } from "axios";
 
 export type BudgetType = {
   category: CategoryEnum;
@@ -32,6 +33,8 @@ const Modal = ({
   data,
   isEdit,
   categoryToEdit,
+  setIsEdit,
+  setActiveModalItem,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -39,11 +42,7 @@ const Modal = ({
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
-
   const usedColors = groupedData.map((item) => item.color);
-
-  // console.log(categoryToEdit, "categoryToEdit");
-  // console.log(data, "data");
 
   const {
     register,
@@ -54,7 +53,6 @@ const Modal = ({
   } = useForm<BudgetType>({
     resolver: yupResolver(schema),
   });
-
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropDownOpen(!isCategoryDropDownOpen);
@@ -72,7 +70,6 @@ const Modal = ({
     setIsCategoryDropDownOpen(false);
 
     setColor(null);
-
 
     // setValue("color", categoryToEdit?.color);
   };
@@ -97,7 +94,7 @@ const Modal = ({
     }
 
     setColor(selectedColor);
-    setValue("color", selectedColor); 
+    setValue("color", selectedColor);
     setIsColorDropDownOpen(false);
   };
 
@@ -116,27 +113,14 @@ const Modal = ({
     console.log(filteredData, "filteredData");
   }, [isEdit, categoryToEdit, setValue]);
 
-
   if (!context) return null;
   const { accessToken } = context;
-
-
-
-
 
   // const onSubmit = async (formData: BudgetType) => {
   //   const categoryData = groupedData.find(
   //     (group) => group.category === formData.category
   //   );
   //   const { amount } = formData;
-
-  //   if (categoryData) {
-  //     const { remaining } = categoryData;
-  //     if (remaining > 0 && Math.abs(amount) > remaining) {
-  //       toast.error("Not enough amount available for the category.");
-  //       return;
-  //     }
-  //   }
 
   //   if (!categoryData && amount <= 0) {
   //     toast.error("Not enough amount available for the category.");
@@ -149,37 +133,56 @@ const Modal = ({
   //   };
 
   //   try {
-  //     const res = await axiosInstance.post("/budgets", newDataState, {
-  //       headers: { Authorization: `Bearer ${accessToken}` },
-  //     });
+  //     if (!isEdit) {
+  //       const res = await axiosInstance.post("/budgets", newDataState, {
+  //         headers: { Authorization: `Bearer ${accessToken}` },
+  //       });
 
-  //     if (res.status === 200 || res.status === 201) {
-  //       getBudgets();
-  //       setIsAddBudget(false);
-  //       toast.success("Budget added successfully!");
-  //       reset();
+  //       if (res.status === 200 || res.status === 204) {
+  //         getBudgets();
+  //         setIsAddBudget(false);
+  //         toast.success("Budget added successfully!");
+  //         reset();
+  //       }
+  //     } else {
+  //       const category = categoryToEdit?.category;
+  //       console.log(newDataState, "newDataState");
+
+  //       const res = await axiosInstance.patch(
+  //         `/budgets/category/${category}`,
+  //         newDataState,
+  //         {
+  //           headers: { Authorization: `Bearer ${accessToken}` },
+  //         }
+  //       );
+
+  //       if (res.status === 200 || res.status === 204) {
+  //         setIsModal(false);
+  //         setIsEdit(false);
+  //         setActiveModalItem(null);
+  //       }
   //     }
-
-  //     setIsModal(false);
   //   } catch (errors) {
   //     console.error(errors);
   //     toast.error("Failed to add budget. Please try again.");
   //   }
   // };
 
+
+
+
+
+
+
+
+
+
+
   const onSubmit = async (formData: BudgetType) => {
     const categoryData = groupedData.find(
       (group) => group.category === formData.category
     );
     const { amount } = formData;
-
-    // if (categoryData) {
-    //   const { remaining } = categoryData;
-    //   if (remaining > 0 && Math.abs(amount) > remaining) {
-    //     toast.error("Not enough amount available for the category.");
-    //     return;
-    //   }
-    // }
 
     if (!categoryData && amount <= 0) {
       toast.error("Not enough amount available for the category.");
@@ -191,34 +194,48 @@ const Modal = ({
       categoryLogo: getLogo(formData.category) || "",
     };
 
-  
-
     try {
+      let res;
       if (!isEdit) {
-        const res = await axiosInstance.post("/budgets", newDataState, {
+        res = await axiosInstance.post("/budgets", newDataState, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-
-        if (res.status === 200 || res.status === 201) {
-          getBudgets();
-          setIsAddBudget(false);
-          toast.success("Budget added successfully!");
-          reset();
-        }
       } else {
-        const category = categoryToEdit?.category;
-        console.log(newDataState, "newDataState")
+        const category = formData.category;
+        console.log(formData.color, "color")
 
-        const res = await axiosInstance.patch(`/budgets/category/${category}`, newDataState, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        console.log(res)
+        console.log('Category before PATCH:', category);
+
+        if (!category) {
+          throw new Error("Category is missing");
+        }
+        res = await axiosInstance.patch(
+          `/budgets/category/${category}`,
+          newDataState,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
       }
 
+      if (res.status === 200 || res.status === 204) {
+        setIsAddBudget(false);
+        if (isEdit) {
+          setIsEdit(false);
+          setActiveModalItem(null);
+        }
+      }
+      getBudgets();
+      reset();
+      toast.success("Budget added/updated successfully!");
       setIsModal(false);
-    } catch (errors) {
-      console.error(errors);
-      toast.error("Failed to add budget. Please try again.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof AxiosError && error.response
+          ? error.response.data.message
+          : "An unexpected error occurred. Please try again.";
+
+      toast.error(errorMessage);
     }
   };
 
@@ -233,6 +250,8 @@ const Modal = ({
             <CloseIcon
               setIsModal={setIsModal}
               setIsAddBudget={setIsAddBudget}
+              setIsEdit={setIsEdit}
+              setActiveModalItem={setActiveModalItem}
             />
           </div>
 
@@ -406,7 +425,7 @@ const Modal = ({
                           {/* <p className="text-[#696868] text-xs font-normal  hidden"> */}
                           <p
                             className={`text-[#696868] text-xs font-normal ${
-                              usedColors.includes(colorItem) ? "flex" : "hidden" 
+                              usedColors.includes(colorItem) ? "flex" : "hidden"
                             }`}
                           >
                             Already used

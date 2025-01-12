@@ -4,12 +4,16 @@ export type CloseIconPropsType = {
   setIsModal?: Dispatch<SetStateAction<boolean>>;
   setIsAddBudget?: Dispatch<SetStateAction<boolean>>;
   setIsDelete?: Dispatch<SetStateAction<boolean>>;
+  setIsEdit?: Dispatch<SetStateAction<boolean>>;
+  setActiveModalItem?: Dispatch<SetStateAction<number | null>>;
 };
 
 const CloseIcon = ({
   setIsModal,
   setIsAddBudget,
   setIsDelete,
+  setActiveModalItem,
+  setIsEdit,
 }: CloseIconPropsType) => {
   return (
     <svg
@@ -17,6 +21,9 @@ const CloseIcon = ({
         setIsModal?.(false);
         setIsAddBudget?.(false);
         setIsDelete?.(false);
+
+        if (setActiveModalItem) setActiveModalItem(null);
+        if (setIsEdit) setIsEdit(false);
       }}
       width="26"
       height="26"

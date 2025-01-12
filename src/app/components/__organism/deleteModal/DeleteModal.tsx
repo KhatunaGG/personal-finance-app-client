@@ -9,12 +9,14 @@ export type DeleteModalPropsType = {
   // setIsModal: Dispatch<SetStateAction<boolean>>;
   category: string;
   getBudgets: () => void;
+
 };
 
 const DeleteModal = ({
   setIsDelete,
   category,
   getBudgets,
+
 }: DeleteModalPropsType) => {
   const { accessToken } = useAccessToken();
 
