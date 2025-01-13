@@ -15,6 +15,7 @@ const Spending = ({ groupedData }: SpendingPropsType) => {
       <p className="text-[#201F24] text-[20px] font-bold">Spending Summary</p>
       <div>
         {slicedGroupedData.map((item, i) => {
+          console.log(item.color, "item.color")
           if (item.spending < 0) {
             return (
               <div key={i} className="flex flex-row gap-4 py-4">
@@ -27,7 +28,7 @@ const Spending = ({ groupedData }: SpendingPropsType) => {
                     {item.category}
                   </p>
                   <div className="flex items-center gap-2">
-                    <p className="text-[#201F24] font-bold text-[14px]">
+                    <p className="text-[#201F24] font-bold text-[14px] ">
                       ${Math.abs(item.spending).toFixed(2)}
                     </p>
                     <p className="text-[#696868] font-normal text-[12px]">

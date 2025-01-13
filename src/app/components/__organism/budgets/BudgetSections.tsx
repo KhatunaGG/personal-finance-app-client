@@ -21,16 +21,11 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
   const context = useContext(GlobalContext);
-
-
   const [isEdit, setIsEdit] = useState(false)
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
-
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(null);
 
-console.log(categoryToEdit, "categoryToEdit")
-// console.log(isEdit, "isEdit")
-// console.log(activeModalItem, "activeModalItem from BudgetSection")
+
 
 useEffect(() => {
   if (activeModalItem !== null) {
@@ -97,16 +92,8 @@ useEffect(() => {
       
         />
       )}
-      {/* {isDelete && (
-        <DeleteModal
-          setIsDelete={setIsDelete}
-          setIsModal={setIsModal}
-          groupedData={groupedData}
-          deleteBudgetCategory={deleteBudgetCategory}
-        />
-      )} */}
 
-      <div className="w-full h-full bg-[#F8F4F0] py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
+      <div className="w-full h-full pt-8 pb-[105px] md:pb-[113px] lg:py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <div className="w-full flex flex-row items-center justify-between">
           <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
             Budgets
@@ -137,24 +124,17 @@ useEffect(() => {
                 return (
                   <BudgetItem
                     key={i}
-                    // logo={group.categoryLogo}
                     category={group.category}
                     color={getColorHex(group.color)}
                     groupSpending={group.spending}
                     groupTotalAmount={group.totalAmount}
                     data={data}
                     getBudgets={getBudgets}
-
-
                     setIsEdit={setIsEdit}
                     activeModalItem={activeModalItem}
                     setActiveModalItem={setActiveModalItem}
                     index={i}
-
-
                     setIsModal={setIsModal}
-
-
                   />
                 );
               }
