@@ -25,6 +25,8 @@ const PotsSection = () => {
   const { accessToken, isLoading } = useAccessToken();
   const path = usePathname();
   const isPotPage = path.includes("pots");
+  console.log(activeModalItem, "activeModalItem")
+
 
   useEffect(() => {
     getAllPots();

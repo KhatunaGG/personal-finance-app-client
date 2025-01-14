@@ -12,6 +12,7 @@ type PotItemPropsType = {
 };
 
 const PotItem = ({ isPotPage, potName, color, amount, target }: PotItemPropsType) => {
+  console.log(amount, "amount")
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
       <div className="flex items-center justify-between">
