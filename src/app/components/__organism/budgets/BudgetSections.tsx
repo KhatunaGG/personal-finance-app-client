@@ -82,14 +82,10 @@ useEffect(() => {
           setIsAddBudget={setIsAddBudget}
           isAddBudget={isAddBudget}
           groupedData={groupedData}
-
-
-
           isEdit={isEdit}
           categoryToEdit={categoryToEdit}
           setIsEdit={setIsEdit}
           setActiveModalItem={setActiveModalItem}
-      
         />
       )}
 

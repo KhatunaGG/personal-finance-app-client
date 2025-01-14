@@ -8,8 +8,6 @@ import useLatestSpendingData from "@/app/hooks/use-latestSpending";
 import { Dispatch, SetStateAction, useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
 
-
-
 export type BudgetItemPropsType = {
   category: string;
   groupSpending: number;
@@ -18,16 +16,11 @@ export type BudgetItemPropsType = {
   groupTotalAmount: number;
   data: DataType[];
   getBudgets: () => void;
-
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   activeModalItem: number | null;
   setActiveModalItem: Dispatch<SetStateAction<number | null>>;
   index: number;
-  
-
-
   setIsModal: Dispatch<SetStateAction<boolean>>;
- 
 };
 
 const BudgetItem = ({
@@ -38,16 +31,11 @@ const BudgetItem = ({
   groupTotalAmount,
   data,
   getBudgets,
-
   setIsEdit,
   activeModalItem,
   setActiveModalItem,
   index,
-
-
   setIsModal,
- 
-
 }: BudgetItemPropsType) => {
   const [isDelete, setIsDelete] = useState(false);
   const remaining = groupTotalAmount - Math.abs(groupSpending);
@@ -56,16 +44,11 @@ const BudgetItem = ({
     category
   );
 
-
-
   const handleOpenModal = () => {
     setActiveModalItem(
       activeModalItem === null || activeModalItem !== index ? index : null
-    ); 
- 
+    );
   };
-
-  // console.log(category, "category from BudgetItem")
 
   return (
     <div className="py-6 px-[20px] md:p-8 rounded-lg bg-white flex flex-col gap-y-[20px]">
@@ -78,25 +61,12 @@ const BudgetItem = ({
           <h2 className="text-[20px] font-bold text-[#201F24]">{category}</h2>
         </div>
 
-        <div
-          className="relative cursor-pointer"
-          //  onClick={() => setIsModalItem(!isModalItem)}
-          onClick={handleOpenModal}
-        >
+        <div className="relative cursor-pointer" onClick={handleOpenModal}>
           <DotIcon />
-
-          {/* {isModalItem && (
-            <ModalItem
-              setIsDelete={setIsDelete}
-              setIsModalItem={setIsModalItem}
-              setIsEdit={setIsEdit}
-            />
-          )} */}
 
           {activeModalItem === index && (
             <ModalItem
               setIsDelete={setIsDelete}
-              // setIsModalItem={handleOpenModal} 
               setIsEdit={setIsEdit}
               setIsModal={setIsModal}
             />
@@ -108,7 +78,7 @@ const BudgetItem = ({
         <p className="text-[14px] font-normal text-[#696868]">
           Maximum of ${groupTotalAmount.toFixed(2)}
         </p>
-        <div className="SLIDER w-full">
+        <div className="SLIDER w-full overflow-hidden">
           <ProgressBar
             category={category}
             groupSpending={groupSpending}

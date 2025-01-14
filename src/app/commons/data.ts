@@ -39,5 +39,5 @@ export const categoryLogos = [
   { Education: "/assets/logos/logo7.svg"},
   { Lifestyle: "/assets/logos/logo8.svg"},
   { Shopping: "/assets/logos/logo9.svg"},
-  { General: "/assets/logos/logo1-.svg"},
+  { General: "/assets/logos/logo1.svg"},
 ];
