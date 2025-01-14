@@ -1,7 +1,10 @@
-import React from 'react'
+import { PotsSection } from "@/app/components/__organism";
+
 
 export default function page() {
   return (
-    <div className='bg-[#F2F3F7]'>page</div>
-  )
+    <div className="">
+      <PotsSection />
+    </div>
+  );
 }
