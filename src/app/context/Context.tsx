@@ -1,5 +1,4 @@
 "use client";
-import { Flamenco } from "next/font/google";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 export type GlobalContextType = {
