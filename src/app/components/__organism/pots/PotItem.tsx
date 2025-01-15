@@ -5,14 +5,24 @@ import { ColorEnum } from "@/app/schema/schema";
 
 type PotItemPropsType = {
   isPotPage: boolean;
-  potName:string;
+  potName: string;
   amount: number;
   target: number;
-  color: ColorEnum
+  color: ColorEnum;
+  _id: string;
+  handleAddMoney: (id: string) => void;
 };
 
-const PotItem = ({ isPotPage, potName, color, amount, target }: PotItemPropsType) => {
-  console.log(amount, "amount")
+const PotItem = ({
+  isPotPage,
+  potName,
+  color,
+  amount,
+  target,
+  _id,
+  handleAddMoney
+}: PotItemPropsType) => {
+  console.log(amount, "amount");
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
       <div className="flex items-center justify-between">
@@ -32,7 +42,9 @@ const PotItem = ({ isPotPage, potName, color, amount, target }: PotItemPropsType
       <div className="flex-flex-col py-[10.5px]">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm text-[#696868] font-normal">Total Saved</h2>
-          <p className="text-[#201F24] font-bold text-[32px]">$ {target.toFixed(2)}</p>
+          <p className="text-[#201F24] font-bold text-[32px]">
+            $ {target.toFixed(2)}
+          </p>
         </div>
 
         <div className="mb-[13px] overflow-hidden">
@@ -51,7 +63,9 @@ const PotItem = ({ isPotPage, potName, color, amount, target }: PotItemPropsType
       </div>
 
       <div className="w-full flex items-center lg:flex-row lg:gap-x-4">
-        <button className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
+        <button
+        onClick={() => handleAddMoney(_id)}
+        className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
           + Add Money
         </button>
         <button className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">

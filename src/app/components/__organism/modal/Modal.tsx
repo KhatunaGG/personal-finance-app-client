@@ -582,6 +582,7 @@ export type PotDataStateType = {
   target: number;
   amount: number;
   color: ColorEnum;
+  _id: string;
 };
 
 const Modal = ({
@@ -589,13 +590,17 @@ const Modal = ({
   getBudgets,
   setIsAddBudget,
   groupedData,
-  data,
+  // data,
   isEdit,
   categoryToEdit,
   setIsEdit,
   setActiveModalItem,
   isPotPage,
   getAllPots,
+  setPotMoney,
+  potMoney,
+  setActivePotModal,
+  activePotModal,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -605,7 +610,7 @@ const Modal = ({
   const { getColorHex, getLogo } = useBudgetUtils();
   const usedColors = groupedData?.map((item) => item.color);
 
-  console.log(isPotPage, "isPotPage");
+
   // const {
   //   register,
   //   handleSubmit,
@@ -663,6 +668,7 @@ const Modal = ({
     setIsColorDropDownOpen(false);
   };
 
+
   useEffect(() => {
     if (isEdit && categoryToEdit) {
       setValue("category", categoryToEdit.category);
@@ -671,12 +677,14 @@ const Modal = ({
       setCategory(categoryToEdit.category);
       setColor(categoryToEdit.color);
     }
+    if (potMoney && activePotModal) {
+      setValue("category", activePotModal.potName);
+      setValue("amount", activePotModal.amount);
+      setColor(activePotModal.color);
 
-    const filteredData = data?.filter(
-      (item) => item.category === categoryToEdit?.category
-    );
-    console.log(filteredData, "filteredData");
-  }, [isEdit, categoryToEdit, setValue]);
+      setCategory(activePotModal.potName);
+    }
+  }, [isEdit, categoryToEdit, potMoney, activePotModal, setValue]);
 
   if (!context) return null;
   const { accessToken } = context;
@@ -688,21 +696,67 @@ const Modal = ({
       let res;
 
       if (isPotPage) {
-        console.log(isPotPage, "isPotPage");
-        console.log(formData, "formData");
-        if (formData.amount <= 0) {
-          toast.error("Target amount should be greater than zero.");
-          return;
+        if (potMoney) {
+          if (formData.amount <= 0) {
+            toast.error("Target amount should be greater than zero.");
+            return;
+          }
+          const id = activePotModal?._id;
+          console.log(id, "id of activeModal");
+          newDataState = formData as PotType;
+          res = await axiosInstance.patch(`/pot/${id}`, formData, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          if (res.status === 200 || res.status === 204) {
+            if (getAllPots) getAllPots();
+            setIsModal(false);
+            if (setPotMoney) setPotMoney(false);
+            if (setActivePotModal) setActivePotModal(null);
+            reset();
+            toast.success("Pot added/updated successfully!");
+          }
+        } else {
+          if (formData.amount <= 0) {
+            toast.error("Target amount should be greater than zero.");
+            return;
+          }
+          newDataState = formData as PotType;
+          res = await axiosInstance.post("/pot", newDataState, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          if (res.status === 200 || res.status === 204) {
+            if (getAllPots) getAllPots();
+            reset();
+            toast.success("Pot added/updated successfully!");
+          }
         }
-        newDataState = formData as PotType;
-        res = await axiosInstance.post("/pot", newDataState, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        if (res.status === 200 || res.status === 204) {
-          if (getAllPots) getAllPots();
-          reset();
-          toast.success("Pot added/updated successfully!");
-        }
+
+        // if (isPotPage && !potMoney) {
+        //   console.log(isPotPage, "isPotPage");
+        //   console.log(formData, "formData");
+        //   if (formData.amount <= 0) {
+        //     toast.error("Target amount should be greater than zero.");
+        //     return;
+        //   }
+        //   newDataState = formData as PotType;
+        //   res = await axiosInstance.post("/pot", newDataState, {
+        //     headers: { Authorization: `Bearer ${accessToken}` },
+        //   });
+        //   if (res.status === 200 || res.status === 204) {
+        //     if (getAllPots) getAllPots();
+        //     reset();
+        //     toast.success("Pot added/updated successfully!");
+        //   }
+
+        //   if (isPotPage && potMoney) {
+        //     const { category, amount, color } = formData;
+        //     const newPotDataStat = {
+        //       category: activePotModal?.potName,
+        //       amount: activePotModal?.amount,
+        //       color: activePot?.color,
+        //     };
+        //     setActivePot(newPotDataStat);
+        //   }
       } else {
         newDataState = formData as NewDataStateType;
         newDataState = {
@@ -741,7 +795,7 @@ const Modal = ({
           if (setIsAddBudget) setIsAddBudget(false);
           if (isEdit) {
             setIsEdit(false);
-            setActiveModalItem(null);
+            if (setActiveModalItem) setActiveModalItem(null);
           }
         }
         if (getBudgets) getBudgets();
@@ -824,6 +878,7 @@ const Modal = ({
                       className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
                       placeholder="Pot Name"
                       {...register("category")}
+                      readOnly={potMoney}
                     />
                   </div>
                 ) : (
@@ -939,6 +994,7 @@ const Modal = ({
                   <button
                     onClick={toggleColorDropdown}
                     type="button"
+                    disabled={potMoney}
                     className="w-[16px] h-[16px] flex items-center justify-center"
                   >
                     <ArrowDown />
@@ -988,7 +1044,7 @@ const Modal = ({
                     </div>
                   )}
 
-                  {errors.color && (
+                  {errors.color && !potMoney && (
                     <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                       {errors.color.message}
                     </span>
