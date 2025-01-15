@@ -62,6 +62,7 @@ const PotsSection = () => {
           setIsEdit={setIsEdit}
           setActiveModalItem={setActiveModalItem}
           isPotPage={true}
+          getAllPots={getAllPots}
         />
       )}
 

@@ -37,6 +37,7 @@ export type ModalPropsType = {
 
   potsData?: PotsDataType[];
   isPotPage?: boolean;
+  getAllPots?: () => void;
 };
 
 
