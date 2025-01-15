@@ -1,32 +1,42 @@
 "use client";
 import { GlobalContext } from "@/app/context/Context";
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import PotItem from "./PotItem";
-import Modal from "../../__organism/modal/Modal";
+import Modal, { PotDataStateType } from "../../__organism/modal/Modal";
 import { ColorEnum } from "@/app/schema/schema";
 import { usePathname } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export type PotsDataType = {
-  id: string;
+  // id: string;
   potName: string;
   target: number;
   amount: number;
   color: ColorEnum;
+  _id: string;
+  setPotMoney: Dispatch<SetStateAction<boolean>>;
 };
 
 const PotsSection = () => {
   const context = useContext(GlobalContext);
-  const [isPot, setIsPot] = useState(false);
   const [potsData, setPotsData] = useState<PotsDataType[]>([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
   const { accessToken, isLoading } = useAccessToken();
   const path = usePathname();
   const isPotPage = path.includes("pots");
-  console.log(activeModalItem, "activeModalItem")
-
+  const [potMoney, setPotMoney] = useState(false);
+  const [activePotModal, setActivePotModal] = useState<PotDataStateType | null>(
+    null
+  );
 
   useEffect(() => {
     getAllPots();
@@ -52,17 +62,39 @@ const PotsSection = () => {
     return <div>Loading...</div>;
   }
 
+  const handleAddMoney = async (id: string) => {
+    setIsModal(true);
+    setPotMoney(true);
+
+    try {
+      const res = await axiosInstance.get(`/pot/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      setActivePotModal(res.data);
+    } catch (error) {
+      const errorMessage =
+        error instanceof AxiosError && error.response
+          ? error.response.data.message
+          : "An unexpected error occurred. Please try again.";
+
+      toast.error(errorMessage);
+    }
+  };
+
   return (
     <section className="w-full h-full min-h-screen">
-      {isModal && isPot && (
+      {isModal && isPotPage && (
         <Modal
           setIsModal={setIsModal}
           potsData={potsData}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-          setActiveModalItem={setActiveModalItem}
           isPotPage={true}
           getAllPots={getAllPots}
+          potMoney={potMoney}
+          setPotMoney={setPotMoney}
+          activePotModal={activePotModal}
+          setActivePotModal={setActivePotModal}
         />
       )}
 
@@ -74,7 +106,6 @@ const PotsSection = () => {
           <button
             onClick={() => {
               setIsModal(true);
-              setIsPot(true);
             }}
             className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap"
           >
@@ -92,6 +123,8 @@ const PotsSection = () => {
                 amount={pot.amount}
                 target={pot.target}
                 color={pot.color}
+                _id={pot._id}
+                handleAddMoney={handleAddMoney}
               />
             ))}
         </div>

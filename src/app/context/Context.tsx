@@ -6,6 +6,8 @@ export type GlobalContextType = {
   setAccessToken: Dispatch<SetStateAction<string>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   isModal: boolean;
+  // setPotMoney: Dispatch<SetStateAction<boolean>>;
+  // potMoney: boolean;
 };
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -13,6 +15,7 @@ export const GlobalContext = createContext<GlobalContextType | null>(null);
 const Context = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState("");
   const [isModal, setIsModal] = useState(false);
+
 
   // const path = useRouter()
   // console.log("Current Path:", path);
@@ -47,6 +50,8 @@ const Context = ({ children }: { children: React.ReactNode }) => {
         accessToken,
         setIsModal,
         isModal,
+        // setPotMoney,
+        // potMoney
       }}
     >
       <div>{children}</div>

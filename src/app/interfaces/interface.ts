@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
 import { GroupedCategory } from "../hooks/use-categoryGrope";
 import { PotsDataType } from "../components/__organism/pots/PotsSection";
+import { PotDataStateType } from "../components/__organism/modal/Modal";
 
 // export type ModalPropsType = {
 //   setIsModal: Dispatch<SetStateAction<boolean>>;
@@ -15,10 +16,8 @@ import { PotsDataType } from "../components/__organism/pots/PotsSection";
 //   categoryToEdit: GroupedCategory | null;
 //   setIsEdit: Dispatch<SetStateAction<boolean>>;
 //   setActiveModalItem:  Dispatch<SetStateAction<number | null>>
-  
+
 // };
-
-
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
@@ -31,18 +30,15 @@ export type ModalPropsType = {
   isEdit: boolean;
   categoryToEdit?: GroupedCategory | null;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
-  setActiveModalItem:  Dispatch<SetStateAction<number | null>>
-
-
-
+  setActiveModalItem?: Dispatch<SetStateAction<number | null>>;
   potsData?: PotsDataType[];
   isPotPage?: boolean;
   getAllPots?: () => void;
+  setPotMoney?: Dispatch<SetStateAction<boolean>>;
+  potMoney?: boolean;
+  activePotModal?: PotDataStateType | null;
+  setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
 };
-
-
-
-
 
 export type DataType = {
   category: CategoryEnum;
