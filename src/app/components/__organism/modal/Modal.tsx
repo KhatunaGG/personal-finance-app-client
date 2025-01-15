@@ -595,6 +595,7 @@ const Modal = ({
   setIsEdit,
   setActiveModalItem,
   isPotPage,
+  getAllPots,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -697,6 +698,11 @@ const Modal = ({
         res = await axiosInstance.post("/pot", newDataState, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
+        if (res.status === 200 || res.status === 204) {
+          if (getAllPots) getAllPots();
+          reset();
+          toast.success("Pot added/updated successfully!");
+        }
       } else {
         newDataState = formData as NewDataStateType;
         newDataState = {
