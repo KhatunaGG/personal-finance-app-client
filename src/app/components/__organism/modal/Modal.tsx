@@ -597,9 +597,9 @@ const Modal = ({
   setActiveModalItem,
   isPotPage,
   getAllPots,
-  setPotMoney,
+  // setPotMoney,
   potMoney,
-  setActivePotModal,
+  // setActivePotModal,
   activePotModal,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);

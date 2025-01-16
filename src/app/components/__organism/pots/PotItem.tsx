@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import { DotIcon } from "../../__atoms";
 import { ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
