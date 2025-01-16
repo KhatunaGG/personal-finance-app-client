@@ -610,7 +610,6 @@ const Modal = ({
   const { getColorHex, getLogo } = useBudgetUtils();
   const usedColors = groupedData?.map((item) => item.color);
 
-
   // const {
   //   register,
   //   handleSubmit,
@@ -668,7 +667,6 @@ const Modal = ({
     setIsColorDropDownOpen(false);
   };
 
-
   useEffect(() => {
     if (isEdit && categoryToEdit) {
       setValue("category", categoryToEdit.category);
@@ -679,7 +677,7 @@ const Modal = ({
     }
     if (potMoney && activePotModal) {
       setValue("category", activePotModal.potName);
-      setValue("amount", activePotModal.amount);
+      setValue("amount", 0);
       setColor(activePotModal.color);
 
       setCategory(activePotModal.potName);
@@ -689,15 +687,106 @@ const Modal = ({
   if (!context) return null;
   const { accessToken } = context;
 
+  // const onSubmit = async (formData: BudgetType | PotType) => {
+  //   let newDataState: BudgetType | PotType = formData;
 
+  //   try {
+  //     let res;
 
+  //     if (isPotPage) {
+  //       if (potMoney) {
+  //         if (formData.amount <= 0) {
+  //           toast.error("Target amount should be greater than zero.");
+  //           return;
+  //         }
+  //         const id = activePotModal?._id;
+  //         console.log(id, "id of activeModal");
+  //         console.log(formData, "formData");
+  //         // newDataState = formData as PotType;
+  //         res = await axiosInstance.patch(`/pot/${id}`, formData, {
+  //           headers: { Authorization: `Bearer ${accessToken}` },
+  //         });
+  //         if (res.status === 200 || res.status === 204 || res.status === 201) {
+  //           if (getAllPots) getAllPots();
+  //           setIsModal(false);
+  //           if (setPotMoney) setPotMoney(false);
+  //           if (setActivePotModal) setActivePotModal(null);
+  //           reset();
+  //           toast.success("Pot added/updated successfully!");
+  //         }
+  //       } else {
+  //         if (formData.amount <= 0) {
+  //           toast.error("Target amount should be greater than zero.");
+  //           return;
+  //         }
 
+  //         // newDataState = formData as PotType;
+  //         res = await axiosInstance.post("/pot", formData, {
+  //           headers: { Authorization: `Bearer ${accessToken}` },
+  //         });
+  //         if (res.status === 200 || res.status === 204 || res.status === 201) {
+  //           console.log(res.status, "res.status");
+  //           setIsModal(false);
+  //           reset();
+  //           if (getAllPots) getAllPots();
+  //           toast.success("Pot added/updated successfully!");
+  //         }
+  //       }
+  //     } else {
+  //       newDataState = formData as NewDataStateType;
+  //       newDataState = {
+  //         ...formData,
+  //         categoryLogo: getLogo(formData.category as CategoryEnum) || "",
+  //       };
 
+  //       if (!isEdit) {
+  //         const categoryData = groupedData?.find(
+  //           (group) => group.category === formData.category
+  //         );
+  //         const { amount } = formData;
 
+  //         if (!categoryData && amount <= 0) {
+  //           toast.error("Not enough amount available for the category.");
+  //           return;
+  //         }
+  //         res = await axiosInstance.post("/budgets", newDataState, {
+  //           headers: { Authorization: `Bearer ${accessToken}` },
+  //         });
+  //       } else {
+  //         const category = formData.category;
+  //         if (!category) {
+  //           throw new Error("Category is missing");
+  //         }
+  //         res = await axiosInstance.patch(
+  //           `/budgets/category/${category}`,
+  //           newDataState,
+  //           {
+  //             headers: { Authorization: `Bearer ${accessToken}` },
+  //           }
+  //         );
+  //       }
 
+  //       if (res.status === 200 || res.status === 204) {
+  //         if (setIsAddBudget) setIsAddBudget(false);
+  //         if (isEdit) {
+  //           setIsEdit(false);
+  //           if (setActiveModalItem) setActiveModalItem(null);
+  //         }
+  //       }
+  //       if (getBudgets) getBudgets();
+  //       reset();
+  //       toast.success("Budget added/updated successfully!");
+  //       setIsModal(false);
+  //     }
+  //   } catch (error) {
+  //     const errorMessage =
+  //       error instanceof AxiosError && error.response
+  //         ? error.response.data.message
+  //         : "An unexpected error occurred. Please try again.";
 
-
-
+  //     toast.error(errorMessage);
+  //   }
+  // };
 
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;
@@ -706,43 +795,42 @@ const Modal = ({
       let res;
 
       if (isPotPage) {
-        if (potMoney) {
-          if (formData.amount <= 0) {
-            toast.error("Target amount should be greater than zero.");
-            return;
-          }
-          const id = activePotModal?._id;
-          console.log(id, "id of activeModal");
-          // newDataState = formData as PotType;
-          res = await axiosInstance.patch(`/pot/${id}`, formData, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
-          if (res.status === 200 || res.status === 204) {
-            if (getAllPots) getAllPots();
-            setIsModal(false);
-            if (setPotMoney) setPotMoney(false);
-            if (setActivePotModal) setActivePotModal(null);
-            reset();
-            toast.success("Pot added/updated successfully!");
-          }
-        } else {
-          if (formData.amount <= 0) {
-            toast.error("Target amount should be greater than zero.");
-            return;
-          }
-          console.log(formData, "formData")
-          // newDataState = formData as PotType;
-          res = await axiosInstance.post("/pot", formData, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
-          if (res.status === 200 || res.status === 204 || res.status === 201) {
-            console.log(res.status, "res.status")
-            setIsModal(false);
-            reset();
-            if (getAllPots) getAllPots();
-            toast.success("Pot added/updated successfully!");
-          }
+        if (formData.amount <= 0) {
+          toast.error("Target amount should be greater than zero.");
+          return;
         }
+
+        // newDataState = formData as PotType;
+        res = await axiosInstance.post("/pot", formData, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        if (res.status === 200 || res.status === 204 || res.status === 201) {
+          console.log(res.status, "res.status");
+          setIsModal(false);
+          reset();
+          if (getAllPots) getAllPots();
+          toast.success("Pot added/updated successfully!");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
