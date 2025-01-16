@@ -689,6 +689,16 @@ const Modal = ({
   if (!context) return null;
   const { accessToken } = context;
 
+
+
+
+
+
+
+
+
+
+
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;
 
@@ -703,7 +713,7 @@ const Modal = ({
           }
           const id = activePotModal?._id;
           console.log(id, "id of activeModal");
-          newDataState = formData as PotType;
+          // newDataState = formData as PotType;
           res = await axiosInstance.patch(`/pot/${id}`, formData, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
@@ -720,43 +730,28 @@ const Modal = ({
             toast.error("Target amount should be greater than zero.");
             return;
           }
-          newDataState = formData as PotType;
-          res = await axiosInstance.post("/pot", newDataState, {
+          console.log(formData, "formData")
+          // newDataState = formData as PotType;
+          res = await axiosInstance.post("/pot", formData, {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
-          if (res.status === 200 || res.status === 204) {
-            if (getAllPots) getAllPots();
+          if (res.status === 200 || res.status === 204 || res.status === 201) {
+            console.log(res.status, "res.status")
+            setIsModal(false);
             reset();
+            if (getAllPots) getAllPots();
             toast.success("Pot added/updated successfully!");
           }
         }
 
-        // if (isPotPage && !potMoney) {
-        //   console.log(isPotPage, "isPotPage");
-        //   console.log(formData, "formData");
-        //   if (formData.amount <= 0) {
-        //     toast.error("Target amount should be greater than zero.");
-        //     return;
-        //   }
-        //   newDataState = formData as PotType;
-        //   res = await axiosInstance.post("/pot", newDataState, {
-        //     headers: { Authorization: `Bearer ${accessToken}` },
-        //   });
-        //   if (res.status === 200 || res.status === 204) {
-        //     if (getAllPots) getAllPots();
-        //     reset();
-        //     toast.success("Pot added/updated successfully!");
-        //   }
 
-        //   if (isPotPage && potMoney) {
-        //     const { category, amount, color } = formData;
-        //     const newPotDataStat = {
-        //       category: activePotModal?.potName,
-        //       amount: activePotModal?.amount,
-        //       color: activePot?.color,
-        //     };
-        //     setActivePot(newPotDataStat);
-        //   }
+
+
+
+
+
+
+
       } else {
         newDataState = formData as NewDataStateType;
         newDataState = {

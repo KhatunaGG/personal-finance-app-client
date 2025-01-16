@@ -1,16 +1,19 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { DotIcon } from "../../__atoms";
 import { ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
+import { PotsDataType } from "./PotsSection";
 
 type PotItemPropsType = {
   isPotPage: boolean;
   potName: string;
   amount: number;
-  target: number;
+  // target: number;
   color: ColorEnum;
   _id: string;
   handleAddMoney: (id: string) => void;
+  potsData: PotsDataType[];
 };
 
 const PotItem = ({
@@ -18,11 +21,41 @@ const PotItem = ({
   potName,
   color,
   amount,
-  target,
+  // target,
   _id,
-  handleAddMoney
+  handleAddMoney,
+  potsData,
 }: PotItemPropsType) => {
-  console.log(amount, "amount");
+  const [totalPotIncome, setTotalPotIncome] = useState<number>(0);
+  const [totalPotSpending, setTotalPotSpending] = useState<number>(0)
+
+  console.log(amount, totalPotSpending)
+
+  useEffect(() => {
+    const potTargetTotalAmount = potsData
+      .filter((item) => item._id === _id)
+      .reduce((acc, entry) => {
+        if (entry.amount > 0) {
+          return acc + entry.amount;
+        }
+        return acc; 
+      }, 0);
+
+      setTotalPotIncome(potTargetTotalAmount);
+
+    const PortSpendingTotalAmount = potsData
+    .filter(item => item._id === _id)
+    .reduce((acc, entry) => {
+      if(entry.amount < 0) {
+        return acc + entry.amount
+      }
+      return acc
+    }, 0)
+    setTotalPotSpending(PortSpendingTotalAmount)
+  }, [potsData, potName]);
+
+
+
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
       <div className="flex items-center justify-between">
@@ -42,9 +75,7 @@ const PotItem = ({
       <div className="flex-flex-col py-[10.5px]">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm text-[#696868] font-normal">Total Saved</h2>
-          <p className="text-[#201F24] font-bold text-[32px]">
-            $ {target.toFixed(2)}
-          </p>
+          <p className="text-[#201F24] font-bold text-[32px]">$ {totalPotIncome.toFixed(2)}</p>
         </div>
 
         <div className="mb-[13px] overflow-hidden">
@@ -58,14 +89,15 @@ const PotItem = ({
         </div>
         <div className="flex items-center justify-between text-[#696868]  text-xs">
           <h2 className="font-bold ">$ 7.95</h2>
-          <p className="font-normal">Target of ${target.toFixed(2)}</p>
+          <p className="font-normal">Target of ${totalPotIncome.toFixed(2)}</p>
         </div>
       </div>
 
       <div className="w-full flex items-center lg:flex-row lg:gap-x-4">
         <button
-        onClick={() => handleAddMoney(_id)}
-        className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
+          onClick={() => handleAddMoney(_id)}
+          className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]"
+        >
           + Add Money
         </button>
         <button className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">

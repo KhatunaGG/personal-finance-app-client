@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 export type PotsDataType = {
   // id: string;
   potName: string;
-  target: number;
+  // target: number;
   amount: number;
   color: ColorEnum;
   _id: string;
@@ -37,6 +37,8 @@ const PotsSection = () => {
   const [activePotModal, setActivePotModal] = useState<PotDataStateType | null>(
     null
   );
+
+  console.log(potsData, "potsData")
 
   useEffect(() => {
     getAllPots();
@@ -121,10 +123,11 @@ const PotsSection = () => {
                 isPotPage={isPotPage}
                 potName={pot.potName}
                 amount={pot.amount}
-                target={pot.target}
+                // target={pot.target}
                 color={pot.color}
                 _id={pot._id}
                 handleAddMoney={handleAddMoney}
+                potsData={potsData}
               />
             ))}
         </div>
