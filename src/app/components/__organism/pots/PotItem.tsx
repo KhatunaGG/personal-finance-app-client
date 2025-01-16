@@ -28,8 +28,10 @@ const PotItem = ({
 }: PotItemPropsType) => {
   const [totalPotIncome, setTotalPotIncome] = useState<number>(0);
   const [totalPotSpending, setTotalPotSpending] = useState<number>(0)
-  useEffect(() => {
 
+  console.log(amount, totalPotSpending)
+
+  useEffect(() => {
     const potTargetTotalAmount = potsData
       .filter((item) => item._id === _id)
       .reduce((acc, entry) => {
@@ -49,11 +51,10 @@ const PotItem = ({
       }
       return acc
     }, 0)
-
     setTotalPotSpending(PortSpendingTotalAmount)
+  }, [potsData, potName]);
 
 
-  }, []);
 
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
