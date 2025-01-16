@@ -1,5 +1,4 @@
-"use client"
-import React, { useEffect, useState } from "react";
+"use client";
 import { DotIcon } from "../../__atoms";
 import { ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
@@ -14,6 +13,10 @@ type PotItemPropsType = {
   _id: string;
   handleAddMoney: (id: string) => void;
   potsData: PotsDataType[];
+
+  totalSaved: number;
+  percentageSpent: number;
+  potTargetTotalAmount: number;
 };
 
 const PotItem = ({
@@ -24,37 +27,12 @@ const PotItem = ({
   // target,
   _id,
   handleAddMoney,
-  potsData,
+  // potsData,
+  totalSaved,
+  percentageSpent,
+  potTargetTotalAmount,
 }: PotItemPropsType) => {
-  const [totalPotIncome, setTotalPotIncome] = useState<number>(0);
-  const [totalPotSpending, setTotalPotSpending] = useState<number>(0)
-
-  console.log(amount, totalPotSpending)
-
-  useEffect(() => {
-    const potTargetTotalAmount = potsData
-      .filter((item) => item._id === _id)
-      .reduce((acc, entry) => {
-        if (entry.amount > 0) {
-          return acc + entry.amount;
-        }
-        return acc; 
-      }, 0);
-
-      setTotalPotIncome(potTargetTotalAmount);
-
-    const PortSpendingTotalAmount = potsData
-    .filter(item => item._id === _id)
-    .reduce((acc, entry) => {
-      if(entry.amount < 0) {
-        return acc + entry.amount
-      }
-      return acc
-    }, 0)
-    setTotalPotSpending(PortSpendingTotalAmount)
-  }, [potsData, potName]);
-
-
+  console.log(amount);
 
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
@@ -75,7 +53,9 @@ const PotItem = ({
       <div className="flex-flex-col py-[10.5px]">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm text-[#696868] font-normal">Total Saved</h2>
-          <p className="text-[#201F24] font-bold text-[32px]">$ {totalPotIncome.toFixed(2)}</p>
+          <p className="text-[#201F24] font-bold text-[32px]">
+            $ {totalSaved.toFixed(2)}
+          </p>
         </div>
 
         <div className="mb-[13px] overflow-hidden">
@@ -88,8 +68,10 @@ const PotItem = ({
           />
         </div>
         <div className="flex items-center justify-between text-[#696868]  text-xs">
-          <h2 className="font-bold ">$ 7.95</h2>
-          <p className="font-normal">Target of ${totalPotIncome.toFixed(2)}</p>
+          <h2 className="font-bold ">$ {percentageSpent.toFixed(2)}</h2>
+          <p className="font-normal">
+            Target of ${potTargetTotalAmount.toFixed(2)}
+          </p>
         </div>
       </div>
 

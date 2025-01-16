@@ -15,6 +15,7 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import useGroupedPots from "@/app/hooks/use-potGroup";
 
 export type PotsDataType = {
   // id: string;
@@ -37,8 +38,7 @@ const PotsSection = () => {
   const [activePotModal, setActivePotModal] = useState<PotDataStateType | null>(
     null
   );
-
-  console.log(potsData, "potsData")
+  const groupedPots = useGroupedPots(potsData);
 
   useEffect(() => {
     getAllPots();
@@ -56,6 +56,7 @@ const PotsSection = () => {
       console.log(error);
     }
   };
+
 
   if (!context) return null;
   const { isModal, setIsModal } = context;
@@ -116,8 +117,8 @@ const PotsSection = () => {
         </div>
 
         <div className="w-full flex flex-col gap-y-6  lg:flex-row lg:justify-between  lg:flex-wrap">
-          {potsData.length > 0 &&
-            potsData.map((pot, i) => (
+          {groupedPots.length > 0 &&
+            groupedPots.map((pot, i) => (
               <PotItem
                 key={i}
                 isPotPage={isPotPage}
@@ -128,6 +129,9 @@ const PotsSection = () => {
                 _id={pot._id}
                 handleAddMoney={handleAddMoney}
                 potsData={potsData}
+                totalSaved={pot.totalSaved}
+                percentageSpent={pot.percentageSpent}
+                potTargetTotalAmount={pot.potTargetTotalAmount}
               />
             ))}
         </div>
