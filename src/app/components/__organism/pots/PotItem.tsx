@@ -3,20 +3,21 @@ import { DotIcon } from "../../__atoms";
 import { ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
 import { PotsDataType } from "./PotsSection";
+import { Dispatch, SetStateAction } from "react";
 
 type PotItemPropsType = {
   isPotPage: boolean;
   potName: string;
   amount: number;
-  // target: number;
   color: ColorEnum;
   _id: string;
-  handleAddMoney: (id: string) => void;
+  handleClickPots: (id: string) => void;
   potsData: PotsDataType[];
-
   totalSaved: number;
   percentageSpent: number;
   potTargetTotalAmount: number;
+  setPotMoney: Dispatch<SetStateAction<boolean>>;
+  setWithdrawMoney:  Dispatch<SetStateAction<boolean>>;
 };
 
 const PotItem = ({
@@ -24,13 +25,13 @@ const PotItem = ({
   potName,
   color,
   amount,
-  // target,
   _id,
-  handleAddMoney,
-  // potsData,
   totalSaved,
   percentageSpent,
   potTargetTotalAmount,
+  handleClickPots,
+  setPotMoney,
+  setWithdrawMoney
 }: PotItemPropsType) => {
   console.log(amount);
 
@@ -42,7 +43,7 @@ const PotItem = ({
             style={{ backgroundColor: color }}
             className="w-4 h-4 rounded-full"
           ></div>
-          <h2 className="text-[20px] font-bold text-[#201F24]">{potName}</h2>
+          <h2 className="text-[20px] font-bold text-[#201F24] capitalize">{potName}</h2>
         </div>
 
         <div className="relative cursor-pointer">
@@ -68,21 +69,31 @@ const PotItem = ({
           />
         </div>
         <div className="flex items-center justify-between text-[#696868]  text-xs">
-          <h2 className="font-bold ">$ {percentageSpent.toFixed(2)}</h2>
+          <h2 className="font-bold ">{percentageSpent.toFixed(2)}%</h2>
           <p className="font-normal">
             Target of ${potTargetTotalAmount.toFixed(2)}
           </p>
         </div>
       </div>
 
-      <div className="w-full flex items-center lg:flex-row lg:gap-x-4">
+      <div className="w-full flex items-center gap-x-4 lg:flex-row">
         <button
-          onClick={() => handleAddMoney(_id)}
+          onClick={() => {
+            handleClickPots(_id)
+            setPotMoney(true); 
+            setWithdrawMoney(false);
+          }}
           className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]"
         >
           + Add Money
         </button>
-        <button className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
+        <button
+        onClick={() => {
+          handleClickPots(_id)
+          setWithdrawMoney(true)
+          setPotMoney(false)
+        }}
+        className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
           Withdraw
         </button>
       </div>

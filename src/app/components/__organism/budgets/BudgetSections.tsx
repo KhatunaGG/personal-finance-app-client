@@ -12,7 +12,6 @@ import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
 
-
 const BudgetSections = () => {
   const [data, setData] = useState<DataType[]>([]);
   const router = useRouter();
@@ -21,22 +20,19 @@ const BudgetSections = () => {
   const [isAddBudget, setIsAddBudget] = useState(false);
   const groupedData = useGroupedData(data);
   const context = useContext(GlobalContext);
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
-  const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(null);
+  const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(
+    null
+  );
 
-
-
-useEffect(() => {
-  if (activeModalItem !== null) {
-    setCategoryToEdit(groupedData[activeModalItem]);
-  } else {
-    setCategoryToEdit(null);
-  }
-}, [activeModalItem, groupedData]);
-
-
-
+  useEffect(() => {
+    if (activeModalItem !== null) {
+      setCategoryToEdit(groupedData[activeModalItem]);
+    } else {
+      setCategoryToEdit(null);
+    }
+  }, [activeModalItem, groupedData]);
 
   const getBudgets = async () => {
     try {
@@ -70,14 +66,11 @@ useEffect(() => {
     return <div>Loading...</div>;
   }
 
-
-
   return (
     <section className="w-full h-full min-h-screen ">
       {isModal && (
         <Modal
           setIsModal={setIsModal}
-          data={data}
           getBudgets={getBudgets}
           setIsAddBudget={setIsAddBudget}
           isAddBudget={isAddBudget}

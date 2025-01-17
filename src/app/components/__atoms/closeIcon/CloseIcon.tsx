@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
+import { PotDataStateType } from "../../__organism/modal/Modal";
 
 export type CloseIconPropsType = {
   setIsModal?: Dispatch<SetStateAction<boolean>>;
@@ -6,6 +7,9 @@ export type CloseIconPropsType = {
   setIsDelete?: Dispatch<SetStateAction<boolean>>;
   setIsEdit?: Dispatch<SetStateAction<boolean>>;
   setActiveModalItem?: Dispatch<SetStateAction<number | null>>;
+  setPotMoney?: Dispatch<SetStateAction<boolean>>;
+  setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
+  setWithdrawMoney?: Dispatch<SetStateAction<boolean>>;
 };
 
 const CloseIcon = ({
@@ -14,6 +18,10 @@ const CloseIcon = ({
   setIsDelete,
   setActiveModalItem,
   setIsEdit,
+  setPotMoney,
+  setActivePotModal,
+  setWithdrawMoney,
+  
 }: CloseIconPropsType) => {
   return (
     <svg
@@ -21,9 +29,13 @@ const CloseIcon = ({
         setIsModal?.(false);
         setIsAddBudget?.(false);
         setIsDelete?.(false);
-
-        if (setActiveModalItem) setActiveModalItem(null);
-        if (setIsEdit) setIsEdit(false);
+        setActiveModalItem?.(null)
+        setIsEdit?.(false)
+        setPotMoney?.(false)
+        setActivePotModal?.(null)
+        setWithdrawMoney?.(false)
+        // if (setActiveModalItem) setActiveModalItem(null);
+        // if (setIsEdit) setIsEdit(false);
       }}
       width="26"
       height="26"
