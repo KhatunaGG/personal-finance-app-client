@@ -590,16 +590,12 @@ const Modal = ({
   getBudgets,
   setIsAddBudget,
   groupedData,
-  // data,
   isEdit,
   categoryToEdit,
   setIsEdit,
   setActiveModalItem,
   isPotPage,
   getAllPots,
-  // setPotMoney,
-  potMoney,
-  // setActivePotModal,
   activePotModal,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
@@ -609,17 +605,6 @@ const Modal = ({
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
   const usedColors = groupedData?.map((item) => item.color);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   setValue,
-  //   formState: { errors },
-  //   reset,
-  // } = useForm<BudgetType>({
-  //   resolver: yupResolver(schema),
-  // });
-
   const schemaToUse = isPotPage ? potSchema : schema;
 
   const {
@@ -675,122 +660,20 @@ const Modal = ({
       setCategory(categoryToEdit.category);
       setColor(categoryToEdit.color);
     }
-    if (potMoney && activePotModal) {
+    if (activePotModal) {
       setValue("category", activePotModal.potName);
       setValue("amount", 0);
       setColor(activePotModal.color);
 
       setCategory(activePotModal.potName);
     }
-  }, [isEdit, categoryToEdit, potMoney, activePotModal, setValue]);
+  }, [isEdit, categoryToEdit, activePotModal, setValue]);
 
   if (!context) return null;
   const { accessToken } = context;
 
-  // const onSubmit = async (formData: BudgetType | PotType) => {
-  //   let newDataState: BudgetType | PotType = formData;
-
-  //   try {
-  //     let res;
-
-  //     if (isPotPage) {
-  //       if (potMoney) {
-  //         if (formData.amount <= 0) {
-  //           toast.error("Target amount should be greater than zero.");
-  //           return;
-  //         }
-  //         const id = activePotModal?._id;
-  //         console.log(id, "id of activeModal");
-  //         console.log(formData, "formData");
-  //         // newDataState = formData as PotType;
-  //         res = await axiosInstance.patch(`/pot/${id}`, formData, {
-  //           headers: { Authorization: `Bearer ${accessToken}` },
-  //         });
-  //         if (res.status === 200 || res.status === 204 || res.status === 201) {
-  //           if (getAllPots) getAllPots();
-  //           setIsModal(false);
-  //           if (setPotMoney) setPotMoney(false);
-  //           if (setActivePotModal) setActivePotModal(null);
-  //           reset();
-  //           toast.success("Pot added/updated successfully!");
-  //         }
-  //       } else {
-  //         if (formData.amount <= 0) {
-  //           toast.error("Target amount should be greater than zero.");
-  //           return;
-  //         }
-
-  //         // newDataState = formData as PotType;
-  //         res = await axiosInstance.post("/pot", formData, {
-  //           headers: { Authorization: `Bearer ${accessToken}` },
-  //         });
-  //         if (res.status === 200 || res.status === 204 || res.status === 201) {
-  //           console.log(res.status, "res.status");
-  //           setIsModal(false);
-  //           reset();
-  //           if (getAllPots) getAllPots();
-  //           toast.success("Pot added/updated successfully!");
-  //         }
-  //       }
-  //     } else {
-  //       newDataState = formData as NewDataStateType;
-  //       newDataState = {
-  //         ...formData,
-  //         categoryLogo: getLogo(formData.category as CategoryEnum) || "",
-  //       };
-
-  //       if (!isEdit) {
-  //         const categoryData = groupedData?.find(
-  //           (group) => group.category === formData.category
-  //         );
-  //         const { amount } = formData;
-
-  //         if (!categoryData && amount <= 0) {
-  //           toast.error("Not enough amount available for the category.");
-  //           return;
-  //         }
-  //         res = await axiosInstance.post("/budgets", newDataState, {
-  //           headers: { Authorization: `Bearer ${accessToken}` },
-  //         });
-  //       } else {
-  //         const category = formData.category;
-  //         if (!category) {
-  //           throw new Error("Category is missing");
-  //         }
-  //         res = await axiosInstance.patch(
-  //           `/budgets/category/${category}`,
-  //           newDataState,
-  //           {
-  //             headers: { Authorization: `Bearer ${accessToken}` },
-  //           }
-  //         );
-  //       }
-
-  //       if (res.status === 200 || res.status === 204) {
-  //         if (setIsAddBudget) setIsAddBudget(false);
-  //         if (isEdit) {
-  //           setIsEdit(false);
-  //           if (setActiveModalItem) setActiveModalItem(null);
-  //         }
-  //       }
-  //       if (getBudgets) getBudgets();
-  //       reset();
-  //       toast.success("Budget added/updated successfully!");
-  //       setIsModal(false);
-  //     }
-  //   } catch (error) {
-  //     const errorMessage =
-  //       error instanceof AxiosError && error.response
-  //         ? error.response.data.message
-  //         : "An unexpected error occurred. Please try again.";
-
-  //     toast.error(errorMessage);
-  //   }
-  // };
-
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;
-
     try {
       let res;
 
@@ -799,47 +682,16 @@ const Modal = ({
           toast.error("Target amount should be greater than zero.");
           return;
         }
-
-        // newDataState = formData as PotType;
+        newDataState = formData as PotType;
         res = await axiosInstance.post("/pot", formData, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         if (res.status === 200 || res.status === 204 || res.status === 201) {
-          console.log(res.status, "res.status");
           setIsModal(false);
           reset();
           if (getAllPots) getAllPots();
-          toast.success("Pot added/updated successfully!");
+          toast.success("Pot added successfully!");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       } else {
         newDataState = formData as NewDataStateType;
         newDataState = {
@@ -873,7 +725,6 @@ const Modal = ({
             }
           );
         }
-
         if (res.status === 200 || res.status === 204) {
           if (setIsAddBudget) setIsAddBudget(false);
           if (isEdit) {
@@ -891,20 +742,15 @@ const Modal = ({
         error instanceof AxiosError && error.response
           ? error.response.data.message
           : "An unexpected error occurred. Please try again.";
-
       toast.error(errorMessage);
     }
   };
 
   return (
-    <section className="absolute inset-0 bg-black/50 w-full h-full z-20 ">
+    <section className="absolute inset-0 bg-black/50 w-full h-full z-20">
       <div className="w-full h-screen flex items-center justify-center">
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]">
           <div className="TITLE w-full flex items-center justify-between">
-            {/* <h1 className="text-[#201F24] text-[32px] font-bold">
-              {isEdit ? "Edit Budget" : "Add New Budget"}
-            </h1> */}
-
             <h1 className="text-[#201F24] text-[32px] font-bold">
               {isEdit
                 ? isPotPage
@@ -924,11 +770,7 @@ const Modal = ({
           </div>
 
           <div className="TEXT  ">
-            <p className="text-[#696868] text-2xl md:text-[14px] leading-[21px] font-normal">
-              {/* {isEdit
-                ? "As your budgets change, feel free to update your spending limits."
-                : "Choose a category to set a spending budget. These categories can"} */}
-
+            <p className="text-[#696868] text-[14px] leading-[21px] font-normal">
               {isEdit
                 ? isPotPage
                   ? "If your saving targets change, feel free to update your pots."
@@ -951,7 +793,6 @@ const Modal = ({
                 >
                   {" "}
                   {isPotPage ? "Pot Name" : " Budget Category"}
-                  {/* Budget Category */}
                 </label>
 
                 {isPotPage ? (
@@ -961,7 +802,7 @@ const Modal = ({
                       className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
                       placeholder="Pot Name"
                       {...register("category")}
-                      readOnly={potMoney}
+                      readOnly={isEdit}
                     />
                   </div>
                 ) : (
@@ -972,7 +813,6 @@ const Modal = ({
                       placeholder="Category"
                       {...register("category")}
                       value={category}
-                      // value={isEdit ? categoryToEdit?.category : category}
                       readOnly
                     />
                     <button
@@ -984,10 +824,7 @@ const Modal = ({
                     </button>
 
                     {isCategoryDropDownOpen && (
-                      <div
-                        // ref={categoryRef}
-                        className="CATEGORYOPTIONS  w-full absolute left-0 right-0 top-[80px] rounded-lg z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.3)] px-[20px] bg-white flex flex-col max-h-[200px] overflow-y-scroll"
-                      >
+                      <div className="CATEGORYOPTIONS  w-full absolute left-0 right-0 top-[80px] rounded-lg z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.3)] px-[20px] bg-white flex flex-col max-h-[200px] overflow-y-scroll">
                         {Object.values(CategoryEnum).map((categoryItem, i) => (
                           <div
                             key={i}
@@ -1077,7 +914,7 @@ const Modal = ({
                   <button
                     onClick={toggleColorDropdown}
                     type="button"
-                    disabled={potMoney}
+                    // disabled={potMoney}
                     className="w-[16px] h-[16px] flex items-center justify-center"
                   >
                     <ArrowDown />
@@ -1112,7 +949,6 @@ const Modal = ({
                               {colorItem}
                             </p>
                           </div>
-                          {/* <p className="text-[#696868] text-xs font-normal  hidden"> */}
                           <p
                             className={`text-[#696868] text-xs font-normal ${
                               usedColors?.includes(colorItem)
@@ -1127,7 +963,7 @@ const Modal = ({
                     </div>
                   )}
 
-                  {errors.color && !potMoney && (
+                  {errors.color && (
                     <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                       {errors.color.message}
                     </span>

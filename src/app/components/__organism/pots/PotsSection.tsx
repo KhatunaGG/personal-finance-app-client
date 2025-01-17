@@ -16,11 +16,10 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import useGroupedPots from "@/app/hooks/use-potGroup";
+import PotModal from "./PotModal";
 
 export type PotsDataType = {
-  // id: string;
   potName: string;
-  // target: number;
   amount: number;
   color: ColorEnum;
   _id: string;
@@ -35,6 +34,7 @@ const PotsSection = () => {
   const path = usePathname();
   const isPotPage = path.includes("pots");
   const [potMoney, setPotMoney] = useState(false);
+  const [withdrawMoney, setWithdrawMoney] = useState(false);
   const [activePotModal, setActivePotModal] = useState<PotDataStateType | null>(
     null
   );
@@ -42,7 +42,7 @@ const PotsSection = () => {
 
   useEffect(() => {
     getAllPots();
-  }, []);
+  }, [potMoney, withdrawMoney]);
 
   const getAllPots = async () => {
     try {
@@ -57,7 +57,6 @@ const PotsSection = () => {
     }
   };
 
-
   if (!context) return null;
   const { isModal, setIsModal } = context;
 
@@ -65,27 +64,39 @@ const PotsSection = () => {
     return <div>Loading...</div>;
   }
 
-  const handleAddMoney = async (id: string) => {
-    setIsModal(true);
-    setPotMoney(true);
-
+  const handleClickPots = async (id: string) => {
     try {
-      const res = await axiosInstance.get(`/pot/${id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      setActivePotModal(res.data);
+      try {
+        const res = await axiosInstance.get(`/pot/${id}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        setActivePotModal(res.data);
+      } catch (error) {
+        const errorMessage =
+          error instanceof AxiosError && error.response
+            ? error.response.data.message
+            : "An unexpected error occurred. Please try again.";
+        toast.error(errorMessage);
+      }
     } catch (error) {
-      const errorMessage =
-        error instanceof AxiosError && error.response
-          ? error.response.data.message
-          : "An unexpected error occurred. Please try again.";
-
-      toast.error(errorMessage);
+      console.log(error);
     }
   };
 
   return (
     <section className="w-full h-full min-h-screen">
+      {(withdrawMoney || potMoney) && (
+        <PotModal
+          potMoney={potMoney}
+          withdrawMoney={withdrawMoney}
+          setWithdrawMoney={setWithdrawMoney}
+          setPotMoney={setPotMoney}
+          activePotModal={activePotModal}
+          setActivePotModal={setActivePotModal}
+          potsData={potsData}
+        />
+      )}
+
       {isModal && isPotPage && (
         <Modal
           setIsModal={setIsModal}
@@ -94,8 +105,6 @@ const PotsSection = () => {
           setIsEdit={setIsEdit}
           isPotPage={true}
           getAllPots={getAllPots}
-          potMoney={potMoney}
-          setPotMoney={setPotMoney}
           activePotModal={activePotModal}
           setActivePotModal={setActivePotModal}
         />
@@ -124,14 +133,15 @@ const PotsSection = () => {
                 isPotPage={isPotPage}
                 potName={pot.potName}
                 amount={pot.amount}
-                // target={pot.target}
                 color={pot.color}
                 _id={pot._id}
-                handleAddMoney={handleAddMoney}
                 potsData={potsData}
                 totalSaved={pot.totalSaved}
                 percentageSpent={pot.percentageSpent}
                 potTargetTotalAmount={pot.potTargetTotalAmount}
+                handleClickPots={handleClickPots}
+                setPotMoney={setPotMoney}
+                setWithdrawMoney={setWithdrawMoney}
               />
             ))}
         </div>

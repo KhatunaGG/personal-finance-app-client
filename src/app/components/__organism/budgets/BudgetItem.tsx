@@ -11,7 +11,6 @@ import DeleteModal from "../deleteModal/DeleteModal";
 export type BudgetItemPropsType = {
   category: string;
   groupSpending: number;
-  // logo: string;
   color: string;
   groupTotalAmount: number;
   data: DataType[];
@@ -25,7 +24,6 @@ export type BudgetItemPropsType = {
 
 const BudgetItem = ({
   category,
-  // logo,
   groupSpending,
   color,
   groupTotalAmount,
@@ -89,7 +87,6 @@ const BudgetItem = ({
 
         <div className="flex items-center justify-start">
           <div className="flex flex-row gap-4 w-1/2">
-            {/* <div className="w-[5px] bg-[#277C78] h-full min-h-[43px] rounded-sm"></div> */}
             <div
               className="w-[5px] h-full min-h-[43px] rounded-sm"
               style={{ backgroundColor: color }}
@@ -152,33 +149,11 @@ const BudgetItem = ({
               );
             }
           })}
-
-          {/* <div className="w-full grid grid-cols-[70%_30%] md:grid-cols-2   py-[20px]  border-b-[1px] border-b-[#dedada]">
-            <div className="flex flex-row items-center gap-4">
-              <div className="relative w-8 h-8 md:w-[40px] md:h-[40px] rounded-full overflow-hidden object-cover">
-                <Image
-                  className="absolute inset-0 w-full h-full object-cover"
-                  src={logo}
-                  fill
-                  alt={""}
-                />
-              </div>
-              <p className="text-[14px] font-bold">Emma Richardson</p>
-            </div>
-
-            <div className="flex flex-col gap-y-2 text-right">
-              <p className="text-[14px] font-bold">+$75.50</p>
-              <p className="text-[12px] text-[#696868] font-normal">
-                19 Aug 2024
-              </p>
-            </div>
-          </div> */}
         </div>
       </section>
       {isDelete && (
         <DeleteModal
           setIsDelete={setIsDelete}
-          // setIsModal={setIsModalItem}
           category={category}
           getBudgets={getBudgets}
         />

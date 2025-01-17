@@ -1,39 +1,3 @@
-// import { useMemo } from "react";
-// import { PotsDataType } from "../components/__organism/pots/PotsSection";
-
-// const useGroupedPots = (potsData: PotsDataType[]) => {
-//   const groupedPots = useMemo(() => {
-//     const grouped: Record<string, PotsDataType[]> = {};
-
-//     // Group pots by `potName`
-//     potsData.forEach((pot) => {
-//       if (!grouped[pot.potName]) {
-//         grouped[pot.potName] = [];
-//       }
-//       grouped[pot.potName].push(pot);
-//     });
-
-//     // Merge pots with the same `potName`
-//     const mergedPots = Object.keys(grouped).map((potName) => {
-//       const pots = grouped[potName];
-//       const totalAmount = pots.reduce((acc, pot) => acc + pot.amount, 0);
-
-//       return {
-//         potName,
-//         amount: totalAmount,
-//         color: pots[0].color, // Assuming all pots with the same name have the same color
-//         _id: pots[0]._id, // Can be the ID of any pot in the group, just need a unique one
-//       };
-//     });
-
-//     return mergedPots;
-//   }, [potsData]);
-
-//   return groupedPots;
-// };
-
-// export default useGroupedPots;
-
 import { useMemo } from "react";
 import { PotsDataType } from "../components/__organism/pots/PotsSection";
 
