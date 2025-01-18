@@ -10,6 +10,7 @@ export type CloseIconPropsType = {
   setPotMoney?: Dispatch<SetStateAction<boolean>>;
   setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
   setWithdrawMoney?: Dispatch<SetStateAction<boolean>>;
+  setInput?: Dispatch<SetStateAction<string>>;
 };
 
 const CloseIcon = ({
@@ -21,7 +22,7 @@ const CloseIcon = ({
   setPotMoney,
   setActivePotModal,
   setWithdrawMoney,
-  
+  setInput,
 }: CloseIconPropsType) => {
   return (
     <svg
@@ -29,11 +30,12 @@ const CloseIcon = ({
         setIsModal?.(false);
         setIsAddBudget?.(false);
         setIsDelete?.(false);
-        setActiveModalItem?.(null)
-        setIsEdit?.(false)
-        setPotMoney?.(false)
-        setActivePotModal?.(null)
-        setWithdrawMoney?.(false)
+        setActiveModalItem?.(null);
+        setIsEdit?.(false);
+        setPotMoney?.(false);
+        setActivePotModal?.(null);
+        setWithdrawMoney?.(false);
+        setInput?.("");
         // if (setActiveModalItem) setActiveModalItem(null);
         // if (setIsEdit) setIsEdit(false);
       }}

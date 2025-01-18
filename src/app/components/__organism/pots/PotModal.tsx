@@ -134,6 +134,7 @@ const PotModal = ({
             setPotMoney={setPotMoney}
             setWithdrawMoney={setWithdrawMoney}
             setActivePotModal={setActivePotModal}
+            setInput={setInput}
           />
         </div>
 

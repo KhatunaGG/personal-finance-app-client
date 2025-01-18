@@ -142,6 +142,8 @@ const PotsSection = () => {
                 handleClickPots={handleClickPots}
                 setPotMoney={setPotMoney}
                 setWithdrawMoney={setWithdrawMoney}
+
+                portSpendingTotalAmount={pot.portSpendingTotalAmount}
               />
             ))}
         </div>
