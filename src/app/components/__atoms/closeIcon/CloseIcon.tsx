@@ -10,7 +10,7 @@ export type CloseIconPropsType = {
   setPotMoney?: Dispatch<SetStateAction<boolean>>;
   setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
   setWithdrawMoney?: Dispatch<SetStateAction<boolean>>;
-  setInput: Dispatch<SetStateAction<string>>;
+  setInput?: Dispatch<SetStateAction<string>>;
 };
 
 const CloseIcon = ({
