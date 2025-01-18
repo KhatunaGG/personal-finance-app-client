@@ -53,227 +53,6 @@
 
 // export default ProgressBar;
 
-// import LinearProgress from "@mui/material/LinearProgress";
-// import Box from "@mui/material/Box";
-// import { FilteredGropedDataType } from "../../__organism/pots/PotModal";
-
-// // export type ProgressBarPropsType = {
-// //   category: string;
-// //   groupSpending: number;
-// //   color: string;
-// //   groupTotalAmount: number;
-// //   isPotPage?: boolean;
-// //   isTransactionProgress?: boolean;
-// //   transactionAmount?: number;
-// //   totalSaved?: number;
-
-// //   groupTarget: number
-
-// // };
-
-// export type ProgressBarPropsType = {
-//   category?: string;
-//   groupSpending: number;
-//   color?: string;
-//   groupTotalAmount?: number;
-//   isPotPage?: boolean;
-//   isTransactionProgress?: boolean;
-//   transactionAmount?: number;
-//   totalSaved?: number;
-
-//   groupTarget?: number;
-
-//   filteredGropedData?: FilteredGropedDataType | undefined
-
-// };
-
-// const ProgressBar = ({
-//   groupSpending,
-//   color,
-//   groupTotalAmount = 0,
-//   isPotPage,
-//   isTransactionProgress,
-//   transactionAmount,
-//   totalSaved,
-//   filteredGropedData
-// }: ProgressBarPropsType) => {
-//   const percentage =
-//     groupTotalAmount && groupTotalAmount > 0
-//       ? (Math.abs(groupSpending) / groupTotalAmount) * 100
-//       : 0;
-//   const progress = Math.min(percentage, 100);
-
-//   return (
-//     <Box
-//       sx={{
-//         padding: "4px",
-//         borderRadius: "8px",
-//         backgroundColor: "#F8F4F0",
-//         height: isPotPage ? "8px" : "32px",
-//       }}
-//     >
-//       {isTransactionProgress && transactionAmount !== undefined ? (
-//         <LinearProgress
-//           sx={{
-//             height: isPotPage ? "8px" : "32px",
-//             borderRadius: "4px",
-//             background: "#F8F4F0",
-//             "& .MuiLinearProgress-bar": {
-//               backgroundColor: transactionAmount > 0 ? "green" : "red",
-//             },
-//           }}
-//           variant="determinate"
-//           value={Math.abs((transactionAmount / groupTotalAmount) * 100)}
-//         />
-//       ) : (
-//         <LinearProgress
-//           sx={{
-//             height: isPotPage ? "8px" : "32px",
-//             borderRadius: "4px",
-//             background: "#F8F4F0",
-//             "& .MuiLinearProgress-bar": {
-//               backgroundColor: color,
-//             },
-//           }}
-//           variant="determinate"
-//           value={progress}
-//         />
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default ProgressBar;
-
-// import LinearProgress from "@mui/material/LinearProgress";
-// import Box from "@mui/material/Box";
-// import { FilteredGropedDataType } from "../../__organism/pots/PotModal";
-// import { useEffect } from "react";
-
-// export type ProgressBarPropsType = {
-//   category?: string;
-//   groupSpending?: number; // Passed from Budget page
-//   color?: string; // Passed from Budget page
-//   groupTotalAmount?: number; // Passed from Budget page
-//   isPotPage?: boolean;
-//   filteredGropedData?: FilteredGropedDataType;
-//   withdrawMoney?: boolean;
-//   potMoney?: boolean;
-// };
-
-// const ProgressBar = ({
-//   category,
-//   groupSpending,
-//   color,
-//   groupTotalAmount,
-//   isPotPage,
-//   filteredGropedData,
-//   withdrawMoney,
-//   potMoney,
-// }: ProgressBarPropsType) => {
-//   useEffect(() => {
-//     if (!isPotPage) {
-//       const percentage =
-//         groupTotalAmount && groupTotalAmount > 0
-//           ? (Math.abs(groupSpending) / groupTotalAmount) * 100
-//           : 0;
-//       const progress = Math.min(percentage, 100);
-//     } else {
-//       const totalSavedPercentage =
-//         (filteredGropedData.totalSaved /
-//           filteredGropedData.potTargetTotalAmount) *
-//         100;
-//       const portSpendingPercentage =
-//         (Math.abs(filteredGropedData.portSpendingTotalAmount) /
-//           filteredGropedData.potTargetTotalAmount) *
-//         100;
-
-//       const greenColor = "#4caf50";
-//       const blackColor = "#000000";
-//       const redColor = "#f44336";
-//     }
-//   }, []);
-
-//   if (isPotPage) {
-//     let progressSegments: { color: string; value: number }[] = [];
-//   }
-
-//   if (potMoney) {
-//     // For potMoney: Green for totalSaved, Black for spending
-//     progressSegments = [
-//       { color: greenColor, value: totalSavedPercentage },
-//       { color: blackColor, value: portSpendingPercentage },
-//     ];
-//   } else if (withdrawMoney) {
-//     // For withdrawMoney: Red for spending, Green for totalSaved
-//     progressSegments = [
-//       { color: redColor, value: portSpendingPercentage },
-//       { color: greenColor, value: totalSavedPercentage },
-//     ];
-//   }
-
-//   return (
-//     <Box
-//       sx={{
-//         padding: "4px",
-//         borderRadius: "8px",
-//         // backgroundColor: "#F8F4F0",
-//         backgroundColor: "#F8F4F0",
-//         orderRadius: isPotPage ? "8px" : "50px",
-//         height: isPotPage ? "8px" : "32px",
-//       }}
-//     >
-//       {!isPotPage ? (
-//         <LinearProgress
-//           sx={{
-//             height: isPotPage ? "8px" : "32px",
-//             borderRadius: isPotPage ? "8px" : "50px",
-//             width: "100%",
-//             // borderRadius: "4px",
-//             background: "#F8F4F0",
-//             "& .MuiLinearProgress-bar": {
-//               backgroundColor: color,
-//             },
-//           }}
-//           variant="determinate"
-//           value={progress}
-//         />
-//       ) : (
-//         <LinearProgress
-//           sx={{
-//             height: isPotPage ? "8px" : "32px",
-//             borderRadius: isPotPage ? "8px" : "50px",
-//             width: "100%",
-//             // borderRadius: "4px",
-//             background: "#F8F4F0",
-//             "& .MuiLinearProgress-bar": {
-//               backgroundColor: color,
-//             },
-//           }}
-//           variant="determinate"
-//           value={progress}
-//         />
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default ProgressBar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //OK
@@ -293,6 +72,8 @@ export type ProgressBarPropsType = {
   withdrawMoney?: boolean;
   potMoney?: boolean;
   input?: string;
+  // portSpendingTotalAmount?: number;
+  height?: string
 };
 
 const ProgressBar = ({
@@ -305,6 +86,8 @@ const ProgressBar = ({
   withdrawMoney,
   potMoney,
   input,
+  // portSpendingTotalAmount
+  height
 }: ProgressBarPropsType) => {
   const inputNumber = Number(input);
 
@@ -349,8 +132,6 @@ const ProgressBar = ({
             { color: color || "", value: totalSavedPercentage },
         ];
     }
-
-
     console.log('Progress Segments:', progressSegments);
 }
 
@@ -374,7 +155,8 @@ const ProgressBar = ({
         borderRadius: "8px",
         overflow: "hidden",
         backgroundColor: "#F8F4F0",
-        height: isPotPage ? "8px" : "32px",
+        // height: isPotPage ? "8px" : "32px",
+        height: height ? height : isPotPage ? "8px" : !height && isPotPage ? "32px" : "",
         position: "relative",
         display: "flex",
         alignItems: "center",
@@ -405,7 +187,7 @@ const ProgressBar = ({
       ) : (
         <LinearProgress
           sx={{
-            height: "32px",
+            height: height ? height : "32px",
             borderRadius: "8px",
             width: "100%",
             background: "#F8F4F0",

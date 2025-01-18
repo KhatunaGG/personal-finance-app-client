@@ -42,6 +42,8 @@ const BudgetItem = ({
     category
   );
 
+
+  
   const handleOpenModal = () => {
     setActiveModalItem(
       activeModalItem === null || activeModalItem !== index ? index : null

@@ -18,22 +18,25 @@ type PotItemPropsType = {
   potTargetTotalAmount: number;
   setPotMoney: Dispatch<SetStateAction<boolean>>;
   setWithdrawMoney:  Dispatch<SetStateAction<boolean>>;
+  portSpendingTotalAmount: number;
 };
 
 const PotItem = ({
   // isPotPage,
   potName,
   color,
-  amount,
+  // amount,
   _id,
   totalSaved,
   percentageSpent,
   potTargetTotalAmount,
   handleClickPots,
   setPotMoney,
-  setWithdrawMoney
+  setWithdrawMoney,
+  portSpendingTotalAmount
 }: PotItemPropsType) => {
-  console.log(amount);
+  // console.log(amount);
+
 
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
@@ -61,11 +64,13 @@ const PotItem = ({
 
         <div className="mb-[13px] overflow-hidden">
           <ProgressBar
-            category={""}
-            groupSpending={0}
-            color={""}
-            groupTotalAmount={0}
-            isPotPage={true}
+            category={potName}
+            groupSpending={portSpendingTotalAmount}
+            color={color}
+            groupTotalAmount={potTargetTotalAmount}
+            // isPotPage={true}
+            // portSpendingTotalAmount={portSpendingTotalAmount}
+            height={"8px"}
           />
         </div>
         <div className="flex items-center justify-between text-[#696868]  text-xs">
