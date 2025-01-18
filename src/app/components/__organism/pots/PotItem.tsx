@@ -21,7 +21,7 @@ type PotItemPropsType = {
 };
 
 const PotItem = ({
-  isPotPage,
+  // isPotPage,
   potName,
   color,
   amount,
@@ -65,7 +65,7 @@ const PotItem = ({
             groupSpending={0}
             color={""}
             groupTotalAmount={0}
-            isPotPage={isPotPage}
+            isPotPage={true}
           />
         </div>
         <div className="flex items-center justify-between text-[#696868]  text-xs">

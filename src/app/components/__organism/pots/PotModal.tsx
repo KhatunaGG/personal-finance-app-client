@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { PotDataStateType } from "../modal/Modal";
 import { CloseIcon } from "../../__atoms";
 import useGroupedPots from "@/app/hooks/use-potGroup";
@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
+import { ProgressBar } from "../../__molecules";
+import { ColorEnum } from "@/app/schema/schema";
 
 export type PotModalPropsType = {
   setPotMoney: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +26,19 @@ export type PotModalPropsType = {
 export type MoneyEditType = {
   amount: number;
 };
+
+export type FilteredGropedDataType =
+  | {
+      potName: string;
+      amount: number;
+      color: ColorEnum;
+      _id: string;
+      potTargetTotalAmount: number;
+      portSpendingTotalAmount: number;
+      totalSaved: number;
+      percentageSpent: number;
+    }
+  | undefined;
 
 export const moneySchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required"),
@@ -43,6 +58,12 @@ const PotModal = ({
   const filteredGropedData = groupedPots.find(
     (item) => item.potName === activePotModal?.potName
   );
+
+  const [input, setInput] = useState('')
+  console.log(input, "input from POTMODAL")
+
+  console.log(filteredGropedData, "filteredGropedData from POTMODAL");
+  console.log(potsData, "potsData from POTMODAL")
 
   const {
     register,
@@ -65,11 +86,14 @@ const PotModal = ({
         return;
       }
 
-      if (withdrawMoney && filteredGropedData &&  filteredGropedData?.totalSaved < Math.abs(formData.amount)) {
+      if (
+        withdrawMoney &&
+        filteredGropedData &&
+        filteredGropedData?.totalSaved < Math.abs(formData.amount)
+      ) {
         toast.error("Not enough amount available...");
         return;
       }
-
 
       const newFormData = {
         category: filteredGropedData?.potName,
@@ -124,17 +148,25 @@ const PotModal = ({
         <div className="flex-flex-col py-[10.5px]">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm text-[#696868] font-normal">New Amount</h2>
-            <p className="text-[#201F24] font-bold text-[32px]">$ {filteredGropedData?.totalSaved.toFixed(2)}</p>
+            <p className="text-[#201F24] font-bold text-[32px]">
+              {/* $ {filteredGropedData?.totalSaved.toFixed(2)} */}
+              $ { (Number(input) || 0).toFixed(2) }
+            </p>
           </div>
 
           <div className="mb-[13px] overflow-hidden">
-            {/* <ProgressBar
-              category={""}
-              groupSpending={0}
-              color={""}
-              groupTotalAmount={0}
-              isPotPage={isPotPage}
-            /> */}
+            <ProgressBar
+              // category={filteredGropedData?.potName}
+              // groupSpending={filteredGropedData?.portSpendingTotalAmount ?? 0}
+              // color={filteredGropedData?.color}
+              // groupTotalAmount={filteredGropedData?.totalSaved}
+              // groupTarget={filteredGropedData?.potTargetTotalAmount}
+              isPotPage={true}
+              filteredGropedData={filteredGropedData}
+              withdrawMoney={withdrawMoney}
+              potMoney={potMoney}
+              input={input}
+            />
           </div>
           <div className="flex items-center justify-between text-[#696868]  text-xs">
             <h2 className="font-bold ">
@@ -165,6 +197,7 @@ const PotModal = ({
                 className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
                 placeholder="Amount"
                 {...register("amount")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
               />
               {errors.amount && (
                 <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
