@@ -1,9 +1,10 @@
 "use client";
 import { DotIcon } from "../../__atoms";
-import { ProgressBar } from "../../__molecules";
+import { ModalItem, ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
-import { PotsDataType } from "./PotsSection";
-import { Dispatch, SetStateAction } from "react";
+import { GropedPotsType, PotsDataType } from "./PotsSection";
+import { Dispatch, SetStateAction, useState } from "react";
+import DeleteModal from "../deleteModal/DeleteModal";
 
 type PotItemPropsType = {
   isPotPage: boolean;
@@ -17,12 +18,26 @@ type PotItemPropsType = {
   percentageSpent: number;
   potTargetTotalAmount: number;
   setPotMoney: Dispatch<SetStateAction<boolean>>;
-  setWithdrawMoney:  Dispatch<SetStateAction<boolean>>;
+  setWithdrawMoney: Dispatch<SetStateAction<boolean>>;
   portSpendingTotalAmount: number;
+  // groupedPots: GropedPotsType[];
+  // isEdit: boolean;
+  // isModal: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  activePot: GropedPotsType | undefined;
+  // handleOpenModal: (value: string) => void;
+
+
+
+
+  activeModalItem: number | null;
+  setActiveModalItem: Dispatch<SetStateAction<number | null>>;
+  index: number;
+  getAllPots: () => void;
 };
 
 const PotItem = ({
-  // isPotPage,
+  isPotPage,
   potName,
   color,
   // amount,
@@ -33,10 +48,24 @@ const PotItem = ({
   handleClickPots,
   setPotMoney,
   setWithdrawMoney,
-  portSpendingTotalAmount
+  portSpendingTotalAmount,
+  setIsEdit,
+  activePot,
+  // handleOpenModal,
+  activeModalItem,
+  setActiveModalItem,
+  index,
+  getAllPots
 }: PotItemPropsType) => {
   // console.log(amount);
+  const [isDelete, setIsDelete] = useState(false);
+  console.log(activePot, "activePot")
 
+  const handleOpenModal = () => {
+    setActiveModalItem(
+      activeModalItem === null || activeModalItem !== index ? index : null
+    );
+  };
 
   return (
     <div className="w-full bg-white rounded-lg pt-6 pb-[38px] px-[20px] flex flex-col gap-y-8 md:px-6 md:pt-6 md:pb-[38px] lg:p-6  lg:w-[49%]">
@@ -46,11 +75,25 @@ const PotItem = ({
             style={{ backgroundColor: color }}
             className="w-4 h-4 rounded-full"
           ></div>
-          <h2 className="text-[20px] font-bold text-[#201F24] capitalize">{potName}</h2>
+          <h2 className="text-[20px] font-bold text-[#201F24] capitalize">
+            {potName}
+          </h2>
         </div>
 
-        <div className="relative cursor-pointer">
+        <div
+          // onClick={() => handleOpenModal(potName)}
+          onClick={handleOpenModal}
+          className="relative cursor-pointer"
+        >
           <DotIcon />
+
+          {activePot?.potName === potName && (
+            <ModalItem
+              setIsDelete={setIsDelete}
+              setIsEdit={setIsEdit}
+              // setIsModal={setIsModal}
+            />
+          )}
         </div>
       </div>
 
@@ -84,8 +127,8 @@ const PotItem = ({
       <div className="w-full flex items-center gap-x-4 lg:flex-row">
         <button
           onClick={() => {
-            handleClickPots(_id)
-            setPotMoney(true); 
+            handleClickPots(_id);
+            setPotMoney(true);
             setWithdrawMoney(false);
           }}
           className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]"
@@ -93,15 +136,24 @@ const PotItem = ({
           + Add Money
         </button>
         <button
-        onClick={() => {
-          handleClickPots(_id)
-          setWithdrawMoney(true)
-          setPotMoney(false)
-        }}
-        className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]">
+          onClick={() => {
+            handleClickPots(_id);
+            setWithdrawMoney(true);
+            setPotMoney(false);
+          }}
+          className="w-full lg:w-1/2 py-4 rounded-lg bg-[#F8F4F0]"
+        >
           Withdraw
         </button>
       </div>
+      {isDelete && (
+        <DeleteModal
+          setIsDelete={setIsDelete}
+          category={potName}
+          isPotPage={isPotPage}
+          getAllPots={getAllPots}
+        />
+      )}
     </div>
   );
 };
