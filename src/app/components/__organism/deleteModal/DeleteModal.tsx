@@ -6,31 +6,63 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 
 export type DeleteModalPropsType = {
   setIsDelete: Dispatch<SetStateAction<boolean>>;
-  // setIsModal: Dispatch<SetStateAction<boolean>>;
   category: string;
-  getBudgets: () => void;
-
+  getBudgets?: () => void;
+  isPotPage?: boolean;
+  getAllPots?: () => void;
 };
 
 const DeleteModal = ({
   setIsDelete,
   category,
   getBudgets,
-
+  isPotPage,
+  getAllPots,
 }: DeleteModalPropsType) => {
   const { accessToken } = useAccessToken();
 
+  // const deleteCategory = async (category: string) => {
+  //   try {
+  //     let res;
+  //     if (isPotPage) {
+  //       res = await axiosInstance.delete(`/pot/category/${category}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       if (res.status === 200 || res.status === 201 || res.status === 204) {
+  //         setIsDelete(false);
+  //         if (getAllPots) getAllPots();
+  //       }
+  //     } else {
+  //       res = await axiosInstance.delete(`/budgets/category/${category}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       if (res.status === 200 || res.status === 201 || res.status === 204) {
+  //         setIsDelete(false);
+  //         if (getBudgets) getBudgets();
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const deleteCategory = async (category: string) => {
-    console.log(category, "category for deleting");
     try {
-      const res = await axiosInstance.delete(`/budgets/category/${category}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const endpoint = isPotPage
+        ? `/pot/category/${category}`
+        : `/budgets/category/${category}`;
+      const res = await axiosInstance.delete(endpoint, {
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
-      if (res.status === 200 || res.status === 201) {
+
+      if (res.status === 200 || res.status === 201 || res.status === 204) {
         setIsDelete(false);
-        getBudgets();
+        if (isPotPage && getAllPots) getAllPots();
+        if (!isPotPage && getBudgets) getBudgets();
       }
     } catch (error) {
       console.log(error);
@@ -50,8 +82,10 @@ const DeleteModal = ({
 
           <div className="TEXT  ">
             <p className="text-[#696868] text-2xl md:text-[14px] leading-[21px] font-normal">
-              Are you sure you want to delete this budget? This action cannot be
-              reversed, and all the data inside it will be removed forever.
+              {`Are you sure you want to delete this ${
+                isPotPage ? "pot" : "budget"
+              }? This action cannot be
+              reversed, and all the data inside it will be removed forever.`}
             </p>
           </div>
 

@@ -556,6 +556,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 
+
 export type BudgetType = {
   category: CategoryEnum;
   amount: number;
@@ -597,6 +598,7 @@ const Modal = ({
   isPotPage,
   getAllPots,
   activePotModal,
+  groupedPots,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -604,8 +606,11 @@ const Modal = ({
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
-  const usedColors = groupedData?.map((item) => item.color);
+  // const usedColors = groupedData?.map((item) => item.color);
   const schemaToUse = isPotPage ? potSchema : schema;
+  const usedColors = isPotPage
+    ? groupedPots?.map((item) => item.color)
+    : groupedData?.map((item) => item.color);
 
   const {
     register,
@@ -634,16 +639,35 @@ const Modal = ({
     setColor(null);
   };
 
-  const handleColorSelection = (selectedColor: ColorEnum) => {
-    const currentCategoryColor = groupedData?.find(
-      (group) => group.category === category
-    )?.color;
+  // const handleColorSelection = (selectedColor: ColorEnum) => {
+  //   const currentCategoryColor = groupedData?.find(
+  //     (group) => group.category === category
+  //   )?.color;
 
-    if (
-      usedColors?.includes(selectedColor) &&
-      currentCategoryColor !== selectedColor
-    ) {
-      toast.error("This color is already used for another category.");
+  //   if (
+  //     usedColors?.includes(selectedColor) &&
+  //     currentCategoryColor !== selectedColor
+  //   ) {
+  //     toast.error("This color is already used for another category.");
+  //     return;
+  //   }
+
+  //   setColor(selectedColor);
+  //   setValue("color", selectedColor);
+  //   setIsColorDropDownOpen(false);
+  // };
+
+  const handleColorSelection = (selectedColor: ColorEnum) => {
+    const currentColor = isPotPage
+      ? groupedPots?.find((group) => group.potName === category)?.color
+      : groupedData?.find((group) => group.category === category)?.color;
+
+    if (usedColors?.includes(selectedColor) && currentColor !== selectedColor) {
+      toast.error(
+        isPotPage
+          ? "This color is already used for another pot."
+          : "This color is already used for another category."
+      );
       return;
     }
 

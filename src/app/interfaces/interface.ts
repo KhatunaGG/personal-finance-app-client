@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
 import { GroupedCategory } from "../hooks/use-categoryGrope";
-import { PotsDataType } from "../components/__organism/pots/PotsSection";
+import { GropedPotsType, PotsDataType } from "../components/__organism/pots/PotsSection";
 import { PotDataStateType } from "../components/__organism/modal/Modal";
 
 export type ModalPropsType = {
@@ -21,6 +21,7 @@ export type ModalPropsType = {
   getAllPots?: () => void;
   activePotModal?: PotDataStateType | null;
   setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
+  groupedPots?: GropedPotsType[]
 };
 
 export type DataType = {

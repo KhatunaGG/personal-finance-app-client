@@ -5,7 +5,7 @@ export type ModalItemPropsType = {
   // setIsModalItem: Dispatch<SetStateAction<boolean>>;
 
   setIsEdit: Dispatch<SetStateAction<boolean>>;
-  setIsModal: Dispatch<SetStateAction<boolean>>;
+  setIsModal?: Dispatch<SetStateAction<boolean>>;
 };
 
 const ModalItem = ({
@@ -21,7 +21,7 @@ const ModalItem = ({
         <button
           onClick={() => {
             setIsEdit(true);
-            setIsModal(true)
+            if(setIsModal) setIsModal(true)
             // setIsModalItem(false);
           }}
           className="text-[#201F24] text-sm font-normal mb-3"

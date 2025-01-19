@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import PotItem from "./PotItem";
+
 import Modal, { PotDataStateType } from "../../__organism/modal/Modal";
 import { ColorEnum } from "@/app/schema/schema";
 import { usePathname } from "next/navigation";
@@ -17,6 +17,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import useGroupedPots from "@/app/hooks/use-potGroup";
 import PotModal from "./PotModal";
+import PotItem from "./PotItem";
 
 export type PotsDataType = {
   potName: string;
@@ -25,6 +26,19 @@ export type PotsDataType = {
   _id: string;
   setPotMoney: Dispatch<SetStateAction<boolean>>;
 };
+
+
+export type GropedPotsType = {
+  potName: string;
+  amount: number;
+  color: string;
+  _id: string;
+  potTargetTotalAmount: number;
+  portSpendingTotalAmount: number;
+  totalSaved: number;
+  percentageSpent: number;
+};
+
 
 const PotsSection = () => {
   const context = useContext(GlobalContext);
@@ -39,6 +53,25 @@ const PotsSection = () => {
     null
   );
   const groupedPots = useGroupedPots(potsData);
+  const [activePot, setActivePot] = useState<GropedPotsType | undefined>(undefined);
+  const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
+
+  // const handleOpenModal = (potName: string) => {
+  //   const selectedPot = groupedPots.find((item) => item.potName === potName);
+  //   if(activePot === selectedPot?.potName) {
+  //     setActivePot(undefined)
+  //   }else {
+  //     setActivePot(selectedPot || undefined);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (activeModalItem !== null) {
+      setActivePot(groupedPots[activeModalItem]);
+    } else {
+      setActivePot(undefined);
+    }
+  }, [activeModalItem, groupedPots]);
 
   useEffect(() => {
     getAllPots();
@@ -61,7 +94,7 @@ const PotsSection = () => {
   const { isModal, setIsModal } = context;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
   }
 
   const handleClickPots = async (id: string) => {
@@ -107,6 +140,7 @@ const PotsSection = () => {
           getAllPots={getAllPots}
           activePotModal={activePotModal}
           setActivePotModal={setActivePotModal}
+          groupedPots={groupedPots}
         />
       )}
 
@@ -142,8 +176,18 @@ const PotsSection = () => {
                 handleClickPots={handleClickPots}
                 setPotMoney={setPotMoney}
                 setWithdrawMoney={setWithdrawMoney}
-
                 portSpendingTotalAmount={pot.portSpendingTotalAmount}
+                setIsEdit={setIsEdit}
+                activePot={activePot}
+                // handleOpenModal={handleOpenModal}
+
+
+
+
+                index={i}
+                activeModalItem={activeModalItem}
+                setActiveModalItem={setActiveModalItem}
+                getAllPots={getAllPots}
               />
             ))}
         </div>
