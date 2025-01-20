@@ -21,7 +21,9 @@ export type ModalPropsType = {
   getAllPots?: () => void;
   activePotModal?: PotDataStateType | null;
   setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
-  groupedPots?: GropedPotsType[]
+  groupedPots?: GropedPotsType[];
+  activePot?: GropedPotsType;
+  setActivePot?: Dispatch<SetStateAction<GropedPotsType | undefined>>;
 };
 
 export type DataType = {
