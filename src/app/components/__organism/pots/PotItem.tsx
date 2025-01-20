@@ -26,10 +26,7 @@ type PotItemPropsType = {
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   activePot: GropedPotsType | undefined;
   // handleOpenModal: (value: string) => void;
-
-
-
-
+  setIsModal: Dispatch<SetStateAction<boolean>>;
   activeModalItem: number | null;
   setActiveModalItem: Dispatch<SetStateAction<number | null>>;
   index: number;
@@ -55,11 +52,11 @@ const PotItem = ({
   activeModalItem,
   setActiveModalItem,
   index,
-  getAllPots
+  getAllPots,
+  setIsModal
 }: PotItemPropsType) => {
   // console.log(amount);
   const [isDelete, setIsDelete] = useState(false);
-  console.log(activePot, "activePot")
 
   const handleOpenModal = () => {
     setActiveModalItem(
@@ -91,7 +88,7 @@ const PotItem = ({
             <ModalItem
               setIsDelete={setIsDelete}
               setIsEdit={setIsEdit}
-              // setIsModal={setIsModal}
+              setIsModal={setIsModal}
             />
           )}
         </div>

@@ -556,7 +556,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 
-
 export type BudgetType = {
   category: CategoryEnum;
   amount: number;
@@ -599,6 +598,8 @@ const Modal = ({
   getAllPots,
   activePotModal,
   groupedPots,
+  activePot,
+  setActivePot,
 }: ModalPropsType) => {
   const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
@@ -606,11 +607,12 @@ const Modal = ({
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
   const { getColorHex, getLogo } = useBudgetUtils();
-  // const usedColors = groupedData?.map((item) => item.color);
   const schemaToUse = isPotPage ? potSchema : schema;
   const usedColors = isPotPage
     ? groupedPots?.map((item) => item.color)
     : groupedData?.map((item) => item.color);
+
+  console.log(groupedPots, "groupedPots from MODAL");
 
   const {
     register,
@@ -676,6 +678,23 @@ const Modal = ({
     setIsColorDropDownOpen(false);
   };
 
+  // useEffect(() => {
+  //   if (isEdit && categoryToEdit) {
+  //     setValue("category", categoryToEdit.category);
+  //     setValue("amount", categoryToEdit.spending);
+  //     setValue("color", categoryToEdit.color);
+  //     setCategory(categoryToEdit.category);
+  //     setColor(categoryToEdit.color);
+  //   }
+  //   if (activePotModal) {
+  //     setValue("category", activePotModal.potName);
+  //     setValue("amount", 0);
+  //     setColor(activePotModal.color);
+
+  //     setCategory(activePotModal.potName);
+  //   }
+  // }, [isEdit, categoryToEdit, activePotModal, setValue]);
+
   useEffect(() => {
     if (isEdit && categoryToEdit) {
       setValue("category", categoryToEdit.category);
@@ -683,18 +702,25 @@ const Modal = ({
       setValue("color", categoryToEdit.color);
       setCategory(categoryToEdit.category);
       setColor(categoryToEdit.color);
-    }
-    if (activePotModal) {
+    } else if (activePotModal) {
       setValue("category", activePotModal.potName);
       setValue("amount", 0);
       setColor(activePotModal.color);
-
       setCategory(activePotModal.potName);
+    } else if (activePot) {
+      setValue("category", activePot.potName);
+      setValue("amount", 0);
+
+      const color = activePot.color as ColorEnum | null;
+      setColor(color ?? null);
     }
-  }, [isEdit, categoryToEdit, activePotModal, setValue]);
+  }, [isEdit, categoryToEdit, activePotModal, activePot, setValue]);
 
   if (!context) return null;
   const { accessToken } = context;
+
+  console.log(activePotModal, "activePotModal");
+  console.log(activePot, "activePot");
 
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;
@@ -702,17 +728,37 @@ const Modal = ({
       let res;
 
       if (isPotPage) {
-        if (formData.amount <= 0) {
-          toast.error("Target amount should be greater than zero.");
-          return;
-        }
         newDataState = formData as PotType;
-        res = await axiosInstance.post("/pot", formData, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        if (!isEdit) {
+          if (formData.amount <= 0) {
+            toast.error("Target amount should be greater than zero.");
+            return;
+          }
+          // newDataState = formData as PotType;
+          res = await axiosInstance.post("/pot", formData, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+        } else {
+          const filteredGroupedPots = groupedPots?.find(
+            (item) => item.potName === formData.category
+          );
+          if (
+            formData.amount <= 0 &&
+            Math.abs(formData.amount) > (filteredGroupedPots?.totalSaved ?? 0)
+          ) {
+            toast.error("Not enough amount available for the pot.");
+            return;
+          }
+          const potName = formData.category;
+          res = await axiosInstance.patch(`pot/category/${potName}`, formData, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+        }
+
         if (res.status === 200 || res.status === 204 || res.status === 201) {
           setIsModal(false);
           reset();
+          setActivePot?.(undefined);
           if (getAllPots) getAllPots();
           toast.success("Pot added successfully!");
         }
@@ -750,10 +796,10 @@ const Modal = ({
           );
         }
         if (res.status === 200 || res.status === 204) {
-          if (setIsAddBudget) setIsAddBudget(false);
+          setIsAddBudget?.(false);
           if (isEdit) {
             setIsEdit(false);
-            if (setActiveModalItem) setActiveModalItem(null);
+            setActiveModalItem?.(null);
           }
         }
         if (getBudgets) getBudgets();
@@ -837,11 +883,12 @@ const Modal = ({
                       placeholder="Category"
                       {...register("category")}
                       value={category}
-                      readOnly
+                      readOnly={isPotPage || isEdit}
                     />
                     <button
                       type="button"
                       onClick={toggleCategoryDropdown}
+                      disabled={isEdit}
                       className="w-[16px] h-[16px] flex items-center justify-center"
                     >
                       <ArrowDown />
@@ -987,7 +1034,7 @@ const Modal = ({
                     </div>
                   )}
 
-                  {errors.color && (
+                  {errors.color && !isEdit && (
                     <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">
                       {errors.color.message}
                     </span>

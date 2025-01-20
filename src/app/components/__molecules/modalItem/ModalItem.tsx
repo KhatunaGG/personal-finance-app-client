@@ -5,14 +5,12 @@ export type ModalItemPropsType = {
   // setIsModalItem: Dispatch<SetStateAction<boolean>>;
 
   setIsEdit: Dispatch<SetStateAction<boolean>>;
-  setIsModal?: Dispatch<SetStateAction<boolean>>;
+  setIsModal: Dispatch<SetStateAction<boolean>>;
 };
 
 const ModalItem = ({
   setIsDelete,
-  // setIsModalItem,
   setIsEdit,
-
   setIsModal
 }: ModalItemPropsType) => {
   return (
@@ -21,8 +19,8 @@ const ModalItem = ({
         <button
           onClick={() => {
             setIsEdit(true);
-            if(setIsModal) setIsModal(true)
-            // setIsModalItem(false);
+           setIsModal(true)
+            setIsModal(true)
           }}
           className="text-[#201F24] text-sm font-normal mb-3"
         >
@@ -33,8 +31,7 @@ const ModalItem = ({
       <button
         onClick={() => {
           setIsDelete(true);
-          // setIsModalItem(false);
-        }}
+          }}
         className="text-[#C94736] text-sm font-normal mt-3"
       >
         Delete Budget

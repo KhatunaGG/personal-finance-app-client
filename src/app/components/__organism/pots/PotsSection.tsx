@@ -27,7 +27,6 @@ export type PotsDataType = {
   setPotMoney: Dispatch<SetStateAction<boolean>>;
 };
 
-
 export type GropedPotsType = {
   potName: string;
   amount: number;
@@ -38,7 +37,6 @@ export type GropedPotsType = {
   totalSaved: number;
   percentageSpent: number;
 };
-
 
 const PotsSection = () => {
   const context = useContext(GlobalContext);
@@ -53,17 +51,10 @@ const PotsSection = () => {
     null
   );
   const groupedPots = useGroupedPots(potsData);
-  const [activePot, setActivePot] = useState<GropedPotsType | undefined>(undefined);
+  const [activePot, setActivePot] = useState<GropedPotsType | undefined>(
+    undefined
+  );
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
-
-  // const handleOpenModal = (potName: string) => {
-  //   const selectedPot = groupedPots.find((item) => item.potName === potName);
-  //   if(activePot === selectedPot?.potName) {
-  //     setActivePot(undefined)
-  //   }else {
-  //     setActivePot(selectedPot || undefined);
-  //   }
-  // };
 
   useEffect(() => {
     if (activeModalItem !== null) {
@@ -94,8 +85,15 @@ const PotsSection = () => {
   const { isModal, setIsModal } = context;
 
   if (isLoading) {
-    return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
+
+  // console.log(activePot, "activePot from PotSection");
+
 
   const handleClickPots = async (id: string) => {
     try {
@@ -132,6 +130,7 @@ const PotsSection = () => {
 
       {isModal && isPotPage && (
         <Modal
+          // isModal={isModal}
           setIsModal={setIsModal}
           potsData={potsData}
           isEdit={isEdit}
@@ -141,6 +140,8 @@ const PotsSection = () => {
           activePotModal={activePotModal}
           setActivePotModal={setActivePotModal}
           groupedPots={groupedPots}
+          activePot={activePot}
+          setActivePot={setActivePot}
         />
       )}
 
@@ -180,10 +181,7 @@ const PotsSection = () => {
                 setIsEdit={setIsEdit}
                 activePot={activePot}
                 // handleOpenModal={handleOpenModal}
-
-
-
-
+                setIsModal={setIsModal}
                 index={i}
                 activeModalItem={activeModalItem}
                 setActiveModalItem={setActiveModalItem}

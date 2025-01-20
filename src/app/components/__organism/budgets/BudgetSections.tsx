@@ -63,11 +63,13 @@ const BudgetSections = () => {
   // console.log(data, "data");
 
   if (isLoading) {
-    return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
-
-  
   return (
     <section className="w-full h-full min-h-screen ">
       {isModal && (
