@@ -17,3 +17,7 @@ export { default as LatestSpending} from "./budgets/LatestSpending";
 export { default as DeleteModal} from "./deleteModal/DeleteModal";
 export { default as PotsSection} from "./pots/PotsSection";
 export { default as PotItem} from "./pots/PotItem";
+export { default as TransactionSection} from "./transaction/TransactionSection";
+export { default as SortBySection} from "./transaction/SortBySection";
+export { default as SortByCategorySection} from "./transaction/SortByCategorySection";
+export { default as TransactionItem} from "./transaction/TransactionItem";

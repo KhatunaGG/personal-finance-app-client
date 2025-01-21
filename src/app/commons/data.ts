@@ -5,6 +5,7 @@ import {
   PotIcon,
   TransactionsIcon,
 } from "../components/__atoms";
+import { CategoryEnum } from "../schema/schema";
 
 export const navLinks = [
   {
@@ -41,3 +42,7 @@ export const categoryLogos = [
   { Shopping: "/assets/logos/logo9.svg"},
   { General: "/assets/logos/logo1.svg"},
 ];
+
+
+export const sortBy = ["Latest", "Oldest", "A to Z", "Z to A", "Highest", "Lowest"]
+export const sortCategory = ["All Transactions", ...Object.values(CategoryEnum)];

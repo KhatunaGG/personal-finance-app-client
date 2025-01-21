@@ -1,7 +1,10 @@
-import React from 'react'
+import TransactionSection from "@/app/components/__organism/transaction/TransactionSection";
+import React from "react";
 
 export default function page() {
   return (
-    <div>Transactions</div>
-  )
+    <section className="w-full ">
+      <TransactionSection />
+    </section>
+  );
 }

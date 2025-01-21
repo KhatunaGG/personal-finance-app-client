@@ -10,3 +10,5 @@ export { default as PotLargeIcon } from "./potLargeIcon/PotLargeIcon";
 export { default as DotIcon } from "./dotIcon/DotIcon";
 export { default as CloseIcon } from "./closeIcon/CloseIcon";
 export { default as ArrowDown } from "./arrowDown/ArrowDown";
+export { default as SearchIcon } from "./searchIcon/SearchIcon";
+export { default as ArrowLeft } from "./arrowLeft/ArrowLeft";
