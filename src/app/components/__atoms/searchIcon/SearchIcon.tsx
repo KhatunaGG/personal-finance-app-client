@@ -2,7 +2,7 @@
 const SearchIcon = () => {
   return (
     <svg
-    className="absolute top-1/2 right-[14.5px] transform -translate-y-1/2 w-4 h-4 "
+    className="absolute top-1/2 right-[14.5px] transform -translate-y-1/2 w-4 h-4 md:right-[8px] lg:right-[14.5px]"
       width="16"
       height="17"
       viewBox="0 0 16 17"

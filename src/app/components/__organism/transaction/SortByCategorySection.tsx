@@ -4,7 +4,7 @@ import { sortCategory } from '@/app/commons/data';
 
 const SortByCategorySection = () => {
   return (
-    <div className="TRANSITION-DROPDOWN flex items-center gap-3 ">
+    <div className="TRANSITION-DROPDOWN hidden md:flex items-center gap-3">
     <p className="text-[#696868] font-normal">Category</p>
 
     <div className="w-[177px] relative border border-[#98908B] rounded-md flex items-center gap-4 px-[20px] py-3 text-[#201F24]">
