@@ -10,6 +10,7 @@ export type DeleteModalPropsType = {
   getBudgets?: () => void;
   isPotPage?: boolean;
   getAllPots?: () => void;
+  
 };
 
 const DeleteModal = ({
@@ -70,7 +71,7 @@ const DeleteModal = ({
   };
 
   return (
-    <section className="absolute inset-0 bg-black/20 w-full h-full z-20 ">
+    <section className="fixed inset-0 bg-black/20 w-full h-full z-20 ">
       <div className="w-full h-screen flex items-center justify-center">
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]  ">
           <div className="TITLE w-full flex items-center justify-between">
