@@ -1,12 +1,6 @@
 "use client";
 import { GlobalContext } from "@/app/context/Context";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Modal, { PotDataStateType } from "../../__organism/modal/Modal";
 import { ColorEnum } from "@/app/schema/schema";
@@ -24,7 +18,8 @@ export type PotsDataType = {
   amount: number;
   color: ColorEnum;
   _id: string;
-  setPotMoney: Dispatch<SetStateAction<boolean>>;
+  createdAt: string;
+  updatedAd: string;
 };
 
 export type GropedPotsType = {
@@ -81,6 +76,8 @@ const PotsSection = () => {
     }
   };
 
+  console.log(potsData, "potsData");
+
   if (!context) return null;
   const { isModal, setIsModal } = context;
 
@@ -91,9 +88,6 @@ const PotsSection = () => {
       </div>
     );
   }
-
-  // console.log(activePot, "activePot from PotSection");
-
 
   const handleClickPots = async (id: string) => {
     try {

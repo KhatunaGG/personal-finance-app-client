@@ -172,7 +172,7 @@ const SideBar = () => {
                   isLinkActive
                     ? "bg-[#F8F4F0] text-[#201F24]"
                     : "bg-[#201F24] text-[#B3B3B3]"
-                }`}
+                } ${!isLinkActive && "hover:bg-black/10"}`}
               >
                 <div
                   className={`hidden lg:flex w-[1.81%] h-full min-h-[56px] ${
