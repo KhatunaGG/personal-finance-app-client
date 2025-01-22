@@ -16,7 +16,7 @@ const SortBySection = () => {
           <ArrowDown />
         </button>
 
-        <div className="DROPDOWN hidden  py-3 px-[20px] rounded-lg shadow-xl absolute left-0 right-0 top-[60px] z-30 bg-white">
+        <div className="DROPDOWN hidden py-3 px-[20px] rounded-lg shadow-xl absolute left-0 right-0 top-[60px] z-30 bg-white">
           {Object.values(sortBy).map((item, i) => {
             const isLastItem = i === Object.values(sortBy).length - 1;
             return (
