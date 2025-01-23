@@ -12,3 +12,6 @@ export { default as CloseIcon } from "./closeIcon/CloseIcon";
 export { default as ArrowDown } from "./arrowDown/ArrowDown";
 export { default as SearchIcon } from "./searchIcon/SearchIcon";
 export { default as ArrowLeft } from "./arrowLeft/ArrowLeft";
+export { default as SortIcon } from "./sortIcon/SortIcon";
+export { default as FilterIcon } from "./filterIcon/FilterIcon";
+export { default as PaginationArrowRight } from "./paginationArrowRight/PaginationArrowRight";

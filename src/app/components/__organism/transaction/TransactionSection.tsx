@@ -355,8 +355,8 @@ const TransactionSection = () => {
           Transactions
         </h1>
 
-        <div className="w-full min-h-screen p-4 justify-between md:p-8 bg-white flex flex-col gap-6 rounded-lg">
-          <div className="FILTER flex items-center justify-between">
+        <div className="w-full min-h-screen p-0 justify-between md:p-8  bg-white flex flex-col gap-6 rounded-lg">
+          <div className="FILTER flex items-center justify-between p-4 md:p-0">
             <div className="w-[70.95%] relative border border-[#98908B] text-[#98908B] pl-[20px] md:pl-[10px] lg:pl-[20px] py-3 md:w-[22.75%] lg:w-[30.12%] overflow-hidden rounded-md">
               <input
                 type="text"
