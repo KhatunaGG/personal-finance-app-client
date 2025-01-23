@@ -1,12 +1,12 @@
 import React from "react";
-import { ArrowLeft, ArrowRight } from "../../__atoms";
+import { ArrowLeft,  PaginationArrowRight } from "../../__atoms";
 
 const Pagination = () => {
   return (
     <div className="PAGINATION w-full flex pt-6 items-center justify-between">
       <button className="flex items-center gap-4 py-3 px-4 border border-[#98908B] rounded-lg">
         <ArrowLeft />
-        <p className="text-[#201F24] text-sm font-normal">Prev</p>
+        <p className="hidden text-[#201F24] text-sm font-normal md:flex">Prev</p>
       </button>
 
       <div className="flex items-center gap-2">
@@ -22,8 +22,8 @@ const Pagination = () => {
       </div>
 
       <button className="flex items-center gap-4 py-3 px-4 border border-[#98908B] rounded-lg">
-        <p className="text-[#201F24] text-sm font-normal">Next</p>
-        <ArrowRight />
+        <p className="hidden text-[#201F24] text-sm font-normal md:flex">Next</p>
+        <PaginationArrowRight />
       </button>
     </div>
   );
