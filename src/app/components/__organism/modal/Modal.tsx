@@ -891,7 +891,7 @@ const Modal = ({
                       disabled={isEdit}
                       className="w-[16px] h-[16px] flex items-center justify-center"
                     >
-                      <ArrowDown />
+                      <ArrowDown rotated={isCategoryDropDownOpen} />
                     </button>
 
                     {isCategoryDropDownOpen && (
@@ -988,7 +988,7 @@ const Modal = ({
                     // disabled={potMoney}
                     className="w-[16px] h-[16px] flex items-center justify-center"
                   >
-                    <ArrowDown />
+                    <ArrowDown rotated={isColorDropDownOpen} />
                   </button>
 
                   {isColorDropDownOpen && (
