@@ -213,7 +213,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-import { SearchIcon } from "../../__atoms";
 import SortBySection from "./SortBySection";
 import SortByCategorySection from "./SortByCategorySection";
 import TransactionItem from "./TransactionItem";
@@ -221,6 +220,7 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { DataType } from "@/app/interfaces/interface";
 import { PotsDataType } from "../pots/PotsSection";
 import Pagination from "./Pagination";
+import Search from "./Search";
 
 export type TransactionType = {
   category: string;
@@ -245,6 +245,20 @@ const TransactionSection = () => {
   const [filteredAllTransactions, setFilteredAllTransactions] = useState<
     TransactionType[]
   >([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // useEffect(() => {
+  //   const filteredData =
+  //     filteredCategoryValue === "All Transactions"
+  //       ? allTransactions
+  //       : allTransactions.filter(
+  //           (item) => item.category === filteredCategoryValue
+  //         );
+  //   setFilteredAllTransactions(filteredData);
+  // }, [filteredCategoryValue, allTransactions]);
+
+
+
 
   useEffect(() => {
     const filteredData =
@@ -253,8 +267,21 @@ const TransactionSection = () => {
         : allTransactions.filter(
             (item) => item.category === filteredCategoryValue
           );
-    setFilteredAllTransactions(filteredData);
-  }, [filteredCategoryValue, allTransactions]);
+  
+    const filteredBySearchTerm = filteredData.filter((item) =>
+      item.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    setFilteredAllTransactions(filteredBySearchTerm);
+  }, [filteredCategoryValue, allTransactions, searchTerm]);
+  
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+
+
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -348,6 +375,9 @@ const TransactionSection = () => {
     }
   };
 
+
+
+
   return (
     <section className="w-full h-full min-h-screen">
       <div className="w-full h-full px-4 pt-8 pb-[105px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
@@ -357,14 +387,15 @@ const TransactionSection = () => {
 
         <div className="w-full min-h-screen p-0 justify-between md:p-8  bg-white flex flex-col gap-6 rounded-lg">
           <div className="FILTER flex items-center justify-between p-4 md:p-0">
-            <div className="w-[70.95%] relative border border-[#98908B] text-[#98908B] pl-[20px] md:pl-[10px] lg:pl-[20px] py-3 md:w-[22.75%] lg:w-[30.12%] overflow-hidden rounded-md">
+            {/* <div className="w-[70.95%] relative border border-[#98908B] text-[#98908B] pl-[20px] md:pl-[10px] lg:pl-[20px] py-3 md:w-[22.75%] lg:w-[30.12%] overflow-hidden rounded-md">
               <input
                 type="text"
                 className="w-full bg-transparent border-none focus:outline-none md:truncate md:max-w-[90px] lg:max-w-full"
                 placeholder="Search transaction"
               />
               <SearchIcon />
-            </div>
+            </div> */}
+            <Search handleSearchChange={handleSearchChange} />
 
             <div className="flex items-center gap-6">
               <SortBySection

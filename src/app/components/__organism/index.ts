@@ -22,3 +22,4 @@ export { default as SortBySection} from "./transaction/SortBySection";
 export { default as SortByCategorySection} from "./transaction/SortByCategorySection";
 export { default as TransactionItem} from "./transaction/TransactionItem";
 export { default as Pagination} from "./transaction/Pagination";
+export { default as Search} from "./transaction/Search";
