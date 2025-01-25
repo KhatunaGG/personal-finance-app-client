@@ -652,12 +652,12 @@ const TransactionSection = () => {
 
   return (
     <section className="w-full h-full min-h-screen">
-      <div className="w-full h-full px-4 pt-8 pb-[105px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
+      <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Transactions
         </h1>
 
-        <div className="w-full min-h-screen p-0 justify-between md:p-8  bg-white flex flex-col gap-6 rounded-lg">
+        <div className="w-full  p-0  md:p-8  bg-white flex flex-col gap-6 rounded-lg">
           <div className="FILTER flex items-center justify-between p-4 md:p-0">
             <Search handleSearchChange={handleSearchChange} />
 
