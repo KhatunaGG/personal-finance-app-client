@@ -23,3 +23,4 @@ export { default as SortByCategorySection} from "./transaction/SortByCategorySec
 export { default as TransactionItem} from "./transaction/TransactionItem";
 export { default as Pagination} from "./transaction/Pagination";
 export { default as Search} from "./transaction/Search";
+export { default as RecurringBillsSection} from "./recurringBills/RecurringBillsSection";

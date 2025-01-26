@@ -493,6 +493,7 @@ import { DataType } from "@/app/interfaces/interface";
 import { PotsDataType } from "../pots/PotsSection";
 import Pagination from "./Pagination";
 import Search from "./Search";
+import { SortFilterHeader } from "../../__molecules";
 
 export type TransactionType = {
   category: string;
@@ -643,7 +644,7 @@ const TransactionSection = () => {
     }
   };
 
-  console.log(filteredAllTransactions, "filteredAllTransactions");
+
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
     (currentPage - 1) * (limit * 2),
@@ -677,7 +678,9 @@ const TransactionSection = () => {
             </div>
           </div>
 
-          <div className="hidden w-full md:flex items-center justify-between py-3 border-b border-b-[#F2F2F2] md:gap-[3.31%] text-xs text-[#696868] font-normal">
+          <SortFilterHeader />
+
+          {/* <div className="hidden w-full md:flex items-center justify-between py-3 border-b border-b-[#F2F2F2] md:gap-[3.31%] text-xs text-[#696868] font-normal">
             <div className="md:w-[60.16%] grid grid-cols-[1fr, 120px] md:gap-x-4">
               <div className="flex items-center justify-between">
                 <p className="">Category</p>
@@ -688,7 +691,7 @@ const TransactionSection = () => {
               <p className="">Transaction Date</p>
               <p className="">Amount</p>
             </div>
-          </div>
+          </div> */}
 
           {isLoading ? (
             <div className="w-full h-screen flex items-center justify-center">

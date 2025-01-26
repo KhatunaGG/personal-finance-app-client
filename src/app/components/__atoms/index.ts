@@ -15,3 +15,4 @@ export { default as ArrowLeft } from "./arrowLeft/ArrowLeft";
 export { default as SortIcon } from "./sortIcon/SortIcon";
 export { default as FilterIcon } from "./filterIcon/FilterIcon";
 export { default as PaginationArrowRight } from "./paginationArrowRight/PaginationArrowRight";
+export { default as RecurringBillsIcon } from "./recurringBillsIcon/RecurringBillsIcon";
