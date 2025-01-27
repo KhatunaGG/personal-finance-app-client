@@ -83,25 +83,21 @@ import Search from "../transaction/Search";
 import { useState } from "react";
 import SortBySection from "../transaction/SortBySection";
 import { SortFilterHeader } from "../../__molecules";
+import TransactionItem from "../transaction/TransactionItem";
 
 const RecurringBillsSection = () => {
   const path = usePathname();
   console.log(path, "path");
-const isRecurringBills = path.includes('recurringbills')
-
+  const isRecurringBills = path.includes("recurringbills");
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortByDropdown, setSortByDropdown] = useState(false);
   const [sortByValue, setSortByValue] = useState<string | undefined>("Latest");
-  console.log(searchTerm, "searchTerm")
+  console.log(searchTerm, "searchTerm");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-
-
-
-
 
   return (
     <section className="w-full h-full min-h-screen px-4 py-6 md:px-6 md:py-8 flex flex-col gap-8">
@@ -156,12 +152,12 @@ const isRecurringBills = path.includes('recurringbills')
         </div>
 
         <div className="RIGHT rounded-xl lg:w-[67.47%]">
-
-
-
           <div className="w-full py-6 px-[20px] md:p-8 flex flex-col gap-6 rounded-xl bg-white">
             <div className="SORT flex items-center justify-between">
-              <Search handleSearchChange={handleSearchChange} isRecurringBills={isRecurringBills} />
+              <Search
+                handleSearchChange={handleSearchChange}
+                isRecurringBills={isRecurringBills}
+              />
               <SortBySection
                 setSortByDropdown={setSortByDropdown}
                 sortByDropdown={sortByDropdown}
@@ -170,9 +166,17 @@ const isRecurringBills = path.includes('recurringbills')
               />
             </div>
 
-            <SortFilterHeader isRecurringBills={isRecurringBills}  />
+            <SortFilterHeader isRecurringBills={isRecurringBills} />
 
-
+            <div className="w-full">
+              <TransactionItem
+                category={""}
+                createdAt={undefined}
+                amount={0}
+                isFirstItem={false}
+                isRecurringBills={isRecurringBills}
+              />
+            </div>
           </div>
         </div>
       </div>
