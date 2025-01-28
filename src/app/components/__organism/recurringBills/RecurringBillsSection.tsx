@@ -80,24 +80,64 @@
 import { usePathname } from "next/navigation";
 import { RecurringBillsIcon } from "../../__atoms";
 import Search from "../transaction/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SortBySection from "../transaction/SortBySection";
 import { SortFilterHeader } from "../../__molecules";
 import TransactionItem from "../transaction/TransactionItem";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import useAccessToken from "@/app/hooks/use-toke";
+import { ColorEnum } from "@/app/schema/schema";
+
+export type RecurringBillsDataType = {
+  amount: number;
+  category: string;
+  categoryLogo: string;
+  color: ColorEnum | string | undefined;
+  dueDate: string;
+  type: string;
+  _id: string;
+};
 
 const RecurringBillsSection = () => {
   const path = usePathname();
-  console.log(path, "path");
   const isRecurringBills = path.includes("recurringbills");
+  const { accessToken, isLoading } = useAccessToken();
+  const [recurringBillsData, setRecurringBillsData] =
+    useState<RecurringBillsDataType[]>();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortByDropdown, setSortByDropdown] = useState(false);
   const [sortByValue, setSortByValue] = useState<string | undefined>("Latest");
-  console.log(searchTerm, "searchTerm");
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
+  console.log(searchTerm, "searchTerm");
+  console.log(sortByValue, "sortByValue");
+
+  // useEffect(() => {
+  //   const sortedRecurringBillsData = recurringBillsData?.sort
+
+  // }, [sortByValue, searchTerm])
+
+  useEffect(() => {
+    const getAllRecurringBills = async () => {
+      try {
+        const res = await axiosInstance.get("/recurring-bills", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (res?.status >= 200 && res?.status <= 204) {
+          setRecurringBillsData(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllRecurringBills();
+  }, []);
+
+  console.log(recurringBillsData, "recurringBillsData");
 
   return (
     <section className="w-full h-full min-h-screen px-4 py-6 md:px-6 md:py-8 flex flex-col gap-8">
@@ -168,15 +208,46 @@ const RecurringBillsSection = () => {
 
             <SortFilterHeader isRecurringBills={isRecurringBills} />
 
-            <div className="w-full">
-              <TransactionItem
-                category={""}
-                createdAt={undefined}
-                amount={0}
-                isFirstItem={false}
-                isRecurringBills={isRecurringBills}
-              />
-            </div>
+            {/* <div className="w-full">
+              {isLoading ? (
+                <div className="w-full h-screen flex items-center justify-center">
+                  Loading...
+                </div>
+              ) : (
+                <TransactionItem
+                  category={""}
+                  createdAt={undefined}
+                  amount={0}
+                  isFirstItem={false}
+                  isRecurringBills={isRecurringBills}
+                  _id={""}
+                />
+              )}
+            </div> */}
+
+            {isLoading ? (
+              <div className="w-full h-screen flex items-center justify-center">
+                Loading...
+              </div>
+            ) : (
+              <div className="w-full">
+                {recurringBillsData?.map((transaction, i) => {
+                  const isFirstItem = i === 0;
+                  return (
+                    <TransactionItem
+                      key={transaction._id}
+                      category={transaction.category}
+                      amount={transaction.amount}
+                      isFirstItem={isFirstItem}
+                      isRecurringBills={isRecurringBills}
+                      _id={transaction._id}
+                      categoryLogo={transaction.categoryLogo}
+                      color={transaction.color}
+                    />
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>

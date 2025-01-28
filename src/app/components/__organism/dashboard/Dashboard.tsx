@@ -7,10 +7,63 @@ import TotalsFragment from "../totalFragment/TotalsFragment";
 import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
 import BudgetFragment from "../budgetFragment/BudgetFragment";
 import BillsFragment from "../billsFragment/BillsFragment";
+import { axiosInstance } from "@/app/libs/axiosInstance";
 
 const Dashboard = () => {
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState("");
+
+  // const [accessToken, setAccessToken] = useState("");
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     const token = await getCookie("accessToken");
+  //     if (!token) {
+  //       router.push("/sign-up");
+  //     } else {
+  //       setAccessToken(token as string);
+  //     }
+  //   };
+
+  //   fetchToken();
+  // }, [setAccessToken, router]);
+
+  // if (!accessToken) return null;
+
+
+
+
+
+  // const [accessToken, setAccessToken] = useState<null | string>();
+  // useEffect(() => {
+  //   const token = getCookie("accessToken");
+  //   if (!token) router.push("/sign-up");
+  //   setAccessToken(token);
+  // });
+  // if (!accessToken) return;
+
+
+  
+
+
+
+
+  const [accessToken, setAccessToken] = useState<string | null | undefined>(null);
+  const [user, setUser] = useState('')
+  console.log(user, "user")
+
+
+  async function getCurrenUser(accessToken: string | undefined) {
+    try {
+      const res = await axiosInstance.get('/auth/current-user', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      setUser(res.data)
+
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -18,14 +71,25 @@ const Dashboard = () => {
       if (!token) {
         router.push("/sign-up");
       } else {
-        setAccessToken(token as string);
+        setAccessToken(token);
+        
       }
+      getCurrenUser(token)
+
     };
 
     fetchToken();
-  }, [setAccessToken, router]);
+  }, [router]);
 
-  if (!accessToken) return null;
+  if (!accessToken) return null; 
+
+
+
+
+
+
+
+
 
   return (
     <section className="w-full h-full min-h-screen ">

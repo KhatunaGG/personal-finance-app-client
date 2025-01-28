@@ -132,6 +132,7 @@ const LogInSection = () => {
   // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const [accessToken, setAccessToken] = useState("");
+  console.log(accessToken)
 
   const {
     register,
@@ -172,7 +173,6 @@ const LogInSection = () => {
     }
   };
 
-  console.log(accessToken, "accessToken from Loginsection");
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">

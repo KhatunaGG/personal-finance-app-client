@@ -482,6 +482,15 @@
 
 // export default TransactionSection;
 
+
+
+
+
+
+
+
+
+
 "use client";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
@@ -503,6 +512,7 @@ export type TransactionType = {
   updatedAt?: string;
   categoryLogo?: string;
   type: "budget" | "pot";
+  _id: string;
 };
 
 const TransactionSection = () => {
@@ -521,6 +531,11 @@ const TransactionSection = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit] = useState<number>(5);
+  const [inputChecked, setInputChecked] = useState('')
+
+
+
+  console.log(inputChecked, "inputChecked")
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -584,12 +599,14 @@ const TransactionSection = () => {
       // Determine category
       const category = "category" in item ? item.category : item.potName;
 
+      const _id = "_id" in item ? item._id : "";
       const transaction: TransactionType = {
         category: category || "Unknown Category",
         amount: item.amount,
         color: item.color,
         type: type,
         categoryLogo: "",
+        _id: _id
       };
 
       if (type === "budget" && "categoryLogo" in item) {
@@ -644,12 +661,12 @@ const TransactionSection = () => {
     }
   };
 
-
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
     (currentPage - 1) * (limit * 2),
     currentPage * (limit * 2)
   );
+
 
   return (
     <section className="w-full h-full min-h-screen">
@@ -709,6 +726,11 @@ const TransactionSection = () => {
                     categoryLogo={transaction.categoryLogo}
                     amount={transaction.amount}
                     isFirstItem={isFirstItem}
+                    setInputChecked={setInputChecked}
+                    inputChecked={inputChecked}
+                    color={transaction.color}
+                    type={transaction.type}
+                    _id={transaction._id}
                   />
                 );
               })}
