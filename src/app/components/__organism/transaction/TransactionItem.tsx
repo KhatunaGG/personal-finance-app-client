@@ -122,8 +122,6 @@
 
 //with recurringbills;
 
-
-
 "use client";
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
@@ -157,10 +155,9 @@ const TransactionItem = ({
   setInputChecked,
   inputChecked,
   type,
-  color
+  color,
 }: TransactionItemPropsType) => {
   const { accessToken } = useAccessToken();
-
 
   const handleInputChange = async () => {
     if (inputChecked === _id) {
@@ -177,26 +174,22 @@ const TransactionItem = ({
         _id,
         color,
         type,
-        dueDate: ""
-      }
-
-      console.log(newRecurringBill, "newRecurringBill")
-
-      const res = await axiosInstance.post('/recurring-bills', newRecurringBill,  {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-
+        dueDate: "",
+      };
+      const res = await axiosInstance.post(
+        "/recurring-bills",
+        newRecurringBill,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
       if (res?.status >= 200 && res?.status <= 204) {
-        console.log(res.data)
+        console.log(res.data);
       }
-
-    } catch(error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
-  
-  
-
 
   return (
     <div
@@ -225,7 +218,7 @@ const TransactionItem = ({
           className={`flex flex-col items-start gap-1 md:flex-row md:gap-0 md:items-center md:justify-between`}
         >
           <p className="text-sm font-bold text-[#201F24]">
-          {category}
+            {category}
             {/* {isRecurringBills ? "yyyy" : category} */}
           </p>
 
