@@ -270,6 +270,7 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import { ColorEnum } from "@/app/schema/schema";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
+import Summary from "./Summary";
 
 export type RecurringBillsDataType = {
   amount: number;
@@ -316,6 +317,13 @@ const RecurringBillsSection = () => {
     getAllRecurringBills();
   }, [accessToken]);
 
+
+  // const calculateRecurringBill = async () => {
+  //   recurringBillsData?.reduce((acc, entry) => {
+  //     const paidBills = 
+  //   }, 0)
+  // }
+
   console.log(recurringBillsData, "recurringBillsData");
 
   return (
@@ -333,8 +341,8 @@ const RecurringBillsSection = () => {
               <h2 className="text-[32px] font-bold">$384.98</h2>
             </div>
           </div>
-
-          <div className="rounded-lg md:w-1/2 lg:w-full bg-white p-[20px]">
+          <Summary />
+          {/* <div className="rounded-lg md:w-1/2 lg:w-full bg-white p-[20px]">
             <h3 className="text-base font-bold mb-[20px]">Summary</h3>
 
             <div className="w-full flex flex-row items-center justify-between">
@@ -367,7 +375,8 @@ const RecurringBillsSection = () => {
                 4 ($190.00)
               </p>
             </div>
-          </div>
+          </div> */}
+
         </div>
 
         <div className="RIGHT rounded-xl lg:w-[67.47%]">

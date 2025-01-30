@@ -28,9 +28,6 @@
 //   const [sortByDropdown, setSortByDropdown] = useState(false);
 //   const [filteredCategoryDropdown, setFilteredCategoryDropdown] =
 //   useState(false);
-  
-  
-
 
 //   const [filteredCategoryValue, setFilteredCategoryValue] = useState<
 //   string | undefined
@@ -41,16 +38,9 @@
 //   >([]);
 //   const [searchTerm, setSearchTerm] = useState<string>("");
 
-
-
-
 //   const [currentPage, setCurrentPage] = useState<number>(1);
 //   const [limit] = useState<number>(5);
 //   const [inputChecked, setInputChecked] = useState('')
-
-
-
-
 
 //   useEffect(() => {
 //     const getAllTransactions = async () => {
@@ -75,10 +65,6 @@
 //     }
 //   }, [accessToken]);
 
-
-
-
-
 //   useEffect(() => {
 //     const filteredData =
 //       filteredCategoryValue === "All Transactions"
@@ -93,10 +79,6 @@
 
 //     setFilteredAllTransactions(filteredBySearchTerm);
 //   }, [filteredCategoryValue, allTransactions, searchTerm]);
-
-
-
-
 
 //   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //     setSearchTerm(e.target.value);
@@ -151,8 +133,6 @@
 //     });
 //   };
 
-
-  
 //   const sortTransactions = (
 //     transactions: TransactionType[]
 //   ): TransactionType[] => {
@@ -191,7 +171,6 @@
 //     (currentPage - 1) * (limit * 2),
 //     currentPage * (limit * 2)
 //   );
-
 
 //   return (
 //     <section className="w-full h-full min-h-screen">
@@ -277,14 +256,6 @@
 
 // export default TransactionSection;
 
-
-
-
-
-
-
-
-
 "use client";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
@@ -315,10 +286,7 @@ const TransactionSection = () => {
   const [allTransactions, setAllTransactions] = useState<TransactionType[]>([]);
   const [sortByDropdown, setSortByDropdown] = useState(false);
   const [filteredCategoryDropdown, setFilteredCategoryDropdown] =
-  useState(false);
-  
-  
-
+    useState(false);
 
   // const [filteredCategoryValue, setFilteredCategoryValue] = useState<
   // string | undefined
@@ -329,27 +297,23 @@ const TransactionSection = () => {
   // >([]);
   // const [searchTerm, setSearchTerm] = useState<string>("");
 
-
-
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit] = useState<number>(5);
-  const [inputChecked, setInputChecked] = useState('')
+  const [inputChecked, setInputChecked] = useState("");
+  const [isDatePickers, setIsDatePickers] = useState(false);
+
+  const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
 
 
-
-
-  const { 
-    filteredAllTransactions, 
-    setSearchTerm, 
-    sortByValue, 
-    setSortByValue, 
-    filteredCategoryValue, 
-    setFilteredCategoryValue, 
-    sortTransactions 
+  const {
+    filteredAllTransactions,
+    setSearchTerm,
+    sortByValue,
+    setSortByValue,
+    filteredCategoryValue,
+    setFilteredCategoryValue,
+    sortTransactions,
   } = useSortAndFilter(allTransactions || []);
-
-
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -372,7 +336,6 @@ const TransactionSection = () => {
       getAllTransactions();
     }
   }, [accessToken, currentPage, limit]);
-
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -403,7 +366,7 @@ const TransactionSection = () => {
         color: item.color,
         type: type,
         categoryLogo: "",
-        _id: _id
+        _id: _id,
       };
 
       if (type === "budget" && "categoryLogo" in item) {
@@ -425,8 +388,6 @@ const TransactionSection = () => {
     });
   };
 
-
-  
   // const sortTransactions = (
   //   transactions: TransactionType[]
   // ): TransactionType[] => {
@@ -465,7 +426,6 @@ const TransactionSection = () => {
     (currentPage - 1) * (limit * 2),
     currentPage * (limit * 2)
   );
-
 
   return (
     <section className="w-full h-full min-h-screen">
@@ -531,6 +491,10 @@ const TransactionSection = () => {
                     color={transaction.color}
                     type={transaction.type}
                     _id={transaction._id}
+                    setIsDatePickers={setIsDatePickers}
+                    isDatePickers={isDatePickers}
+                    activeDatePicker={activeDatePicker}
+                    setActiveDatePicker={setActiveDatePicker}
                   />
                 );
               })}
