@@ -48,8 +48,7 @@ const Dashboard = () => {
 
   const [accessToken, setAccessToken] = useState<string | null | undefined>(null);
   const [user, setUser] = useState('')
-  console.log(user, "user")
-
+  console.log(user)
 
   async function getCurrenUser(accessToken: string | undefined) {
     try {
