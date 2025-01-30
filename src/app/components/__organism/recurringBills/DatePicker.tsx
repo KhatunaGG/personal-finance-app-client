@@ -188,6 +188,9 @@
 //   );
 // }
 
+
+
+
 "use client";
 import * as React from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -200,6 +203,7 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import axios from "axios";
 import { toast } from "react-toastify";
+// import { NewRecurringBillType } from "../transaction/TransactionItem";
 
 export type DataPikersPropsType = {
   // formattedRecurrentBillsDate: (date: Dayjs | null) => void;
@@ -218,15 +222,7 @@ export type DataPikersPropsType = {
   setIsExistingItem: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export type NewRecurringBillType = {
-  category: string;
-  amount: number;
-  categoryLogo: string;
-  transactionId: string;
-  color: ColorEnum | string | undefined;
-  type: string;
-  dueDate: string;
-};
+
 
 function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {
@@ -270,19 +266,8 @@ export default function BasicDatePicker({
   };
 
   const create = async (dueDate: string) => {
-    let res;
     try {
-      res = axiosInstance.get(`/recurring-bills/${transactionId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-
-      if ((await res).status >= 200 && (await res).status <= 204) {
-        toast.error("This transaction is already added as a recurring bill.");
-        setIsExistingItem(true);
-        setIsDatePickers?.(false);
-        return;
-      }
-      const newRecurringBill = {
+      const res = await axiosInstance.post("/recurring-bills", {
         category,
         amount,
         categoryLogo,
@@ -290,10 +275,10 @@ export default function BasicDatePicker({
         color,
         type,
         dueDate,
-      };
-      res = await axiosInstance.post("/recurring-bills", newRecurringBill, {
+      }, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+  
       if (res.status >= 200 && res.status <= 204) {
         setIsDatePickers?.(false);
         setRecurringBillsDate("");
@@ -302,14 +287,17 @@ export default function BasicDatePicker({
         setIsExistingItem(true);
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Error response:", error.response);
-        toast.error("Failed to add recurring bill.");
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        toast.error(error.response.data.message || "This transaction is already added as a recurring bill.");
+        setIsExistingItem(true);
+        setIsDatePickers?.(false);
       } else {
         console.error("Unexpected error:", error);
+        toast.error("Failed to add recurring bill.");
       }
     }
   };
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

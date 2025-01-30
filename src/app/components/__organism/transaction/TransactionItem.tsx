@@ -285,12 +285,13 @@
 //with calendar
 
 "use client";
-// import useAccessToken from "@/app/hooks/use-toke";
+import useAccessToken from "@/app/hooks/use-toke";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ColorEnum } from "@/app/schema/schema";
 import DatePickers from "../recurringBills/DatePicker";
 import { ToastContainer } from "react-toastify";
+import { axiosInstance } from "@/app/libs/axiosInstance";
 
 export type TransactionItemPropsType = {
   category: string;
@@ -310,6 +311,18 @@ export type TransactionItemPropsType = {
   setActiveDatePicker?: Dispatch<SetStateAction<string | null>>;
 };
 
+
+export type NewRecurringBillType = {
+  category: string;
+  amount: number;
+  categoryLogo: string;
+  transactionId: string;
+  color: ColorEnum | string | undefined;
+  type: string;
+  dueDate: string;
+};
+
+
 const TransactionItem = ({
   category,
   createdAt,
@@ -325,11 +338,33 @@ const TransactionItem = ({
   activeDatePicker,
   setActiveDatePicker,
 }: TransactionItemPropsType) => {
-  // const { accessToken } = useAccessToken();
+  const { accessToken } = useAccessToken();
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
   const [isExistingItem, setIsExistingItem] = useState(false);
 
-  console.log(isExistingItem, "isExistingItem")
+
+  const checkExistingRecurringBill = async () => {
+    try {
+      const res = await axiosInstance.get("/recurring-bills", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+        const data = res.data || [];
+      const isExisting = data.some(
+        (item: { transactionId: string }) => item.transactionId === _id
+      );
+  
+      setIsExistingItem(isExisting);
+    } catch (error) {
+      console.error("Error checking recurring bill:", error);
+      setIsExistingItem(false);
+    }
+  };
+  
+
+  useEffect(() => {
+    checkExistingRecurringBill();
+  }, [_id]);
+
 
   const handleInputChange = async (id: string) => {
     setIsDatePickers?.(true);
@@ -366,9 +401,7 @@ const TransactionItem = ({
         <div
           className={`flex flex-col items-start gap-1 md:flex-row md:gap-0 md:items-center md:justify-between`}
         >
-          <p className="text-sm font-bold text-[#201F24]">
-            {category}
-          </p>
+          <p className="text-sm font-bold text-[#201F24]">{category}</p>
 
           <p
             className={`${isRecurringBills ? "sm:flex" : "md:hidden"} ${
@@ -385,7 +418,12 @@ const TransactionItem = ({
                 isRecurringBills && "hidden"
               } text-xs text-[#696868] font-thin border border-[#69686826] py-2 px-1 rounded-md`}
             >
-              Add to Recurring Bills
+              {/* {isExistingItem
+                ? "Remove Recurring Bill"
+                : "Add to Recurring Bills"} */}
+              {isExistingItem
+                ? "Remove Recurring Bill"
+                : "Add to Recurring Bills"}
             </button>
             {activeDatePicker === _id && isDatePickers && (
               <DatePickers
