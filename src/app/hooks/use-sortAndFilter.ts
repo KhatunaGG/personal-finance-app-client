@@ -272,22 +272,41 @@ export const useSortAndFilter = (allTransactions: TransactionOrRecurringBill[]) 
     }
   }, [filteredCategoryValue, allTransactions, searchTerm]);
 
+
+
   const sortTransactions = (transactions: TransactionOrRecurringBill[]): TransactionOrRecurringBill[] => {
     const transactionsCopy = [...transactions]; 
 
     switch (sortByValue) {
+      // case "Latest":
+      //   return transactionsCopy.sort((a, b) => {
+      //     const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date(a.createdAt || "");
+      //     const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date(b.createdAt || "");
+      //     return bDate.getTime() - aDate.getTime();
+      //   });
+      // case "Oldest":
+      //   return transactionsCopy.sort((a, b) => {
+      //     const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date(a.createdAt || "");
+      //     const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date(b.createdAt || "");
+      //     return aDate.getTime() - bDate.getTime();
+      //   });
+
       case "Latest":
-        return transactionsCopy.sort((a, b) => {
-          const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date(a.createdAt || "");
-          const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date(b.createdAt || "");
-          return bDate.getTime() - aDate.getTime();
-        });
-      case "Oldest":
-        return transactionsCopy.sort((a, b) => {
-          const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date(a.createdAt || "");
-          const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date(b.createdAt || "");
-          return aDate.getTime() - bDate.getTime();
-        });
+      return transactionsCopy.sort((a, b) => {
+        const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date((a as TransactionType).createdAt || "");
+        const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date((b as TransactionType).createdAt || "");
+        return bDate.getTime() - aDate.getTime();
+      });
+    case "Oldest":
+      return transactionsCopy.sort((a, b) => {
+        const aDate = "dueDate" in a ? new Date(a.dueDate) : new Date((a as TransactionType).createdAt || "");
+        const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date((b as TransactionType).createdAt || "");
+        return aDate.getTime() - bDate.getTime();
+      });
+
+
+
+
       case "A to Z":
         return transactionsCopy.sort((a, b) => a.category.localeCompare(b.category));
       case "Z to A":
@@ -300,6 +319,9 @@ export const useSortAndFilter = (allTransactions: TransactionOrRecurringBill[]) 
         return transactionsCopy;
     }
   };
+
+
+
 
   return {
     filteredAllTransactions,
