@@ -260,10 +260,13 @@ export default function BasicDatePicker({
       const day = date.date();
       const ordinalSuffix = getSuffix(day);
       const formattedDate = `Monthly - ${day}${ordinalSuffix}`;
-      setRecurringBillsDate(formattedDate);
-      await create(formattedDate);
+  
+      setRecurringBillsDate(formattedDate); 
+      console.log("Updated Due Date:", formattedDate); 
+      await create(formattedDate); 
     }
   };
+  
 
   const create = async (dueDate: string) => {
     try {
@@ -283,7 +286,9 @@ export default function BasicDatePicker({
         setIsDatePickers?.(false);
         setRecurringBillsDate("");
         setActiveDatePicker?.(null);
-        toast.success("Recurring bill added successfully!");
+        toast.success("Recurring bill added successfully!", {
+          autoClose: 2000, 
+        });
         setIsExistingItem(true);
       }
     } catch (error) {
@@ -293,7 +298,9 @@ export default function BasicDatePicker({
         setIsDatePickers?.(false);
       } else {
         console.error("Unexpected error:", error);
-        toast.error("Failed to add recurring bill.");
+        toast.error("Failed to add recurring bill.", {
+          autoClose: 2000, 
+        });
       }
     }
   };

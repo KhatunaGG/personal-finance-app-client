@@ -309,6 +309,9 @@ export type TransactionItemPropsType = {
   isDatePickers?: boolean;
   activeDatePicker?: string | null;
   setActiveDatePicker?: Dispatch<SetStateAction<string | null>>;
+  dueDate?: string;
+  status?: string;
+
 };
 
 
@@ -337,6 +340,8 @@ const TransactionItem = ({
   isDatePickers,
   activeDatePicker,
   setActiveDatePicker,
+  dueDate,
+  // status
 }: TransactionItemPropsType) => {
   const { accessToken } = useAccessToken();
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
@@ -408,7 +413,7 @@ const TransactionItem = ({
               !isRecurringBills && "hidden"
             } order-2 text-xs text-[#696868] font-normal md:order-1`}
           >
-            {isRecurringBills ? "Monthly - 2nd" : createdAt}
+            {isRecurringBills ? dueDate: createdAt}
           </p>
 
           <div className="relative">
@@ -416,7 +421,7 @@ const TransactionItem = ({
               onClick={() => handleInputChange(_id)}
               className={`${
                 isRecurringBills && "hidden"
-              } text-xs text-[#696868] font-thin border border-[#69686826] py-2 px-1 rounded-md`}
+              } text-xs  font-thin border border-[#69686826] py-2 px-1 rounded-md ${isExistingItem ? "text-[#C94736]" : "text-[#696868]"}`}
             >
               {/* {isExistingItem
                 ? "Remove Recurring Bill"
@@ -452,7 +457,7 @@ const TransactionItem = ({
         <p
           className={`${
             isRecurringBills && "hidden"
-          } order-2 text-xs text-[#696868] font-normal md:order-1 bg-green-300`}
+          } order-2 text-xs text-[#696868] font-normal md:order-1`}
         >
           {isRecurringBills ? "Monthly - 2nd" : createdAt}
         </p>
