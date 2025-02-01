@@ -312,8 +312,8 @@ export type TransactionItemPropsType = {
   setActiveDatePicker?: Dispatch<SetStateAction<string | null>>;
   dueDate?: string;
   status?: string;
-  recurringBillsData: RecurringBillsDataType[] | undefined;
-  setRecurringBillsData: Dispatch<
+  recurringBillsData?: RecurringBillsDataType[] | undefined;
+  setRecurringBillsData?: Dispatch<
     SetStateAction<RecurringBillsDataType[] | undefined>
   >;
 };

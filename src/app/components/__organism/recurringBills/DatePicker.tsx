@@ -208,7 +208,7 @@ import { RecurringBillsDataType } from "./RecurringBillsSection";
 
 export type DataPikersPropsType = {
   // formattedRecurrentBillsDate: (date: Dayjs | null) => void;
-  setRecurringBillsData: React.Dispatch<React.SetStateAction<RecurringBillsDataType[] | undefined>>;
+  setRecurringBillsData?: React.Dispatch<React.SetStateAction<RecurringBillsDataType[] | undefined>>;
   category: string;
   amount: number;
   categoryLogo?: string;
@@ -287,7 +287,7 @@ export default function BasicDatePicker({
   
       if (res.status >= 200 && res.status <= 204) {
         setIsDatePickers?.(false);
-        setRecurringBillsData(undefined);
+        setRecurringBillsData?.(undefined);
         setActiveDatePicker?.(null);
         toast.success("Recurring bill added successfully!", {
           autoClose: 2000, 
