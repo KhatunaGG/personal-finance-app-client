@@ -203,11 +203,12 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { RecurringBillsDataType } from "./RecurringBillsSection";
 // import { NewRecurringBillType } from "../transaction/TransactionItem";
 
 export type DataPikersPropsType = {
   // formattedRecurrentBillsDate: (date: Dayjs | null) => void;
-  setRecurringBillsDate: React.Dispatch<React.SetStateAction<string>>;
+  setRecurringBillsData: React.Dispatch<React.SetStateAction<RecurringBillsDataType[] | undefined>>;
   category: string;
   amount: number;
   categoryLogo?: string;
@@ -220,6 +221,7 @@ export type DataPikersPropsType = {
     | React.Dispatch<React.SetStateAction<string | null>>
     | undefined;
   setIsExistingItem: React.Dispatch<React.SetStateAction<boolean>>;
+  setRecurringBillsDate:  React.Dispatch<React.SetStateAction<string>>;
 };
 
 
@@ -241,7 +243,7 @@ function getSuffix(day: number): string {
 }
 
 export default function BasicDatePicker({
-  setRecurringBillsDate,
+  setRecurringBillsData,
   category,
   amount,
   categoryLogo,
@@ -251,7 +253,8 @@ export default function BasicDatePicker({
   // recurringBillsDate,
   setIsDatePickers,
   setActiveDatePicker,
-  setIsExistingItem
+  setIsExistingItem,
+  setRecurringBillsDate
 }: DataPikersPropsType) {
   const { accessToken } = useAccessToken();
 
@@ -284,7 +287,7 @@ export default function BasicDatePicker({
   
       if (res.status >= 200 && res.status <= 204) {
         setIsDatePickers?.(false);
-        setRecurringBillsDate("");
+        setRecurringBillsData(undefined);
         setActiveDatePicker?.(null);
         toast.success("Recurring bill added successfully!", {
           autoClose: 2000, 

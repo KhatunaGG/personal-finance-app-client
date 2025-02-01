@@ -427,6 +427,10 @@ const TransactionSection = () => {
     currentPage * (limit * 2)
   );
 
+
+  console.log(allTransactions, "allTransactions")
+
+
   return (
     <section className="w-full h-full min-h-screen">
       <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
