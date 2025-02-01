@@ -292,6 +292,7 @@ import { ColorEnum } from "@/app/schema/schema";
 import DatePickers from "../recurringBills/DatePicker";
 import { ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
+import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 
 export type TransactionItemPropsType = {
   category: string;
@@ -311,9 +312,11 @@ export type TransactionItemPropsType = {
   setActiveDatePicker?: Dispatch<SetStateAction<string | null>>;
   dueDate?: string;
   status?: string;
-
+  recurringBillsData?: RecurringBillsDataType[] | undefined;
+  setRecurringBillsData?: Dispatch<
+    SetStateAction<RecurringBillsDataType[] | undefined>
+  >;
 };
-
 
 export type NewRecurringBillType = {
   category: string;
@@ -324,7 +327,6 @@ export type NewRecurringBillType = {
   type: string;
   dueDate: string;
 };
-
 
 const TransactionItem = ({
   category,
@@ -341,35 +343,35 @@ const TransactionItem = ({
   activeDatePicker,
   setActiveDatePicker,
   dueDate,
-  // status
+  status,
+  recurringBillsData,
+  setRecurringBillsData,
 }: TransactionItemPropsType) => {
   const { accessToken } = useAccessToken();
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
   const [isExistingItem, setIsExistingItem] = useState(false);
 
-
+  console.log(recurringBillsData, "recurringBillsData");
   const checkExistingRecurringBill = async () => {
     try {
       const res = await axiosInstance.get("/recurring-bills", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-        const data = res.data || [];
+      const data = res.data || [];
       const isExisting = data.some(
         (item: { transactionId: string }) => item.transactionId === _id
       );
-  
+
       setIsExistingItem(isExisting);
     } catch (error) {
       console.error("Error checking recurring bill:", error);
       setIsExistingItem(false);
     }
   };
-  
 
   useEffect(() => {
     checkExistingRecurringBill();
   }, [_id]);
-
 
   const handleInputChange = async (id: string) => {
     setIsDatePickers?.(true);
@@ -408,12 +410,21 @@ const TransactionItem = ({
         >
           <p className="text-sm font-bold text-[#201F24]">{category}</p>
 
+          {/* <p
+            className={`${isRecurringBills ? "sm:flex" : "md:hidden"} ${
+              !isRecurringBills && "hidden"
+            } order-2 text-xs text-[#696868] font-normal md:order-1 bg-green-300`}
+          >
+            {isRecurringBills ? dueDate : createdAt}
+          </p> */}
+
           <p
             className={`${isRecurringBills ? "sm:flex" : "md:hidden"} ${
               !isRecurringBills && "hidden"
-            } order-2 text-xs text-[#696868] font-normal md:order-1`}
+            } order-2 text-xs text-[#696868] font-normal md:order-1 bg-green-300 relative`}
           >
-            {isRecurringBills ? dueDate: createdAt}
+            {isRecurringBills ? dueDate : createdAt}
+            <span className={`absolute w-[13px] h-[13px] rounded-full top-0 right-0 z-10 ${isRecurringBills && status === "dueSoon" ? "bg-[#C94736]" : "bg-[#277C78]"} `}></span>
           </p>
 
           <div className="relative">
@@ -421,7 +432,9 @@ const TransactionItem = ({
               onClick={() => handleInputChange(_id)}
               className={`${
                 isRecurringBills && "hidden"
-              } text-xs  font-thin border border-[#69686826] py-2 px-1 rounded-md ${isExistingItem ? "text-[#C94736]" : "text-[#696868]"}`}
+              } text-xs  font-thin border border-[#69686826] py-2 px-1 rounded-md ${
+                isExistingItem ? "text-[#C94736]" : "text-[#696868]"
+              }`}
             >
               {/* {isExistingItem
                 ? "Remove Recurring Bill"
@@ -432,7 +445,7 @@ const TransactionItem = ({
             </button>
             {activeDatePicker === _id && isDatePickers && (
               <DatePickers
-                setRecurringBillsDate={setRecurringBillsDate}
+                setRecurringBillsData={setRecurringBillsData}
                 category={category}
                 amount={amount}
                 categoryLogo={categoryLogo}
@@ -440,6 +453,7 @@ const TransactionItem = ({
                 color={color}
                 type={type}
                 recurringBillsDate={recurringBillsDate}
+                setRecurringBillsDate={setRecurringBillsDate}
                 setIsDatePickers={setIsDatePickers}
                 setActiveDatePicker={setActiveDatePicker}
                 setIsExistingItem={setIsExistingItem}

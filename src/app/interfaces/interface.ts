@@ -34,4 +34,6 @@ export type DataType = {
   createdAt?: string;
   updatedAt?: string;
   id: string;
+
+  status?: string;
 };
