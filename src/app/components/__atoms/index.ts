@@ -16,3 +16,5 @@ export { default as SortIcon } from "./sortIcon/SortIcon";
 export { default as FilterIcon } from "./filterIcon/FilterIcon";
 export { default as PaginationArrowRight } from "./paginationArrowRight/PaginationArrowRight";
 export { default as RecurringBillsIcon } from "./recurringBillsIcon/RecurringBillsIcon";
+export { default as ExclamationMark } from "./exclamationMark/ExclamationMark";
+export { default as CheckMark } from "./checkMark/CheckMark";
