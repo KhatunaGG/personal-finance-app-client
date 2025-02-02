@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { ChartDataType } from "../budgetFragment/BudgetFragment";
+import { ChartDataType } from "../dashboard/BudgetFragment";
 
 export type ChartDataPropsType = {
   data: ChartDataType[];
