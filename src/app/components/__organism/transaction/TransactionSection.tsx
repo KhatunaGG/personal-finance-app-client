@@ -301,9 +301,8 @@ const TransactionSection = () => {
   const [limit] = useState<number>(5);
   const [inputChecked, setInputChecked] = useState("");
   const [isDatePickers, setIsDatePickers] = useState(false);
-
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
-
+  // console.log(activeDatePicker, "activeDatePicker");
 
   const {
     filteredAllTransactions,
@@ -428,7 +427,7 @@ const TransactionSection = () => {
   );
 
 
-  console.log(allTransactions, "allTransactions")
+
 
 
   return (

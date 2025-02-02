@@ -293,6 +293,7 @@ import DatePickers from "../recurringBills/DatePicker";
 import { ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
+import { CheckMark, ExclamationMark } from "../../__atoms";
 
 export type TransactionItemPropsType = {
   category: string;
@@ -316,6 +317,7 @@ export type TransactionItemPropsType = {
   setRecurringBillsData?: Dispatch<
     SetStateAction<RecurringBillsDataType[] | undefined>
   >;
+  getAllRecurringBills?: () => Promise<void>;
 };
 
 export type NewRecurringBillType = {
@@ -344,14 +346,14 @@ const TransactionItem = ({
   setActiveDatePicker,
   dueDate,
   status,
-  recurringBillsData,
+  // recurringBillsData,
   setRecurringBillsData,
+  getAllRecurringBills,
 }: TransactionItemPropsType) => {
   const { accessToken } = useAccessToken();
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
   const [isExistingItem, setIsExistingItem] = useState(false);
 
-  console.log(recurringBillsData, "recurringBillsData");
   const checkExistingRecurringBill = async () => {
     try {
       const res = await axiosInstance.get("/recurring-bills", {
@@ -363,22 +365,55 @@ const TransactionItem = ({
       );
 
       setIsExistingItem(isExisting);
+
+      // if (!isExisting) {
+      //   setIsDatePickers?.(true); 
+      // } else {
+      //   setIsDatePickers?.(false);
+      // }
     } catch (error) {
       console.error("Error checking recurring bill:", error);
-      setIsExistingItem(false);
     }
   };
+
 
   useEffect(() => {
     checkExistingRecurringBill();
   }, [_id]);
 
   const handleInputChange = async (id: string) => {
-    setIsDatePickers?.(true);
+    setIsDatePickers?.(true); 
+
     if (activeDatePicker === id) {
       setActiveDatePicker?.(null);
     } else {
       setActiveDatePicker?.(id);
+    }
+
+    try {
+      const res = await axiosInstance.get(
+        `/recurring-bills/transaction/${id}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      if (res.data === "") {
+        setIsExistingItem(false);
+        setIsDatePickers?.(true);
+      } else {
+        await axiosInstance.delete(`/recurring-bills/transaction/${id}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        setIsExistingItem(false); 
+        setIsDatePickers?.(false); 
+        setActiveDatePicker?.(null);
+        getAllRecurringBills?.();
+      }
+
+      console.log(res.data, "response data");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -409,22 +444,23 @@ const TransactionItem = ({
           className={`flex flex-col items-start gap-1 md:flex-row md:gap-0 md:items-center md:justify-between`}
         >
           <p className="text-sm font-bold text-[#201F24]">{category}</p>
-
-          {/* <p
-            className={`${isRecurringBills ? "sm:flex" : "md:hidden"} ${
-              !isRecurringBills && "hidden"
-            } order-2 text-xs text-[#696868] font-normal md:order-1 bg-green-300`}
-          >
-            {isRecurringBills ? dueDate : createdAt}
-          </p> */}
-
           <p
             className={`${isRecurringBills ? "sm:flex" : "md:hidden"} ${
               !isRecurringBills && "hidden"
-            } order-2 text-xs text-[#696868] font-normal md:order-1 bg-green-300 relative`}
+            } order-2 text-xs text-[#696868] font-normal md:order-1 relative`}
           >
             {isRecurringBills ? dueDate : createdAt}
-            <span className={`absolute w-[13px] h-[13px] rounded-full top-0 right-0 z-10 ${isRecurringBills && status === "dueSoon" ? "bg-[#C94736]" : "bg-[#277C78]"} `}></span>
+            <span
+              className={`absolute w-[13px] h-[13px] rounded-full -top-1 -right-4 z-10  `}
+            >
+              {isRecurringBills && status === "dueSoon" ? (
+                <ExclamationMark />
+              ) : isRecurringBills && status === "paid" ? (
+                <CheckMark />
+              ) : (
+                ""
+              )}
+            </span>
           </p>
 
           <div className="relative">
@@ -443,7 +479,8 @@ const TransactionItem = ({
                 ? "Remove Recurring Bill"
                 : "Add to Recurring Bills"}
             </button>
-            {activeDatePicker === _id && isDatePickers && (
+            {/* {activeDatePicker === _id && isDatePickers &&  ( */}
+            {activeDatePicker === _id && isDatePickers && !isExistingItem && (
               <DatePickers
                 setRecurringBillsData={setRecurringBillsData}
                 category={category}

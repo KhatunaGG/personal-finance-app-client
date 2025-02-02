@@ -112,7 +112,7 @@ const BudgetSections = () => {
           </div>
 
           <div className="w-full lg:w-[57.36%] flex flex-col gap-y-6">
-            {groupedData.map((group, i) => {
+            {/* {groupedData.map((group, i) => {
               if (group.spending < 0) {
                 return (
                   <BudgetItem
@@ -131,6 +131,25 @@ const BudgetSections = () => {
                   />
                 );
               }
+              return null;
+            })} */}
+            {groupedData.map((group, i) => {
+              return (
+                <BudgetItem
+                  key={i}
+                  category={group.category}
+                  color={getColorHex(group.color)}
+                  groupSpending={group.spending}
+                  groupTotalAmount={group.totalAmount}
+                  data={data}
+                  getBudgets={getBudgets}
+                  setIsEdit={setIsEdit}
+                  activeModalItem={activeModalItem}
+                  setActiveModalItem={setActiveModalItem}
+                  index={i}
+                  setIsModal={setIsModal}
+                />
+              );
               return null;
             })}
           </div>
