@@ -2,11 +2,11 @@
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import PotsFragment from "../potsFragment/PotsFragment";
-import TotalsFragment from "../totalFragment/TotalsFragment";
-import TransactionsFragment from "../transactionsFragment/TransactionsFragment";
-import BudgetFragment from "../budgetFragment/BudgetFragment";
-import BillsFragment from "../billsFragment/BillsFragment";
+import PotsFragment from "./PotsFragment";
+import TotalsFragment from "./TotalsFragment";
+import TransactionsFragment from "./TransactionsFragment";
+import BudgetFragment from "./BudgetFragment";
+import BillsFragment from "./BillsFragment";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 
 const Dashboard = () => {
