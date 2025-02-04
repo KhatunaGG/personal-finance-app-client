@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { DataType } from "@/app/interfaces/interface"; 
+import { useGroupedData } from './use-categoryGrope';
 
 const useLatestSpendingData = (data: DataType[], category: string) => {
+  const groupedData = useGroupedData(data);
   const latestSpendingData = useMemo(() => {
     const latestSpending = data
       .filter((item) => item.category === category)
@@ -9,7 +11,7 @@ const useLatestSpendingData = (data: DataType[], category: string) => {
     return latestSpending.length < 3
       ? latestSpending
       : latestSpending.slice(latestSpending.length - 3);
-  }, [data, category]);
+  }, [data, category, groupedData]);
 
   const isLastEl = latestSpendingData.length - 1;
 

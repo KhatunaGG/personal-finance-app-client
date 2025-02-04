@@ -4,27 +4,31 @@ import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
-import { axiosInstance } from "@/app/libs/axiosInstance";
-import { useRouter } from "next/navigation";
+// import { axiosInstance } from "@/app/libs/axiosInstance";
+// import { useRouter } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
-import { DataType } from "@/app/interfaces/interface";
+// import { DataType } from "@/app/interfaces/interface";
 import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
+import useBudgets from "@/app/hooks/use-budgets";
+// import useBudgets from "@/app/hooks/use-budgets";
 
 const BudgetSections = () => {
-  const [data, setData] = useState<DataType[]>([]);
-  const router = useRouter();
+  // const [data, setData] = useState<DataType[]>([]);
+  // const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
   const [isAddBudget, setIsAddBudget] = useState(false);
-  const groupedData = useGroupedData(data);
   const context = useContext(GlobalContext);
   const [isEdit, setIsEdit] = useState(false);
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(
     null
   );
+
+  const { data, getBudgets } = useBudgets(accessToken || "");
+  const groupedData = useGroupedData(data);
 
   useEffect(() => {
     if (activeModalItem !== null) {
@@ -34,25 +38,22 @@ const BudgetSections = () => {
     }
   }, [activeModalItem, groupedData]);
 
-  const getBudgets = async () => {
-    try {
-      const res = await axiosInstance.get("/budgets", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getBudgets = async () => {
+  //   try {
+  //     const res = await axiosInstance.get("/budgets", {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     setData(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getBudgets();
-  }, [router]);
-
-  if (!context) return null;
-  const { isModal, setIsModal } = context;
+  // useEffect(() => {
+  //   getBudgets();
+  // }, [router, data, groupedData]);
 
   // useEffect(() => {
   //   if (data.length > 0) {
@@ -60,7 +61,18 @@ const BudgetSections = () => {
   //   }
   // }, [data, groupedData]);
 
-  // console.log(data, "data");
+
+
+
+
+  useEffect(() => {
+    getBudgets();
+  }, [accessToken, getBudgets]);
+
+  if (!context) return null;
+  const { isModal, setIsModal } = context;
+
+
 
   if (isLoading) {
     return (
@@ -103,36 +115,17 @@ const BudgetSections = () => {
         </div>
 
         <div className="w-full flex flex-col lg:flex-row items-start gap-y-6 lg:gap-x-[2.26%]">
-          <div className="bg-white w-full max-w-[375px] md:max-w-[758px] lg:w-[40.38%] p-8 rounded-lg flex flex-col md:flex-row lg:flex-col items-center justify-center gap-y-8 md:gap-x-8 lg:gap-y-8">
-            <div className="w-[240px] h-[240px]  flex flex-col md:flex-row lg:flex-col items-center justify-center">
-              <BudgetPieChart groupedData={groupedData} data={data} />
-            </div>
+          {data.length > 0 && (
+            <div className="bg-white w-full max-w-[375px] md:max-w-[758px] lg:w-[40.38%] p-8 rounded-lg flex flex-col md:flex-row lg:flex-col items-center justify-center gap-y-8 md:gap-x-8 lg:gap-y-8">
+              <div className="w-[240px] h-[240px]  flex flex-col md:flex-row lg:flex-col items-center justify-center">
+                <BudgetPieChart groupedData={groupedData} data={data} />
+              </div>
 
-            <Spending groupedData={groupedData} />
-          </div>
+              <Spending groupedData={groupedData} />
+            </div>
+          )}
 
           <div className="w-full lg:w-[57.36%] flex flex-col gap-y-6">
-            {/* {groupedData.map((group, i) => {
-              if (group.spending < 0) {
-                return (
-                  <BudgetItem
-                    key={i}
-                    category={group.category}
-                    color={getColorHex(group.color)}
-                    groupSpending={group.spending}
-                    groupTotalAmount={group.totalAmount}
-                    data={data}
-                    getBudgets={getBudgets}
-                    setIsEdit={setIsEdit}
-                    activeModalItem={activeModalItem}
-                    setActiveModalItem={setActiveModalItem}
-                    index={i}
-                    setIsModal={setIsModal}
-                  />
-                );
-              }
-              return null;
-            })} */}
             {groupedData.map((group, i) => {
               return (
                 <BudgetItem
@@ -160,3 +153,4 @@ const BudgetSections = () => {
 };
 
 export default BudgetSections;
+

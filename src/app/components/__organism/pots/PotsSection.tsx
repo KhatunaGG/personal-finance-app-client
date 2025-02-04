@@ -124,7 +124,6 @@ const PotsSection = () => {
 
       {isModal && isPotPage && (
         <Modal
-          // isModal={isModal}
           setIsModal={setIsModal}
           potsData={potsData}
           isEdit={isEdit}
@@ -174,7 +173,6 @@ const PotsSection = () => {
                 portSpendingTotalAmount={pot.portSpendingTotalAmount}
                 setIsEdit={setIsEdit}
                 activePot={activePot}
-                // handleOpenModal={handleOpenModal}
                 setIsModal={setIsModal}
                 index={i}
                 activeModalItem={activeModalItem}

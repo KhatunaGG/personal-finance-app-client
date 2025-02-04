@@ -7,7 +7,6 @@ export { default as SideBar } from "./sideBar/SideBar";
 export { default as SignUpSection } from "./signUpSection/SignUpSection";
 export { default as TotalsFragment } from "./dashboard/TotalsFragment";
 export { default as TransactionsFragment } from "./dashboard/TransactionsFragment";
-export { default as Chart } from "./chart/Chart";
 export { default as BillsFragment } from "./dashboard/BillsFragment";
 export { default as BudgetSections } from "./budgets/BudgetSections";
 export { default as Spending } from "./budgets/Spending";

@@ -5,6 +5,7 @@ export type SpendingPropsType = {
 };
 
 const Spending = ({ groupedData }: SpendingPropsType) => {
+console.log(groupedData, "groupedData")
   const slicedGroupedData =
     groupedData.length < 4
       ? groupedData

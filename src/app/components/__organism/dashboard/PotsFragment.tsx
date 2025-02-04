@@ -8,6 +8,8 @@ export type PotsFragmentPropsType = {
 };
 
 const PotsFragment = ({ pots }: PotsFragmentPropsType) => {
+
+  
   return (
     <section className="bg-white rounded-xl   w-full p-8 flex flex-col gap-[20px] lg:max-h-[218px]">
       <div className="w-full flex items-center justify-between">

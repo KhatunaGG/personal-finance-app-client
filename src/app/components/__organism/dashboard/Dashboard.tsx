@@ -230,10 +230,10 @@ const Dashboard = () => {
 
 
 
-  console.log(pots, "pots")
-  console.log(budgets, "budgets")
-  console.log(recurringBills, "recurringBills")
-  console.log(transactions, "transactions")
+  // console.log(pots, "pots")
+  // console.log(budgets, "budgets")
+  // console.log(recurringBills, "recurringBills")
+  // console.log(transactions, "transactions")
 
 
 
@@ -307,7 +307,7 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
-            <BudgetFragment />
+            <BudgetFragment budgets={budgets} />
             <BillsFragment recurringBills={recurringBills} />
           </div>
         </div>
