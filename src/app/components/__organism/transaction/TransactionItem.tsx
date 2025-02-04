@@ -294,6 +294,8 @@ import { ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { CheckMark, ExclamationMark } from "../../__atoms";
+// import { DataType } from "@/app/interfaces/interface";
+import { TransactionType } from "./TransactionSection";
 
 export type TransactionItemPropsType = {
   category: string;
@@ -318,6 +320,8 @@ export type TransactionItemPropsType = {
     SetStateAction<RecurringBillsDataType[] | undefined>
   >;
   getAllRecurringBills?: () => Promise<void>;
+  allTransactions?: TransactionType[];
+  onTransactionUpdate?: (transactionId: string, updatedTransaction: { color: string; amount: number }) => Promise<void>;
 };
 
 export type NewRecurringBillType = {
@@ -349,10 +353,57 @@ const TransactionItem = ({
   // recurringBillsData,
   setRecurringBillsData,
   getAllRecurringBills,
+  // allTransactions,
+  onTransactionUpdate
 }: TransactionItemPropsType) => {
   const { accessToken } = useAccessToken();
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
   const [isExistingItem, setIsExistingItem] = useState(false);
+
+
+
+
+  const handleUpdate = (newColor: string, newAmount: number) => {
+    if (onTransactionUpdate) {
+      onTransactionUpdate(_id, { color: newColor, amount: newAmount });
+    }
+  };
+
+  useEffect(() => {
+    handleUpdate(color as string, amount)
+  }, [color, amount])
+
+//   const handleTransactionUpdate = (updatedTransaction: DataType) => {
+//     if (setRecurringBillsData && recurringBillsDate) {
+//       setRecurringBillsData((prev) => {
+//         // Ensure that the map returns the updated array correctly
+//         return prev?.map((item) => {
+//           if (item.transactionId === updatedTransaction.id) {
+//             return { 
+//               ...item, 
+//               amount: updatedTransaction.amount, 
+//               color: updatedTransaction.color 
+//             };
+//           }
+//           return item; // return the original item if no update
+//         });
+//       });
+//     }
+//   }
+  
+//   const updateTransaction = async (id: string, updatedAmount: number, updatedColor: string) => {
+//     try {
+//         // Assuming you're calling an API to update the transaction
+//         const res = await axiosInstance.patch(`/transactions/${id}`, { amount: updatedAmount, color: updatedColor });
+//         if (res.status === 200) {
+//             // Update the recurring bill data in the parent component
+//             handleTransactionUpdate({ ...res.data, _id: id, amount: updatedAmount, color: updatedColor });
+//         }
+//     } catch (error) {
+//         console.error('Error updating transaction:', error);
+//     }
+// };
+
 
   const checkExistingRecurringBill = async () => {
     try {

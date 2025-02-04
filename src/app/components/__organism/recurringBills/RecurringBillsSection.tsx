@@ -263,8 +263,6 @@ const RecurringBillsSection = () => {
     setSearchTerm(e.target.value);
   };
 
-  console.log(recurringBillsData, "recurringBillsData")
-
 
   const {
     filteredAllTransactions,
@@ -273,7 +271,7 @@ const RecurringBillsSection = () => {
     sortTransactions,
   } = useSortAndFilter(recurringBillsData || []);
 
-  // Function to fetch all transactions
+
   const fetchAllTransactions = async () => {
     try {
       const res = await axiosInstance.get("/budgets/resources", {
@@ -290,7 +288,44 @@ const RecurringBillsSection = () => {
     }
   };
 
-  // Function to update recurring bills' status
+
+
+
+
+
+  const onTransactionUpdate = async (transactionId: string, updatedTransaction: { color: string; amount: number }) => {
+    const updatedBills = recurringBillsData?.map(bill => {
+      if (bill.transactionId === transactionId) {
+        return { ...bill, color: updatedTransaction.color, amount: updatedTransaction.amount };
+      }
+      return bill;
+    });
+  
+    setRecurringBillsData(updatedBills);
+    try {
+      await axiosInstance.patch(
+        `/recurring-bills/${transactionId}`,
+        {
+          color: updatedTransaction.color,
+          amount: updatedTransaction.amount,
+        },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating recurring bill:", error);
+    }
+  };
+  
+
+
+
+
+
+
+
+
   const updateRecurringBillsStatus = (bills: RecurringBillsDataType[]) => {
     const today = dayjs();
     const lastDayOfMonth = today.endOf("month").date();
@@ -351,7 +386,7 @@ const RecurringBillsSection = () => {
     });
   };
 
-  // Function to fetch all recurring bills
+
   const getAllRecurringBills = async () => {
     try {
       const res = await axiosInstance.get("/recurring-bills", {
@@ -367,14 +402,13 @@ const RecurringBillsSection = () => {
     }
   };
 
-  // UseEffect hook to call the fetchAllTransactions function
+
   useEffect(() => {
     if (accessToken) {
       fetchAllTransactions();
     }
   }, [accessToken]);
 
-  // UseEffect hook to call the getAllRecurringBills function once transactions are fetched
   useEffect(() => {
     if (transactions.length > 0) {
       getAllRecurringBills();
@@ -427,6 +461,8 @@ const RecurringBillsSection = () => {
                       {...("dueDate" in transaction && { dueDate: transaction.dueDate })}
                       {...("status" in transaction && { status: transaction.status })}
                       getAllRecurringBills={getAllRecurringBills} 
+
+                      onTransactionUpdate={onTransactionUpdate}
                     />
                   );
                 })}

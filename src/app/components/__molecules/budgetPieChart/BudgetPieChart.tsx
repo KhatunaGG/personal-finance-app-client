@@ -122,6 +122,7 @@
 "use client";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { CategoryEnum, ColorEnum } from "@/app/schema/schema";
+// import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Label, Cell } from "recharts";
 
@@ -148,6 +149,9 @@ export type BudgetPieChartPropsType = {
 const BudgetPieChart = ({ groupedData }: BudgetPieChartPropsType) => {
   const [mounted, setMounted] = useState(false);
   const { getColorHex } = useBudgetUtils();
+  // const router = useRouter();
+
+
 
   useEffect(() => {
     setMounted(true);

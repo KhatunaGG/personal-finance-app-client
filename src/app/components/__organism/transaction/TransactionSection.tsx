@@ -336,6 +336,11 @@ const TransactionSection = () => {
     }
   }, [accessToken, currentPage, limit]);
 
+
+
+
+
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -498,6 +503,7 @@ const TransactionSection = () => {
                     isDatePickers={isDatePickers}
                     activeDatePicker={activeDatePicker}
                     setActiveDatePicker={setActiveDatePicker}
+                    allTransactions={allTransactions}
                   />
                 );
               })}

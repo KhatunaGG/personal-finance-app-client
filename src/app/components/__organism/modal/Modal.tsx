@@ -719,8 +719,6 @@ const Modal = ({
   if (!context) return null;
   const { accessToken } = context;
 
-  console.log(activePotModal, "activePotModal");
-  console.log(activePot, "activePot");
 
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;

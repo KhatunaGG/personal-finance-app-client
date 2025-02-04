@@ -43,7 +43,8 @@ const BudgetItem = ({
   );
 
 
-  
+  // console.log(latestSpendingData, "latestSpendingData")
+  console.log(data, "data")
   const handleOpenModal = () => {
     setActiveModalItem(
       activeModalItem === null || activeModalItem !== index ? index : null
@@ -120,39 +121,41 @@ const BudgetItem = ({
           </div>
         </div>
       </div>
+      {data.some((item) => item.amount < 0 )  && (
+        <section className="bg-[#F8F4F0] rounded-xl p-[20px]  h-full w-full   flex flex-col  gap-y-[20px]">
+          <div className="w-full flex items-center justify-between">
+            <h2 className="font-bold text-[20px] text-[#201F24]">
+              Latest Spending
+            </h2>
+            <Link
+              href={"/transactions"}
+              className="flex flex-row items-center gap-3"
+            >
+              <p className="text-[14px] text-[#696868] font-normal">See All</p>
+              <ArrowRight />
+            </Link>
+          </div>
 
-      <section className="bg-[#F8F4F0] rounded-xl p-[20px]  h-full w-full   flex flex-col  gap-y-[20px]">
-        <div className="w-full flex items-center justify-between">
-          <h2 className="font-bold text-[20px] text-[#201F24]">
-            Latest Spending
-          </h2>
-          <Link
-            href={"/transactions"}
-            className="flex flex-row items-center gap-3"
-          >
-            <p className="text-[14px] text-[#696868] font-normal">See All</p>
-            <ArrowRight />
-          </Link>
-        </div>
+          <div className=" grid grid-cols-1   ">
+            {latestSpendingData.map((spending, i) => {
+              if (spending.amount < 0) {
+                return (
+                  <LatestSpending
+                    key={i}
+                    logo={spending.categoryLogo}
+                    category={spending.category}
+                    amount={spending.amount}
+                    isLastEl={i === isLastEl ? -1 : i}
+                    createdAt={spending.createdAt}
+                    updatedAt={spending.updatedAt}
+                  />
+                );
+              }
+            })}
+          </div>
+        </section>
+      )}
 
-        <div className=" grid grid-cols-1   ">
-          {latestSpendingData.map((spending, i) => {
-            if (spending.amount < 0) {
-              return (
-                <LatestSpending
-                  key={i}
-                  logo={spending.categoryLogo}
-                  category={spending.category}
-                  amount={spending.amount}
-                  isLastEl={i === isLastEl ? -1 : i}
-                  createdAt={spending.createdAt}
-                  updatedAt={spending.updatedAt}
-                />
-              );
-            }
-          })}
-        </div>
-      </section>
       {isDelete && (
         <DeleteModal
           setIsDelete={setIsDelete}
