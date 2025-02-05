@@ -28,19 +28,14 @@ const BillsFragment = ({ recurringBills }: BillsFragmentPropsType) => {
             key={i}
             className="w-full  grid grid-cols-[5px_1fr] gap-4 bg-[#F8F4F0] rounded-lg  overflow-hidden"
           >
-            <div style={{ background: bill.color }}></div>
+            <div style={{
+                background: bill.budgetId?.color || bill.potId?.color || "#F0F0F0", 
+              }}></div>
             <div className="w-full grid grid-cols-2 justify-between py-[20px] pr-4">
               <h2 className="text-[14px] text-[#696868] font-normal">
-                {/* Paid Bills */}
-                {bill.category}
+                {bill.budgetId?.category || bill.potId?.potName || "Unknown Category"}
               </h2>
               <p className="text-right text-[#201F24] text-[14px] font-bold">
-                {/* {typeof bill.amount === "number" && !isNaN(bill.amount)
-                  ? bill.amount < 0
-                    ? `-$${Math.abs(bill.amount).toFixed(2)}`
-                    : `$${bill.amount.toFixed(2)}`
-                  : "$0.00"} */}
-
                 {bill.amount != null && !isNaN(bill.amount)
                   ? bill.amount < 0
                     ? `-$${Math.abs(bill.amount).toFixed(2)}`
@@ -50,30 +45,6 @@ const BillsFragment = ({ recurringBills }: BillsFragmentPropsType) => {
             </div>
           </div>
         ))}
-
-        {/* <div className="w-full  grid grid-cols-[5px_1fr] gap-4 bg-[#F8F4F0] rounded-lg  overflow-hidden">
-          <div className="h-full bg-[#277C78]  "></div>
-          <div className="w-full grid grid-cols-2 justify-between py-[20px] pr-4">
-            <h2 className="text-[14px] text-[#696868] font-normal">
-              Paid Bills
-            </h2>
-            <p className="text-right text-[#201F24] text-[14px] font-bold">
-              $190.00
-            </p>
-          </div>
-        </div>
-
-        <div className="w-full  grid grid-cols-[5px_1fr] gap-4 bg-[#F8F4F0] rounded-lg  overflow-hidden">
-          <div className="h-full bg-[#277C78]  "></div>
-          <div className="w-full grid grid-cols-2 justify-between py-[20px] pr-4">
-            <h2 className="text-[14px] text-[#696868] font-normal">
-              Paid Bills
-            </h2>
-            <p className="text-right text-[#201F24] text-[14px] font-bold">
-              $190.00
-            </p>
-          </div>
-        </div> */}
       </div>
     </section>
   );

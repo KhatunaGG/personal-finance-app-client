@@ -3,12 +3,9 @@ import Link from "next/link";
 import { ArrowRight } from "../../__atoms";
 import { BudgetPieChart } from "../../__molecules";
 import { useGroupedData } from "@/app/hooks/use-categoryGrope";
-// import { useRouter } from "next/navigation";
 import { BudgetType } from "../modal/Modal";
-// import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useEffect } from "react";
 import useAccessToken from "@/app/hooks/use-toke";
-// import { DataType } from "@/app/interfaces/interface";
 import useBudgets from "@/app/hooks/use-budgets";
 
 export type BudgetFragmentPropsType = {
@@ -16,37 +13,13 @@ export type BudgetFragmentPropsType = {
 };
 
 const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
-  // const router = useRouter();
-  // const [data, setData] = useState<DataType[]>([]);
   const { accessToken } = useAccessToken();
   const { data, getBudgets } = useBudgets(accessToken || "");
   const groupedData = useGroupedData(data);
 
-
-
   useEffect(() => {
     getBudgets();
   }, []);
-
-
-
-
-  // const getBudgets = async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/budgets", {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     setData(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getBudgets();
-  // }, [router, data, groupedData]);
 
   return (
     <section className="w-full grid grid-cols-1 bg-white rounded-xl px-[20px] py-6 md:p-8 gap-y-[20px]">
