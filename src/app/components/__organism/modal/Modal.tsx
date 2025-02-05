@@ -538,12 +538,11 @@
 // export default Modal;
 
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, CloseIcon } from "../../__atoms";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-import { GlobalContext } from "@/app/context/Context";
 import {
   CategoryEnum,
   ColorEnum,
@@ -555,12 +554,14 @@ import { ModalPropsType } from "@/app/interfaces/interface";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
+import useAccessToken from "@/app/hooks/use-toke";
 
 export type BudgetType = {
   category: CategoryEnum;
   amount: number;
   color: ColorEnum;
   categoryLogo?: string;
+ 
 };
 
 export type NewDataStateType = {
@@ -568,6 +569,8 @@ export type NewDataStateType = {
   amount: number;
   color: ColorEnum;
   categoryLogo: string;
+
+
 };
 
 export type PotType = {
@@ -575,6 +578,9 @@ export type PotType = {
   amount: number;
   color: ColorEnum;
   categoryLogo?: string;
+
+
+
 };
 
 export type PotDataStateType = {
@@ -583,6 +589,8 @@ export type PotDataStateType = {
   amount: number;
   color: ColorEnum;
   _id: string;
+
+
 };
 
 const Modal = ({
@@ -601,18 +609,21 @@ const Modal = ({
   activePot,
   setActivePot,
 }: ModalPropsType) => {
-  const context = useContext(GlobalContext);
   const [isCategoryDropDownOpen, setIsCategoryDropDownOpen] = useState(false);
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
-  const { getColorHex, getLogo } = useBudgetUtils();
+  const { getColorHex } = useBudgetUtils();
   const schemaToUse = isPotPage ? potSchema : schema;
   const usedColors = isPotPage
     ? groupedPots?.map((item) => item.color)
     : groupedData?.map((item) => item.color);
 
-  console.log(groupedPots, "groupedPots from MODAL");
+
+    const { accessToken } = useAccessToken();
+
+
+  // console.log(groupedPots, "groupedPots from MODAL");
 
   const {
     register,
@@ -716,12 +727,13 @@ const Modal = ({
     }
   }, [isEdit, categoryToEdit, activePotModal, activePot, setValue]);
 
-  if (!context) return null;
-  const { accessToken } = context;
+  // if (!context) return null;
+  // const { accessToken } = context;
 
 
   const onSubmit = async (formData: BudgetType | PotType) => {
     let newDataState: BudgetType | PotType = formData;
+    console.log(newDataState, "newDataState")
     try {
       let res;
 
@@ -764,8 +776,9 @@ const Modal = ({
         newDataState = formData as NewDataStateType;
         newDataState = {
           ...formData,
-          categoryLogo: getLogo(formData.category as CategoryEnum) || "",
         };
+
+
 
         if (!isEdit) {
           const categoryData = groupedData?.find(

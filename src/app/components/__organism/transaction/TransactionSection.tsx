@@ -269,17 +269,37 @@ import Pagination from "./Pagination";
 import Search from "./Search";
 import { SortFilterHeader } from "../../__molecules";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
+import {RecurringBillsDataType} from '../recurringBills/RecurringBillsSection'
 
+// export type TransactionType = {
+//   category: string;
+//   amount: number;
+//   color: string;
+//   createdAt?: string;
+//   updatedAt?: string;
+//   categoryLogo?: string;
+//   // type: "budget" | "pot";
+//   _id: string;
+//   resource: string | undefined;
+// };
+
+// Assuming these types exist
 export type TransactionType = {
   category: string;
   amount: number;
   color: string;
+  categoryLogo?: string;
   createdAt?: string;
   updatedAt?: string;
-  categoryLogo?: string;
-  type: "budget" | "pot";
   _id: string;
+  resource: string | undefined;
 };
+
+
+
+export type TransactionOrRecurringBill =
+  | TransactionType
+  | RecurringBillsDataType;
 
 const TransactionSection = () => {
   const { accessToken, isLoading } = useAccessToken();
@@ -302,7 +322,6 @@ const TransactionSection = () => {
   const [inputChecked, setInputChecked] = useState("");
   const [isDatePickers, setIsDatePickers] = useState(false);
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
-  // console.log(activeDatePicker, "activeDatePicker");
 
   const {
     filteredAllTransactions,
@@ -337,10 +356,6 @@ const TransactionSection = () => {
   }, [accessToken, currentPage, limit]);
 
 
-
-
-
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -368,7 +383,8 @@ const TransactionSection = () => {
         category: category || "Unknown Category",
         amount: item.amount,
         color: item.color,
-        type: type,
+        resource: item.resource,
+        // type: type,
         categoryLogo: "",
         _id: _id,
       };
@@ -388,9 +404,16 @@ const TransactionSection = () => {
         transaction.updatedAt = item.updatedAt;
       }
 
+      if ("resource" in item) {
+        transaction.resource = item.resource;
+      }
+
       return transaction;
     });
   };
+
+
+
 
   // const sortTransactions = (
   //   transactions: TransactionType[]
@@ -433,8 +456,6 @@ const TransactionSection = () => {
 
 
 
-
-
   return (
     <section className="w-full h-full min-h-screen">
       <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
@@ -463,27 +484,13 @@ const TransactionSection = () => {
           </div>
 
           <SortFilterHeader />
-
-          {/* <div className="hidden w-full md:flex items-center justify-between py-3 border-b border-b-[#F2F2F2] md:gap-[3.31%] text-xs text-[#696868] font-normal">
-            <div className="md:w-[60.16%] grid grid-cols-[1fr, 120px] md:gap-x-4">
-              <div className="flex items-center justify-between">
-                <p className="">Category</p>
-                <p className="md:w-[80px] lg:w-[120px]">Recurring Bills</p>
-              </div>
-            </div>
-            <div className="md:w-[36.51%] flex items-center justify-between">
-              <p className="">Transaction Date</p>
-              <p className="">Amount</p>
-            </div>
-          </div> */}
-
           {isLoading ? (
             <div className="w-full h-screen flex items-center justify-center">
               Loading...
             </div>
           ) : (
             <div className="BODY w-full min-h-[calc(100vh-300px)] flex items-center flex-col px-4 rounded-lg">
-              {sortTransactions(paginatedTransactions).map((transaction, i) => {
+              {/* {sortTransactions(paginatedTransactions).map((transaction, i) => {
                 const isFirstItem = i === 0;
                 return (
                   <TransactionItem
@@ -497,13 +504,54 @@ const TransactionSection = () => {
                     setInputChecked={setInputChecked}
                     inputChecked={inputChecked}
                     color={transaction.color}
-                    type={transaction.type}
+                    // type={transaction.type}
                     _id={transaction._id}
                     setIsDatePickers={setIsDatePickers}
                     isDatePickers={isDatePickers}
                     activeDatePicker={activeDatePicker}
                     setActiveDatePicker={setActiveDatePicker}
                     allTransactions={allTransactions}
+
+                    resource={transaction.resource} 
+                 
+
+                  />
+                );
+              })} */}
+
+              {sortTransactions(paginatedTransactions).map((transaction, i) => {
+                const isFirstItem = i === 0;
+
+            
+
+                // Safe check for properties on transaction
+                const category =
+                  "category" in transaction
+                    ? transaction.category
+                    : "Unknown Category";
+                const categoryLogo =
+                  "categoryLogo" in transaction ? transaction.categoryLogo : "";
+                const color =
+                  "color" in transaction ? transaction.color : "defaultColor"; // Use a fallback if needed
+
+                return (
+                  <TransactionItem
+                    key={i}
+                    category={category}
+                    createdAt={(transaction as TransactionType).createdAt}
+                    categoryLogo={categoryLogo}
+                    amount={transaction.amount}
+                    isFirstItem={isFirstItem}
+                    setInputChecked={setInputChecked}
+                    inputChecked={inputChecked}
+                    color={color}
+                    _id={transaction._id}
+                    setIsDatePickers={setIsDatePickers}
+                    isDatePickers={isDatePickers}
+                    activeDatePicker={activeDatePicker}
+                    setActiveDatePicker={setActiveDatePicker}
+                    allTransactions={allTransactions}
+                    resource={transaction.resource}
                   />
                 );
               })}

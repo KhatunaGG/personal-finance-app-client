@@ -26,7 +26,7 @@ const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
 
   useEffect(() => {
     getBudgets();
-  }, [accessToken, getBudgets]);
+  }, []);
 
 
 

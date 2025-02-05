@@ -36,4 +36,6 @@ export type DataType = {
   id: string;
 
   status?: string;
+
+  resource?: string
 };

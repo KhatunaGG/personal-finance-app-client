@@ -35,10 +35,17 @@ const BillsFragment = ({ recurringBills }: BillsFragmentPropsType) => {
                 {bill.category}
               </h2>
               <p className="text-right text-[#201F24] text-[14px] font-bold">
-                {/* $190.00 */}
-                {bill.amount < 0
-                  ? `-$${Math.abs(bill.amount).toFixed(2)}`
-                  : `$${bill.amount.toFixed(2)}`}
+                {/* {typeof bill.amount === "number" && !isNaN(bill.amount)
+                  ? bill.amount < 0
+                    ? `-$${Math.abs(bill.amount).toFixed(2)}`
+                    : `$${bill.amount.toFixed(2)}`
+                  : "$0.00"} */}
+
+                {bill.amount != null && !isNaN(bill.amount)
+                  ? bill.amount < 0
+                    ? `-$${Math.abs(bill.amount).toFixed(2)}`
+                    : `$${bill.amount.toFixed(2)}`
+                  : "$0.00"}
               </p>
             </div>
           </div>
