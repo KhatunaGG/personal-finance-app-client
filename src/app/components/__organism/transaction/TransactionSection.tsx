@@ -323,6 +323,8 @@ const TransactionSection = () => {
   const [isDatePickers, setIsDatePickers] = useState(false);
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
 
+  console.log(allTransactions, "allTransactions")
+
   const {
     filteredAllTransactions,
     setSearchTerm,

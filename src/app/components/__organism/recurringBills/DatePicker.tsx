@@ -244,11 +244,11 @@ function getSuffix(day: number): string {
 
 export default function BasicDatePicker({
   // setRecurringBillsData,
-  // category,
+  category,
   amount,
   // categoryLogo,
   transactionId,
-  // color,
+  color,
   // type,
   // recurringBillsDate,
   setIsDatePickers,
@@ -285,7 +285,10 @@ export default function BasicDatePicker({
         message: "Done",
         resource: resource === "budget" ? resource : "",
 
-        amount: amount,
+        amount,
+        category,
+        color
+
       };
 
       const res = await axiosInstance.post("/recurring-bills/refs", data, {

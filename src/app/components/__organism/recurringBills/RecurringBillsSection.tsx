@@ -279,6 +279,8 @@ export type RecurringBillsDataType = {
 
   status?: string;
   amount: number
+  category: string
+  color: string
 };
 
 const RecurringBillsSection = () => {
