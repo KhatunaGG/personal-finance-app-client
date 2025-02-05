@@ -43,8 +43,6 @@ const BudgetItem = ({
   );
 
 
-  // console.log(latestSpendingData, "latestSpendingData")
-  console.log(data, "data")
   const handleOpenModal = () => {
     setActiveModalItem(
       activeModalItem === null || activeModalItem !== index ? index : null

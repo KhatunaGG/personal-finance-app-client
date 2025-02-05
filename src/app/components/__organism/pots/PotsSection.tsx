@@ -20,6 +20,8 @@ export type PotsDataType = {
   _id: string;
   createdAt: string;
   updatedAd: string;
+
+  resource?: string
 };
 
 export type GropedPotsType = {
@@ -76,7 +78,6 @@ const PotsSection = () => {
     }
   };
 
-  console.log(potsData, "potsData");
 
   if (!context) return null;
   const { isModal, setIsModal } = context;

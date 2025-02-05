@@ -4,19 +4,18 @@ import { BudgetPieChart } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
-// import { axiosInstance } from "@/app/libs/axiosInstance";
-// import { useRouter } from "next/navigation";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import { useRouter } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
-// import { DataType } from "@/app/interfaces/interface";
+import { DataType } from "@/app/interfaces/interface";
 import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
-import useBudgets from "@/app/hooks/use-budgets";
 // import useBudgets from "@/app/hooks/use-budgets";
 
 const BudgetSections = () => {
-  // const [data, setData] = useState<DataType[]>([]);
-  // const router = useRouter();
+  const [data, setData] = useState<DataType[]>([]);
+  const router = useRouter();
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
   const [isAddBudget, setIsAddBudget] = useState(false);
@@ -26,8 +25,7 @@ const BudgetSections = () => {
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(
     null
   );
-
-  const { data, getBudgets } = useBudgets(accessToken || "");
+  
   const groupedData = useGroupedData(data);
 
   useEffect(() => {
@@ -38,41 +36,27 @@ const BudgetSections = () => {
     }
   }, [activeModalItem, groupedData]);
 
-  // const getBudgets = async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/budgets", {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     setData(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getBudgets();
-  // }, [router, data, groupedData]);
-
-  // useEffect(() => {
-  //   if (data.length > 0) {
-  //     console.log(groupedData, "Grouped Data");
-  //   }
-  // }, [data, groupedData]);
-
-
-
-
+  const getBudgets = async () => {
+    try {
+      const res = await axiosInstance.get("/budgets", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getBudgets();
-  }, [accessToken, getBudgets]);
+  }, [router]);
+
+
 
   if (!context) return null;
   const { isModal, setIsModal } = context;
-
-
 
   if (isLoading) {
     return (
