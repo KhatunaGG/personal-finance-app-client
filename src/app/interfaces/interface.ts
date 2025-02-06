@@ -38,4 +38,5 @@ export type DataType = {
   status?: string;
 
   resource?: string
+  checkId: string
 };

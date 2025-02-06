@@ -236,51 +236,39 @@ import dayjs from "dayjs";
 import { DataType } from "@/app/interfaces/interface";
 import { PotsDataType } from "../pots/PotsSection";
 
-// export type RecurringBillsDataType = {
-//   amount: number;
-//   category: string;
-//   categoryLogo: string;
-//   color: ColorEnum | string | undefined;
-//   dueDate: string;
-//   type: string;
-//   _id: string;
-//   status: string;
-//   transactionId: string;
-//   resource?: string;
-// };
-
 export type RecurringBillsDataType = {
   _id: string;
   budgetId?: {
-    _id: string; 
-    category: string; 
-    amount: number; 
-    categoryLogo: string; 
-    color: ColorEnum | string | undefined; 
-    resource: string; 
-    createdAt: string; 
-    updatedAt: string; 
-    __v: number; 
+    _id: string;
+    category: string;
+    amount: number;
+    categoryLogo: string;
+    color: ColorEnum | string | undefined;
+    resource: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
   };
   potId?: {
-    _id: string; 
-    potName: string; 
-    amount: number; 
-    color: ColorEnum | string | undefined; 
-    createdAt: string; 
-    updatedAt: string; 
-    __v: number; 
+    _id: string;
+    potName: string;
+    amount: number;
+    color: ColorEnum | string | undefined;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
   };
-  dueDate: string; 
-  resource: string; 
+  dueDate: string;
+  resource: string;
   createdAt: string;
-  updatedAt: string; 
-  __v: number; 
+  updatedAt: string;
+  __v: number;
 
   status?: string;
-  amount: number
-  category: string
-  color: string
+  amount: number;
+  category: string;
+  color: string;
+  checkId: string;
 };
 
 const RecurringBillsSection = () => {
@@ -290,9 +278,7 @@ const RecurringBillsSection = () => {
   const [recurringBillsData, setRecurringBillsData] =
     useState<RecurringBillsDataType[]>();
   const [sortByDropdown, setSortByDropdown] = useState(false);
-  const [transactions] = useState<(DataType | PotsDataType)[]>(
-    []
-  );
+  const [transactions] = useState<(DataType | PotsDataType)[]>([]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -304,35 +290,6 @@ const RecurringBillsSection = () => {
     setSortByValue,
     // sortTransactions,
   } = useSortAndFilter(recurringBillsData || []);
-
-  // const fetchAllTransactions = async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/budgets/resources", {
-  //       headers: { Authorization: `Bearer ${accessToken}` },
-  //     });
-
-  //     const modifiedTransactions = res.data.map((item: { category?: string; potName?: string }) => {
-  //       const category = item.category || item.potName || "Unknown";
-  //       return { ...item, category };
-  //     });
-  //     setTransactions(modifiedTransactions);
-  //   } catch (error) {
-  //     console.error("Error fetching transactions:", error);
-  //   }
-  // };
-
-
-
-  // const getTransactions = async () => {
-  //   try {
-  //     const res = await axiosInstance.get("/transactions", {
-  //       headers: { Authorization: `Bearer ${accessToken}` },
-  //     });
-  //     setTransactions(res.data);
-  //   } catch (error) {
-  //     console.error("Error fetching transactions:", error);
-  //   }
-  // };
 
   const updateRecurringBillsStatus = (bills: RecurringBillsDataType[]) => {
     const today = dayjs();
@@ -350,12 +307,12 @@ const RecurringBillsSection = () => {
       if (bill.resource === "budget" && bill.budgetId) {
         amount = bill.budgetId.amount;
         category = bill.budgetId.category;
-        color = bill.budgetId.color ?? "defaultColor"; 
+        color = bill.budgetId.color ?? "defaultColor";
       } else if (bill.resource === "pot" && bill.potId) {
         amount = bill.potId.amount;
         category = bill.potId.potName;
 
-        color = bill.potId.color ?? "defaultColor"; 
+        color = bill.potId.color ?? "defaultColor";
       } else {
         return { ...bill, status: "upcoming" };
       }
@@ -501,14 +458,14 @@ const RecurringBillsSection = () => {
               <div className="w-full">
                 {(recurringBillsData || []).map((transaction, i) => {
                   const isFirstItem = i === 0;
-
-                  const amount = transaction.budgetId?.amount || transaction.potId?.amount || 0; 
+                  const amount =
+                    transaction.budgetId?.amount ||
+                    transaction.potId?.amount ||
+                    0;
                   const category =
                     transaction.budgetId?.category ||
                     transaction.potId?.potName ||
-                    "Unknown"; 
-                  // const dueDate = transaction.dueDate;
-
+                    "Unknown";
                   return (
                     <TransactionItem
                       key={transaction._id}
@@ -522,15 +479,15 @@ const RecurringBillsSection = () => {
                         transaction.budgetId?.color ||
                         transaction.potId?.color ||
                         ""
-                      } 
+                      }
                       recurringBillsData={recurringBillsData}
                       setRecurringBillsData={setRecurringBillsData}
                       {...("dueDate" in transaction && {
                         dueDate: transaction.dueDate,
-                      })} 
+                      })}
                       {...("status" in transaction && {
                         status: transaction.status,
-                      })} 
+                      })}
                       getAllRecurringBills={getAllRecurringBills}
                     />
                   );

@@ -269,21 +269,9 @@ import Pagination from "./Pagination";
 import Search from "./Search";
 import { SortFilterHeader } from "../../__molecules";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
-import {RecurringBillsDataType} from '../recurringBills/RecurringBillsSection'
+import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
+import { ToastContainer } from "react-toastify";
 
-// export type TransactionType = {
-//   category: string;
-//   amount: number;
-//   color: string;
-//   createdAt?: string;
-//   updatedAt?: string;
-//   categoryLogo?: string;
-//   // type: "budget" | "pot";
-//   _id: string;
-//   resource: string | undefined;
-// };
-
-// Assuming these types exist
 export type TransactionType = {
   category: string;
   amount: number;
@@ -293,9 +281,11 @@ export type TransactionType = {
   updatedAt?: string;
   _id: string;
   resource: string | undefined;
+
+  potId?: string;
+  budgetId?: string;
+  checkId: string;
 };
-
-
 
 export type TransactionOrRecurringBill =
   | TransactionType
@@ -307,23 +297,11 @@ const TransactionSection = () => {
   const [sortByDropdown, setSortByDropdown] = useState(false);
   const [filteredCategoryDropdown, setFilteredCategoryDropdown] =
     useState(false);
-
-  // const [filteredCategoryValue, setFilteredCategoryValue] = useState<
-  // string | undefined
-  // >("All Transactions");
-  // const [sortByValue, setSortByValue] = useState<string | undefined>("Latest");
-  //  const [filteredAllTransactions, setFilteredAllTransactions] = useState<
-  //   TransactionType[]
-  // >([]);
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit] = useState<number>(5);
   const [inputChecked, setInputChecked] = useState("");
   const [isDatePickers, setIsDatePickers] = useState(false);
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
-
-  console.log(allTransactions, "allTransactions")
 
   const {
     filteredAllTransactions,
@@ -357,7 +335,6 @@ const TransactionSection = () => {
     }
   }, [accessToken, currentPage, limit]);
 
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -386,6 +363,7 @@ const TransactionSection = () => {
         amount: item.amount,
         color: item.color,
         resource: item.resource,
+        checkId: item.checkId,
         // type: type,
         categoryLogo: "",
         _id: _id,
@@ -413,9 +391,6 @@ const TransactionSection = () => {
       return transaction;
     });
   };
-
-
-
 
   // const sortTransactions = (
   //   transactions: TransactionType[]
@@ -455,8 +430,6 @@ const TransactionSection = () => {
     (currentPage - 1) * (limit * 2),
     currentPage * (limit * 2)
   );
-
-
 
   return (
     <section className="w-full h-full min-h-screen">
@@ -523,10 +496,6 @@ const TransactionSection = () => {
 
               {sortTransactions(paginatedTransactions).map((transaction, i) => {
                 const isFirstItem = i === 0;
-
-            
-
-                // Safe check for properties on transaction
                 const category =
                   "category" in transaction
                     ? transaction.category
@@ -534,8 +503,7 @@ const TransactionSection = () => {
                 const categoryLogo =
                   "categoryLogo" in transaction ? transaction.categoryLogo : "";
                 const color =
-                  "color" in transaction ? transaction.color : "defaultColor"; // Use a fallback if needed
-
+                  "color" in transaction ? transaction.color : "defaultColor"; 
                 return (
                   <TransactionItem
                     key={i}
@@ -559,7 +527,6 @@ const TransactionSection = () => {
               })}
             </div>
           )}
-
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -569,6 +536,7 @@ const TransactionSection = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
