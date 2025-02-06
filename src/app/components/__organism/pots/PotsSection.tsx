@@ -22,6 +22,8 @@ export type PotsDataType = {
   updatedAd: string;
 
   resource?: string
+
+  checkId: string
 };
 
 export type GropedPotsType = {
@@ -33,6 +35,9 @@ export type GropedPotsType = {
   portSpendingTotalAmount: number;
   totalSaved: number;
   percentageSpent: number;
+
+
+
 };
 
 const PotsSection = () => {

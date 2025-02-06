@@ -14,22 +14,16 @@ export const useSortAndFilter = (allTransactions: TransactionOrRecurringBill[]) 
     const filteredData = filteredCategoryValue === "All Transactions"
       ? allTransactions
       : allTransactions.filter(item => item.category === filteredCategoryValue);
-
     const filteredBySearchTerm = filteredData.filter(item =>
       item.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    // Only update state if filtered data is different
     if (JSON.stringify(filteredBySearchTerm) !== JSON.stringify(filteredAllTransactions)) {
       setFilteredAllTransactions(filteredBySearchTerm);
     }
   }, [filteredCategoryValue, allTransactions, searchTerm]);
 
-
-
   const sortTransactions = (transactions: TransactionOrRecurringBill[]): TransactionOrRecurringBill[] => {
     const transactionsCopy = [...transactions]; 
-
     switch (sortByValue) {
       // case "Latest":
       //   return transactionsCopy.sort((a, b) => {
@@ -56,10 +50,6 @@ export const useSortAndFilter = (allTransactions: TransactionOrRecurringBill[]) 
         const bDate = "dueDate" in b ? new Date(b.dueDate) : new Date((b as TransactionType).createdAt || "");
         return aDate.getTime() - bDate.getTime();
       });
-
-
-
-
       case "A to Z":
         return transactionsCopy.sort((a, b) => a.category.localeCompare(b.category));
       case "Z to A":
@@ -72,10 +62,6 @@ export const useSortAndFilter = (allTransactions: TransactionOrRecurringBill[]) 
         return transactionsCopy;
     }
   };
-
-
-
-
   return {
     filteredAllTransactions,
     searchTerm,

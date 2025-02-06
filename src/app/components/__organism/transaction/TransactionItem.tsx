@@ -302,12 +302,11 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ColorEnum } from "@/app/schema/schema";
 import DatePickers from "../recurringBills/DatePicker";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { CheckMark, ExclamationMark } from "../../__atoms";
 import { TransactionOrRecurringBill } from "./TransactionSection";
-// import { TransactionType } from "./TransactionSection";
 
 export type TransactionItemPropsType = {
   category: string;
@@ -332,15 +331,6 @@ export type TransactionItemPropsType = {
     SetStateAction<RecurringBillsDataType[] | undefined>
   >;
   getAllRecurringBills?: () => Promise<void>;
-  // allTransactions?: TransactionType[];
-
-
-
-
-
-
-
-  
   allTransactions?: TransactionOrRecurringBill[];
   resource?: string;
 };
@@ -356,7 +346,6 @@ const TransactionItem = ({
   type,
   color,
   setIsDatePickers,
-  isDatePickers,
   activeDatePicker,
   setActiveDatePicker,
   dueDate,
@@ -368,19 +357,47 @@ const TransactionItem = ({
   const { accessToken } = useAccessToken();
   const [isExistingItem, setIsExistingItem] = useState(false);
   const [recurringBillsDate, setRecurringBillsDate] = useState("");
+  // const [billsData, setBillsData] = useState<TransactionOrRecurringBill[]>([]);
 
-    const checkExistingRecurringBill = async () => {
+  // const checkExistingRecurringBill = async () => {
+  //   if (!accessToken || !_id) return;
+
+  //   try {
+  //     const res = await axiosInstance.get("/recurring-bills", {
+  //       headers: { Authorization: `Bearer ${accessToken}` },
+  //     });
+  //       const data: TransactionOrRecurringBill[] = res.data || [];
+  //     setBillsData(res.data);
+  //     const isExisting = data.some((item) => {
+  //       if (item.checkId === _id) {
+  //         return true;
+  //       }
+  //       return false;
+  //     });
+  //     setIsExistingItem(isExisting);
+  //     setBillsData(res.data)
+  //     console.log(isExisting, "isExisting");
+  //   } catch (error) {
+  //     console.error("Error checking recurring bill:", error);
+  //   }
+  // };
+
+  const checkExistingRecurringBill = async () => {
     if (!accessToken || !_id) return;
 
     try {
       const res = await axiosInstance.get("/recurring-bills", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      const data = res.data || [];
-      const isExisting = data.some(
-        (item: { transactionId: string }) => item.transactionId === _id
-      );
-      setIsExistingItem(isExisting);
+
+      if (res?.status >= 200 && res?.status <= 204) {
+        const data: TransactionOrRecurringBill[] = res.data || [];
+        // setBillsData(res.data);
+
+        const isExisting = data.some((item) => item.checkId === _id);
+        setIsExistingItem(isExisting);
+        getAllRecurringBills?.();
+      }
     } catch (error) {
       console.error("Error checking recurring bill:", error);
     }
@@ -390,33 +407,68 @@ const TransactionItem = ({
     checkExistingRecurringBill();
   }, [accessToken, _id]);
 
+  // const handleInputChange = async (id: string) => {
+  //   // setActiveDatePicker?.(id);
+  //   if (activeDatePicker === id) {
+  //     setActiveDatePicker?.(null);
+  //   } else {
+  //     setActiveDatePicker?.(id);
+  //   }
+
+  //   try {
+  //     let res;
+  //     res = await axiosInstance.get(`/recurring-bills`);
+  //     const data: TransactionOrRecurringBill[] = res.data || [];
+  //     const exist = data.find((item) => item.checkId === id);
+  //     console.log(exist, "exist");
+  //     if (exist) {
+
+  //       res = await axiosInstance.delete(
+  //         `/recurring-bills/${id}`,
+  //         {
+  //           headers: { Authorization: `Bearer ${accessToken}` },
+  //         }
+  //       );
+  //       console.log(res, "ressssss from DELETE")
+  //       if (res?.status >= 200 && res?.status <= 204) {
+  //         getAllRecurringBills?.();
+  //         setActiveDatePicker?.(null);
+  //         setIsExistingItem(true)
+  //         setIsDatePickers?.(true)//?
+  //       }
+  //     } else {
+  //       setActiveDatePicker?.(id);
+
+  //       // setIsExistingItem(true)//?
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in handleInputChange:", error);
+  //   }
+  // };
+
   const handleInputChange = async (id: string) => {
     if (activeDatePicker === id) {
       setActiveDatePicker?.(null);
-      return;
+    } else {
+      setActiveDatePicker?.(id);
     }
 
-    setActiveDatePicker?.(id);
-
     try {
-      const res = await axiosInstance.get(
-        `/recurring-bills/transaction/${id}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-
-      if (res.data === "") {
-        setIsExistingItem(false);
-        setIsDatePickers?.(true);
-      } else {
-        await axiosInstance.delete(`/recurring-bills/transaction/${id}`, {
+      let res = await axiosInstance.get("/recurring-bills");
+      const data: TransactionOrRecurringBill[] = res.data || [];
+      const exist = data.find((item) => item.checkId === id);
+      if (exist) {
+        res = await axiosInstance.delete(`/recurring-bills/${id}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-        setIsExistingItem(false);
-        setIsDatePickers?.(false);
-        setActiveDatePicker?.(null);
-        getAllRecurringBills?.();
+        if (res?.status >= 200 && res?.status <= 204) {
+          setIsExistingItem(false);
+          getAllRecurringBills?.();
+          setActiveDatePicker?.(null);
+          toast.success("Recurring bill deleted successfully!");
+        }
+      } else {
+        setActiveDatePicker?.(id);
       }
     } catch (error) {
       console.error("Error in handleInputChange:", error);
@@ -482,7 +534,8 @@ const TransactionItem = ({
                 ? "Remove Recurring Bill"
                 : "Add to Recurring Bills"}
             </button>
-            {activeDatePicker === _id && isDatePickers && !isExistingItem && (
+            {/* {activeDatePicker === _id && isDatePickers && !isExistingItem && ( */}
+            {activeDatePicker === _id && !isExistingItem && (
               <DatePickers
                 setRecurringBillsData={setRecurringBillsData}
                 category={category}

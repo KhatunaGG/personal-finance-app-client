@@ -201,7 +201,6 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { toast } from "react-toastify";
 import { RecurringBillsDataType } from "./RecurringBillsSection";
 
-// import { NewRecurringBillType } from "../transaction/TransactionItem";
 
 export type DataPikersPropsType = {
   // formattedRecurrentBillsDate: (date: Dayjs | null) => void;
@@ -228,7 +227,7 @@ export type DataPikersPropsType = {
 
 function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {
-    return "th"; // Handle 11th, 12th, 13th
+    return "th"; 
   }
   switch (day % 10) {
     case 1:
@@ -253,7 +252,7 @@ export default function BasicDatePicker({
   // recurringBillsDate,
   setIsDatePickers,
   setActiveDatePicker,
-  // setIsExistingItem,
+  setIsExistingItem,
   setRecurringBillsDate,
   // activeDatePicker,
   getAllRecurringBills,
@@ -275,7 +274,40 @@ export default function BasicDatePicker({
     }
   };
 
-  // console.log(category, "category")
+
+  // const create = async (dueDate: string) => {
+  //   try {
+  //     const data = {
+  //       transactionId,
+  //       dueDate,
+  //       message: "Done",
+  //       resource: resource === "budget" ? resource : "",
+
+  //       amount,
+  //       category,
+  //       color,
+
+  //       checkId: transactionId,
+  //     };
+  //     console.log(data, "data when create");
+  //     const res = await axiosInstance.post("/recurring-bills/refs", data, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     console.log(res, "RESSSS");
+  //     if (res.status === 201) {
+  //       getAllRecurringBills?.();
+  //       setIsDatePickers?.(false);
+  //       // setRecurringBillsDate("");
+  //       setActiveDatePicker?.(null);
+  //       toast.success("Recurring bill created successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error creating recurring bill:", error);
+  //     toast.error("Failed to create recurring bill. Please try again.");
+  //   }
+  // };
 
   const create = async (dueDate: string) => {
     try {
@@ -284,24 +316,26 @@ export default function BasicDatePicker({
         dueDate,
         message: "Done",
         resource: resource === "budget" ? resource : "",
-
         amount,
         category,
-        color
-
+        color,
+        checkId: transactionId,
       };
-
+      console.log(data, "data when create");
+      
       const res = await axiosInstance.post("/recurring-bills/refs", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      if (res.status >= 200 && res.status <= 204) {
-        setIsDatePickers?.(false);
-        setRecurringBillsDate("");
-        setActiveDatePicker?.(null);
+      
+      console.log(res, "RESSSS");
+      
+      if (res.status === 201) {
+        setIsExistingItem(true);
         getAllRecurringBills?.();
+        setIsDatePickers?.(false);
+        setActiveDatePicker?.(null);
         toast.success("Recurring bill created successfully!");
       }
     } catch (error) {
@@ -309,6 +343,8 @@ export default function BasicDatePicker({
       toast.error("Failed to create recurring bill. Please try again.");
     }
   };
+
+
 
   // const getValidDueDate = (dateString: string): string => {
   //   const dayMatch = dateString.match(/(\d{1,2})(?:st|nd|rd|th)/); // Match the day like "5th", "12th", etc.
