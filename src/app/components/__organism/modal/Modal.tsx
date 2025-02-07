@@ -551,7 +551,7 @@ import {
 } from "@/app/schema/schema";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { ModalPropsType } from "@/app/interfaces/interface";
-import { toast, ToastContainer } from "react-toastify";
+import { toast  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 import useAccessToken from "@/app/hooks/use-toke";
@@ -1069,7 +1069,7 @@ const Modal = ({
           </form>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </section>
   );
 };
