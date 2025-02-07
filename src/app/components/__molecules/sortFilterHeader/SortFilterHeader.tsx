@@ -32,11 +32,9 @@
 
 
 
-
 export type SortFilterHeaderPropsType = {
     isRecurringBills?: boolean;
   };
-  
   const SortFilterHeader = ({ isRecurringBills }: SortFilterHeaderPropsType) => {
     return (
     //   <div className="hidden w-full md:flex items-center justify-between py-3 border-b border-b-[#F2F2F2] md:gap-[3.31%] text-xs text-[#696868] font-normal">
