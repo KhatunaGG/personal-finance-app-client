@@ -1,21 +1,22 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { BudgetPieChart } from "../../__molecules";
+import { BudgetPieChart, Title } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
 import { DataType } from "@/app/interfaces/interface";
 import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
-// import useBudgets from "@/app/hooks/use-budgets";
 
 const BudgetSections = () => {
   const [data, setData] = useState<DataType[]>([]);
   const router = useRouter();
+  const path = usePathname();
+  const isBudgetPage = path.includes("budgets");
   const { accessToken, isLoading } = useAccessToken();
   const { getColorHex } = useBudgetUtils();
   const [isAddBudget, setIsAddBudget] = useState(false);
@@ -25,7 +26,7 @@ const BudgetSections = () => {
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(
     null
   );
-  
+
   const groupedData = useGroupedData(data);
 
   useEffect(() => {
@@ -52,8 +53,6 @@ const BudgetSections = () => {
   useEffect(() => {
     getBudgets();
   }, [router]);
-
-
 
   if (!context) return null;
   const { isModal, setIsModal } = context;
@@ -83,7 +82,9 @@ const BudgetSections = () => {
       )}
 
       <div className="w-full h-full pt-8 pb-[105px] md:pb-[113px] lg:py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
-        <div className="w-full flex flex-row items-center justify-between">
+       
+       
+        {/* <div className="w-full flex flex-row items-center justify-between">
           <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
             Budgets
           </h1>
@@ -96,7 +97,12 @@ const BudgetSections = () => {
           >
             + Add New Budget
           </button>
-        </div>
+        </div> */}
+
+            <Title setIsModal={setIsModal} setIsAddBudget={setIsAddBudget}  isBudgetPage={isBudgetPage} />
+
+
+
 
         <div className="w-full flex flex-col lg:flex-row items-start gap-y-6 lg:gap-x-[2.26%]">
           {data.length > 0 && (
@@ -137,4 +143,3 @@ const BudgetSections = () => {
 };
 
 export default BudgetSections;
-

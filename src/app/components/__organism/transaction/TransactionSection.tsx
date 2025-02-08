@@ -267,10 +267,11 @@ import { DataType } from "@/app/interfaces/interface";
 import { PotsDataType } from "../pots/PotsSection";
 import Pagination from "./Pagination";
 import Search from "./Search";
-import { SortFilterHeader } from "../../__molecules";
+import { SortFilterHeader, Title } from "../../__molecules";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { ToastContainer } from "react-toastify";
+import { usePathname } from "next/navigation";
 
 export type TransactionType = {
   category: string;
@@ -302,6 +303,8 @@ const TransactionSection = () => {
   const [inputChecked, setInputChecked] = useState("");
   const [isDatePickers, setIsDatePickers] = useState(false);
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
+  const path = usePathname();
+  const isTransactionsPage = path.includes("transactions");
 
   const {
     filteredAllTransactions,
@@ -482,9 +485,11 @@ const TransactionSection = () => {
   return (
     <section className="w-full h-full min-h-screen">
       <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
-        <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
+        {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Transactions
-        </h1>
+        </h1> */}
+
+        <Title  isTransactionsPage={isTransactionsPage} />
 
         <div className="w-full  p-0  md:p-8  bg-white flex flex-col gap-6 rounded-lg">
           <div className="FILTER flex items-center justify-between p-4 md:p-0">

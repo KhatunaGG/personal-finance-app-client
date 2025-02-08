@@ -1,9 +1,8 @@
 "use client";
-import { ArrowRight } from "../../__atoms";
-import Link from "next/link";
 import Image from "next/image";
 import { TransactionType } from "../transaction/TransactionSection";
 import { PotsDataType } from "../pots/PotsSection";
+import { FragmentTitle } from "../../__molecules";
 
 const isTransaction = (
   transaction: TransactionType | PotsDataType
@@ -20,7 +19,7 @@ const TransactionsFragment = ({
 }: TransactionsFragmentPropsType) => {
   return (
     <section className="bg-white rounded-xl px-[20px] py-6 h-full w-full md:p-6 lg:p-8 flex flex-col ">
-      <div className="w-full flex items-center justify-between">
+      {/* <div className="w-full flex items-center justify-between">
         <h2 className="font-bold text-[20px] text-[#201F24]">Transactions</h2>
         <Link
           href={"/transactions"}
@@ -29,7 +28,9 @@ const TransactionsFragment = ({
           <p className="text-[14px] text-[#696868] font-normal">See Details</p>
           <ArrowRight />
         </Link>
-      </div>
+      </div> */}
+
+      <FragmentTitle isFragment={true} title={"Transactions"} />
 
       {transactions.length > 0 ? (
         <div className=" grid grid-cols-1 pt-[20px]  ">
