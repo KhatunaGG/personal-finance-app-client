@@ -89,6 +89,9 @@ const PotItem = ({
               setIsDelete={setIsDelete}
               setIsEdit={setIsEdit}
               setIsModal={setIsModal}
+
+
+              isPotPage={isPotPage}
             />
           )}
         </div>

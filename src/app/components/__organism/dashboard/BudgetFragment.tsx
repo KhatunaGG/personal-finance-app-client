@@ -31,6 +31,7 @@ const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
         </Link>
       </div>
 
+      {budgets.length > 0 ? (
       <div className="w-full flex flex-col gap-y-4 md:gap-y-0 md:flex-row relative lg:gap-x-10">
         <div className="w-full h-[240px] flex items-center justify-center md:items-start lg:w-[240px] md:w-1/2">
           <BudgetPieChart groupedData={groupedData} data={data} />
@@ -59,6 +60,13 @@ const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
           ))}
         </div>
       </div>
+
+      ): (
+        <div className="bg-white  w-full p-8 flex items-center justify-center gap-[20px] ">
+        <p className="text-[10px] text-[#696868]">No Budgets available. Start by creating one!</p>{" "}
+      </div>
+      )}
+
     </section>
   );
 };

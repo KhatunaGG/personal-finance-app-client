@@ -325,21 +325,15 @@ const Dashboard = () => {
         <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Overview
         </h1>
-
         <TotalsFragment />
-
         <div className="w-full flex flex-col gap-y-6 lg:flex-row lg:gap-x-[2.26%]">
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[57.35%]">
-            {pots.length > 0 && <PotsFragment pots={pots} />}
-
+            <PotsFragment pots={pots} />
             <TransactionsFragment transactions={transactions} />
           </div>
-
           <div className="flex flex-col gap-y-4 md:gap-y-6 lg:w-[40.37%]">
             <BudgetFragment budgets={budgets} />
-            {recurringBills.length > 0 && (
-              <BillsFragment recurringBills={recurringBills} />
-            )}
+            <BillsFragment recurringBills={recurringBills} />
           </div>
         </div>
       </div>

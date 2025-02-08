@@ -613,7 +613,7 @@ const Modal = ({
   const [isColorDropDownOpen, setIsColorDropDownOpen] = useState(false);
   const [category, setCategory] = useState("");
   const [color, setColor] = useState<ColorEnum | null>(null);
-  const { getColorHex } = useBudgetUtils();
+  const { getColorHex, getLogo } = useBudgetUtils();
   const schemaToUse = isPotPage ? potSchema : schema;
   const usedColors = isPotPage
     ? groupedPots?.map((item) => item.color)
@@ -776,6 +776,7 @@ const Modal = ({
         newDataState = formData as NewDataStateType;
         newDataState = {
           ...formData,
+          categoryLogo: getLogo(formData.category as CategoryEnum) || "",  
         };
 
 
