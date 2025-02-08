@@ -326,6 +326,9 @@ const TransactionSection = () => {
           const modifiedData = modifyData(res.data, "budget");
           setAllTransactions(modifiedData);
         }
+
+        console.log("API Response: ", res);
+        console.log("Response Data: ", res.data);
       } catch (error) {
         console.error("Error fetching transactions: ", error);
       }
@@ -351,46 +354,46 @@ const TransactionSection = () => {
     }
   };
 
-  const modifyData = (
-    data: (DataType | PotsDataType)[],
-    type: "budget" | "pot"
-  ): TransactionType[] => {
-    return data.map((item) => {
-      const category = "category" in item ? item.category : item.potName;
-      const _id = "_id" in item ? item._id : "";
-      const transaction: TransactionType = {
-        category: category || "Unknown Category",
-        amount: item.amount,
-        color: item.color,
-        resource: item.resource,
-        checkId: item.checkId,
-        // type: type,
-        categoryLogo: "",
-        _id: _id,
-      };
+  // const modifyData = (
+  //   data: (DataType | PotsDataType)[],
+  //   type: "budget" | "pot"
+  // ): TransactionType[] => {
+  //   return data.map((item) => {
+  //     const category = "category" in item ? item.category : item.potName;
+  //     const _id = "_id" in item ? item._id : "";
+  //     const transaction: TransactionType = {
+  //       category: category || "Unknown Category",
+  //       amount: item.amount,
+  //       color: item.color,
+  //       resource: item.resource,
+  //       checkId: item.checkId,
+  //       // type: type,
+  //       categoryLogo: "",
+  //       _id: _id,
+  //     };
 
-      if (type === "budget" && "categoryLogo" in item) {
-        transaction.categoryLogo = item.categoryLogo;
-      }
+  //     if (type === "budget" && "categoryLogo" in item) {
+  //       transaction.categoryLogo = item.categoryLogo;
+  //     }
 
-      if (type === "pot" && !("categoryLogo" in item)) {
-        transaction.categoryLogo = "";
-      }
+  //     if (type === "pot" && !("categoryLogo" in item)) {
+  //       transaction.categoryLogo = "";
+  //     }
 
-      if ("createdAt" in item) {
-        transaction.createdAt = item.createdAt;
-      }
-      if ("updatedAt" in item) {
-        transaction.updatedAt = item.updatedAt;
-      }
+  //     if ("createdAt" in item) {
+  //       transaction.createdAt = item.createdAt;
+  //     }
+  //     if ("updatedAt" in item) {
+  //       transaction.updatedAt = item.updatedAt;
+  //     }
 
-      if ("resource" in item) {
-        transaction.resource = item.resource;
-      }
+  //     if ("resource" in item) {
+  //       transaction.resource = item.resource;
+  //     }
 
-      return transaction;
-    });
-  };
+  //     return transaction;
+  //   });
+  // };
 
   // const sortTransactions = (
   //   transactions: TransactionType[]
@@ -424,6 +427,51 @@ const TransactionSection = () => {
   //       return transactions;
   //   }
   // };
+
+  const modifyData = (
+    data: (DataType | PotsDataType)[] | null | undefined,
+    type: "budget" | "pot"
+  ): TransactionType[] => {
+    // Ensure data is always an array before calling map
+    if (!Array.isArray(data)) {
+      return [];
+    }
+
+    return data.map((item) => {
+      const category = "category" in item ? item.category : item.potName;
+      const _id = "_id" in item ? item._id : "";
+      const transaction: TransactionType = {
+        category: category || "Unknown Category",
+        amount: item.amount,
+        color: item.color,
+        resource: item.resource,
+        checkId: item.checkId,
+        categoryLogo: "",
+        _id: _id,
+      };
+
+      if (type === "budget" && "categoryLogo" in item) {
+        transaction.categoryLogo = item.categoryLogo;
+      }
+
+      if (type === "pot" && !("categoryLogo" in item)) {
+        transaction.categoryLogo = "";
+      }
+
+      if ("createdAt" in item) {
+        transaction.createdAt = item.createdAt;
+      }
+      if ("updatedAt" in item) {
+        transaction.updatedAt = item.updatedAt;
+      }
+
+      if ("resource" in item) {
+        transaction.resource = item.resource;
+      }
+
+      return transaction;
+    });
+  };
 
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
@@ -467,35 +515,6 @@ const TransactionSection = () => {
             <div className="BODY w-full min-h-[calc(100vh-300px)] flex items-center flex-col px-4 rounded-lg">
               {/* {sortTransactions(paginatedTransactions).map((transaction, i) => {
                 const isFirstItem = i === 0;
-                return (
-                  <TransactionItem
-                    key={i}
-                    category={transaction.category}
-                    // createdAt={transaction.createdAt}
-                    createdAt={(transaction as TransactionType).createdAt}
-                    categoryLogo={transaction.categoryLogo}
-                    amount={transaction.amount}
-                    isFirstItem={isFirstItem}
-                    setInputChecked={setInputChecked}
-                    inputChecked={inputChecked}
-                    color={transaction.color}
-                    // type={transaction.type}
-                    _id={transaction._id}
-                    setIsDatePickers={setIsDatePickers}
-                    isDatePickers={isDatePickers}
-                    activeDatePicker={activeDatePicker}
-                    setActiveDatePicker={setActiveDatePicker}
-                    allTransactions={allTransactions}
-
-                    resource={transaction.resource} 
-                 
-
-                  />
-                );
-              })} */}
-
-              {sortTransactions(paginatedTransactions).map((transaction, i) => {
-                const isFirstItem = i === 0;
                 const category =
                   "category" in transaction
                     ? transaction.category
@@ -524,7 +543,53 @@ const TransactionSection = () => {
                     resource={transaction.resource}
                   />
                 );
-              })}
+              })} */}
+
+              {Array.isArray(allTransactions) && allTransactions.length > 0 ? (
+                sortTransactions(paginatedTransactions).map(
+                  (transaction, i) => {
+                    const isFirstItem = i === 0;
+                    const category =
+                      "category" in transaction
+                        ? transaction.category
+                        : "Unknown Category";
+                    const categoryLogo =
+                      "categoryLogo" in transaction
+                        ? transaction.categoryLogo
+                        : "";
+                    const color =
+                      "color" in transaction
+                        ? transaction.color
+                        : "defaultColor";
+                    return (
+                      <TransactionItem
+                        key={i}
+                        category={category}
+                        createdAt={(transaction as TransactionType).createdAt}
+                        categoryLogo={categoryLogo}
+                        amount={transaction.amount}
+                        isFirstItem={isFirstItem}
+                        setInputChecked={setInputChecked}
+                        inputChecked={inputChecked}
+                        color={color}
+                        _id={transaction._id}
+                        setIsDatePickers={setIsDatePickers}
+                        isDatePickers={isDatePickers}
+                        activeDatePicker={activeDatePicker}
+                        setActiveDatePicker={setActiveDatePicker}
+                        allTransactions={allTransactions}
+                        resource={transaction.resource}
+                      />
+                    );
+                  }
+                )
+              ) : (
+                <div className="bg-white  w-full p-8 flex items-center justify-center gap-[20px] ">
+                  <p className="text-xs text-[#696868]">
+                    No transactions available. Start by creating one!
+                  </p>{" "}
+                </div>
+              )}
             </div>
           )}
           <Pagination
