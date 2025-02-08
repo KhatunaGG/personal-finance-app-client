@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import useGroupedPots from "@/app/hooks/use-potGroup";
 import PotModal from "./PotModal";
 import PotItem from "./PotItem";
+import { Title } from "../../__molecules";
 
 export type PotsDataType = {
   potName: string;
@@ -145,7 +146,9 @@ const PotsSection = () => {
       )}
 
       <div className="w-full h-full min-h-screen flex flex-col gap-y-8 pt-6 px-4 pb-[105px] md:pb-[113px] md:px-8 md:pt-8 lg:p-8 ">
-        <div className="w-full flex flex-row items-center justify-between">
+        
+        
+        {/* <div className="w-full flex flex-row items-center justify-between">
           <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
             Pots
           </h1>
@@ -157,7 +160,11 @@ const PotsSection = () => {
           >
             + Add New Pot
           </button>
-        </div>
+        </div> */}
+
+            <Title setIsModal={setIsModal} isPotPage={isPotPage} />
+
+
 
         <div className="w-full flex flex-col gap-y-6  lg:flex-row lg:justify-between  lg:flex-wrap">
           {groupedPots.length > 0 &&

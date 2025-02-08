@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import Search from "../transaction/Search";
 import { useEffect, useState } from "react";
 import SortBySection from "../transaction/SortBySection";
-import { SortFilterHeader } from "../../__molecules";
+import { SortFilterHeader, Title } from "../../__molecules";
 import TransactionItem from "../transaction/TransactionItem";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
@@ -63,9 +63,6 @@ const RecurringBillsSection = () => {
     setSearchTerm(e.target.value);
   };
 
-  console.log("path:", path, ">>>" + "isRecurringBills:", isRecurringBills);
-
-  console.log(recurringBillsData, "recurringBillsData");
 
   const {
     filteredAllTransactions,
@@ -183,9 +180,12 @@ const RecurringBillsSection = () => {
 
   return (
     <section className="w-full h-full min-h-screen px-4 py-6 md:px-6 md:py-8 flex flex-col gap-8">
-      <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
+      {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
         Recurring Bills
-      </h1>
+      </h1> */}
+{/* 
+      <Title isRecurringBills={isRecurringBills} /> */}
+      <Title  isRecurringBills={isRecurringBills} />
 
       <div className="w-full flex flex-col gap-6 lg:flex-row">
         <Summary recurringBillsData={recurringBillsData} />

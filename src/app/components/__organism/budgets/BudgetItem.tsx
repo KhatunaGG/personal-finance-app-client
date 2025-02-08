@@ -1,5 +1,5 @@
 "use client";
-import { ModalItem, ProgressBar } from "../../__molecules";
+import {  ModalItem, ProgressBar } from "../../__molecules";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";
@@ -41,7 +41,6 @@ const BudgetItem = ({
     data,
     category
   );
-
 
   const handleOpenModal = () => {
     setActiveModalItem(
@@ -119,7 +118,7 @@ const BudgetItem = ({
           </div>
         </div>
       </div>
-      {data.some((item) => item.amount < 0 )  && (
+      {data.some((item) => item.amount < 0) && (
         <section className="bg-[#F8F4F0] rounded-xl p-[20px]  h-full w-full   flex flex-col  gap-y-[20px]">
           <div className="w-full flex items-center justify-between">
             <h2 className="font-bold text-[20px] text-[#201F24]">
