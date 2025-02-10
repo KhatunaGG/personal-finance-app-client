@@ -18,3 +18,4 @@ export { default as PaginationArrowRight } from "./paginationArrowRight/Paginati
 export { default as RecurringBillsIcon } from "./recurringBillsIcon/RecurringBillsIcon";
 export { default as ExclamationMark } from "./exclamationMark/ExclamationMark";
 export { default as CheckMark } from "./checkMark/CheckMark";
+export { default as LogOut } from "./logOut/LogOut";

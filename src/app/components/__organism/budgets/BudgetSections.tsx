@@ -55,7 +55,7 @@ const BudgetSections = () => {
   }, [router]);
 
   if (!context) return null;
-  const { isModal, setIsModal } = context;
+  const { isModal, setIsModal, minimize } = context;
 
   if (isLoading) {
     return (
@@ -66,7 +66,7 @@ const BudgetSections = () => {
   }
 
   return (
-    <section className="w-full h-full min-h-screen ">
+    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"} transition-all duration-300 ease-in-out`}>
       {isModal && (
         <Modal
           setIsModal={setIsModal}

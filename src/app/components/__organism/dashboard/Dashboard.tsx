@@ -165,7 +165,7 @@
 "use client";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PotsFragment from "./PotsFragment";
 import TotalsFragment from "./TotalsFragment";
 import TransactionsFragment from "./TransactionsFragment";
@@ -177,33 +177,36 @@ import { DataType } from "@/app/interfaces/interface";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { TransactionType } from "../transaction/TransactionSection";
 import { Title } from "../../__molecules";
+import { GlobalContext } from "@/app/context/Context";
 
 const Dashboard = () => {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | null | undefined>(
     null
   );
-  const [user, setUser] = useState("");
+  // const [user, setUser] = useState("");
   const [pots, setPots] = useState<PotsDataType[]>([]);
   const [budgets, setBudgets] = useState<DataType[]>([]);
   const [recurringBills, setRecurringBills] = useState<
     RecurringBillsDataType[]
   >([]);
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
-  console.log(user);
-    const path = usePathname();
-    const isDashboardPage = path.includes("/");
+  const path = usePathname();
+  const isDashboardPage = path.includes("/");
+  const context = useContext(GlobalContext)
 
-  async function getCurrenUser(accessToken: string | undefined) {
-    try {
-      const res = await axiosInstance.get("/auth/current-user", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      setUser(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
+
+  // async function getCurrenUser(accessToken: string | undefined) {
+  //   try {
+  //     const res = await axiosInstance.get("/auth/current-user", {
+  //       headers: { Authorization: `Bearer ${accessToken}` },
+  //     });
+  //     setUser(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -213,12 +216,11 @@ const Dashboard = () => {
       } else {
         setAccessToken(token);
       }
-      getCurrenUser(token);
+      // getCurrenUser(token);
     };
 
     fetchToken();
   }, [router]);
-
 
   const getAllTransactionData = async () => {
     try {
@@ -266,6 +268,11 @@ const Dashboard = () => {
     getAllTransactionData();
   }, [router]);
   if (!accessToken) return null;
+
+
+  if(!context) return null
+  const {minimize } = context;
+
 
   // useEffect(() => {
   //   // Fetch the access token when the component mounts
@@ -324,7 +331,7 @@ const Dashboard = () => {
   // if (!accessToken) return null;
 
   return (
-    <section className="w-full h-full min-h-screen ">
+    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"}`}>
       <div className="w-full h-full bg-[#F8F4F0] pt-8 pb-[105px] md:pb-[113px] lg:py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Overview

@@ -257,7 +257,7 @@
 // export default TransactionSection;
 
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import SortBySection from "./SortBySection";
 import SortByCategorySection from "./SortByCategorySection";
@@ -272,6 +272,7 @@ import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { ToastContainer } from "react-toastify";
 import { usePathname } from "next/navigation";
+import { GlobalContext } from "@/app/context/Context";
 
 export type TransactionType = {
   category: string;
@@ -305,6 +306,8 @@ const TransactionSection = () => {
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
   const path = usePathname();
   const isTransactionsPage = path.includes("transactions");
+  const context = useContext(GlobalContext)
+
 
   const {
     filteredAllTransactions,
@@ -482,8 +485,14 @@ const TransactionSection = () => {
     currentPage * (limit * 2)
   );
 
+
+  if(!context) return null
+  const {minimize } = context;
+
+
+  
   return (
-    <section className="w-full h-full min-h-screen">
+    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"} transition-all duration-300 ease-in-out`}>
       <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Transactions
