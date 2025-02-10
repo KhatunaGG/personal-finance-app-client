@@ -60,13 +60,18 @@ export default function RootLayout({
         // className={`${ps.className} antialiased w-full h-full relative grid grid-cols-1 lg:grid-cols-[20.83%_1fr]`}
         className={`${ps.className} antialiased w-full h-full relative flex flex-col items-start`}
       >
-        <div className="absolute z-10 bottom-0 left-0 max-h-[52px] w-full md:max-h-[74px] lg:left-0 lg:top-0 lg:w-[300px] lg:min-h-full h-screen bg-[#201F24] lg:rounded-t-xl lg:rounded-tl-none lg:rounded-r-3xl order-last lg:order-none">
+        {/* <div className="absolute z-10 bottom-0 left-0 max-h-[52px] w-full md:max-h-[74px] lg:left-0 lg:top-0 lg:w-[300px] lg:min-h-full h-screen bg-[#201F24] lg:rounded-t-xl lg:rounded-tl-none lg:rounded-r-3xl order-last lg:order-none">
           <SideBar />
-        </div>
+        </div> */}
 
-        <div className="lg:pl-[300px] w-full bg-[#F8F4F0]">
+        {/* <SideBar /> */}
 
-            <Context>{children}</Context>
+        {/* <div className="lg:pl-[300px] w-full bg-[#F8F4F0]"> */}
+        <div className=" w-full bg-[#F8F4F0]">
+
+            <Context>
+            <SideBar />
+              {children}</Context>
         </div>
 
 

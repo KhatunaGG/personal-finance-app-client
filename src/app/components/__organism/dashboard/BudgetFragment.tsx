@@ -17,7 +17,6 @@ const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
   // const budget = budgets.some(item => String(item.category) === "budget");
 
 
-  console.log(budgets, "budgets from FRAGMENT ")
 
   useEffect(() => {
     getBudgets();

@@ -8,6 +8,8 @@ export type GlobalContextType = {
   isModal: boolean;
   // setPotMoney: Dispatch<SetStateAction<boolean>>;
   // potMoney: boolean;
+  setMinimize: Dispatch<SetStateAction<boolean>>;
+  minimize: boolean;
 };
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -15,7 +17,7 @@ export const GlobalContext = createContext<GlobalContextType | null>(null);
 const Context = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState("");
   const [isModal, setIsModal] = useState(false);
-
+  const [minimize, setMinimize] = useState(false);
 
   // const path = useRouter()
   // console.log("Current Path:", path);
@@ -50,6 +52,8 @@ const Context = ({ children }: { children: React.ReactNode }) => {
         accessToken,
         setIsModal,
         isModal,
+        setMinimize,
+        minimize
         // setPotMoney,
         // potMoney
       }}
