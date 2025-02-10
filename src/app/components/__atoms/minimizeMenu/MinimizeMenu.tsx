@@ -1,11 +1,17 @@
-import React from "react";
+"use client"
+export type MinimizeMenuPropsType = {
+  minimize: boolean
+}
 
-const MinimizeMenu = () => {
+const MinimizeMenu = ({minimize}: MinimizeMenuPropsType) => {
   return (
     <svg
+      className={`transition-transform duration-300 ease-in-out transform ${
+        minimize ? "rotate-180" : "rotate-0"
+      } w-6 h-6`}
       width="20"
       height="20"
-      className="w-6 h-6"
+      // className="w-6 h-6"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

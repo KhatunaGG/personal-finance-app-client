@@ -331,7 +331,7 @@ const Dashboard = () => {
   // if (!accessToken) return null;
 
   return (
-    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"}`}>
+    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"} transition-all duration-300 ease-in-out`}>
       <div className="w-full h-full bg-[#F8F4F0] pt-8 pb-[105px] md:pb-[113px] lg:py-8 px-4 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
         {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
           Overview
