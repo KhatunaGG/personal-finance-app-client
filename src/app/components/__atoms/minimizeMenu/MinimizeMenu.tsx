@@ -7,7 +7,7 @@ const MinimizeMenu = ({minimize}: MinimizeMenuPropsType) => {
   return (
     <svg
       className={`transition-transform duration-300 ease-in-out transform ${
-        minimize ? "rotate-180" : "rotate-0"
+        minimize ? "rotate-180 " : "rotate-0"
       } w-6 h-6`}
       width="20"
       height="20"
