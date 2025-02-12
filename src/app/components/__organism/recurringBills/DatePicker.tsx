@@ -188,6 +188,23 @@
 //   );
 // }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 import * as React from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -200,35 +217,24 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import { toast } from "react-toastify";
 
-
-
 export type DataPikersPropsType = {
-  // formattedRecurrentBillsDate: (date: Dayjs | null) => void;
-  // setRecurringBillsData?: React.Dispatch<
-  //   React.SetStateAction<RecurringBillsDataType[] | undefined>
-  // >;
-  // setRecurringBillsData?: React.Dispatch<React.SetStateAction<RecurringBillsDataType[]>>; 
   category: string;
   amount: number;
-  // categoryLogo?: string;
   transactionId: string;
   color?: ColorEnum | string | undefined;
-  // type?: string;
-  // recurringBillsDate: string;
   setIsDatePickers: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   setActiveDatePicker:
     | React.Dispatch<React.SetStateAction<string | null>>
     | undefined;
   setIsExistingItem: React.Dispatch<React.SetStateAction<boolean>>;
   setRecurringBillsDate: React.Dispatch<React.SetStateAction<string>>;
-  // activeDatePicker: string;
   getAllRecurringBills?: () => Promise<void>;
   resource: string | undefined;
 };
 
 function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {
-    return "th"; 
+    return "th";
   }
   switch (day % 10) {
     case 1:
@@ -243,19 +249,14 @@ function getSuffix(day: number): string {
 }
 
 export default function BasicDatePicker({
-  // setRecurringBillsData,
   category,
   amount,
-  // categoryLogo,
   transactionId,
   color,
-  // type,
-  // recurringBillsDate,
   setIsDatePickers,
   setActiveDatePicker,
   setIsExistingItem,
   setRecurringBillsDate,
-  // activeDatePicker,
   getAllRecurringBills,
   resource,
 }: DataPikersPropsType) {
@@ -275,45 +276,6 @@ export default function BasicDatePicker({
     }
   };
 
-
-
-  // const create = async (dueDate: string) => {
-  //   try {
-  //     const data = {
-  //       transactionId,
-  //       dueDate,
-  //       message: "Done",
-  //       resource: resource === "budget" ? resource : "",
-  //       amount,
-  //       category,
-  //       color,
-  //       checkId: transactionId,
-  //     };
-  //     console.log(data, "data when create");
-      
-  //     const res = await axiosInstance.post("/recurring-bills/refs", data, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-      
-  //     console.log(res, "RESSSS");
-      
-  //     if (res.status === 201) {
-  //       setIsExistingItem(true);
-  //       getAllRecurringBills?.();
-  //       setIsDatePickers?.(false);
-  //       setActiveDatePicker?.(null);
-  //       toast.success("Recurring bill created successfully!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error creating recurring bill:", error);
-  //     toast.error("Failed to create recurring bill. Please try again.");
-  //   }
-  // };
-
-
-
   const create = async (dueDate: string) => {
     try {
       const data = {
@@ -326,17 +288,17 @@ export default function BasicDatePicker({
         color,
         checkId: transactionId,
       };
-  
+
       const res = await axiosInstance.post("/recurring-bills/refs", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+
       if (res.status === 201) {
         setIsExistingItem(true);
         getAllRecurringBills?.();
-        setIsDatePickers?.(false); 
+        setIsDatePickers?.(false);
         setActiveDatePicker?.(null);
         toast.success("Recurring bill created successfully!");
       }
@@ -345,7 +307,6 @@ export default function BasicDatePicker({
       toast.error("Failed to create recurring bill. Please try again.");
     }
   };
-  
 
   // const getValidDueDate = (dateString: string): string => {
   //   const dayMatch = dateString.match(/(\d{1,2})(?:st|nd|rd|th)/); // Match the day like "5th", "12th", etc.
@@ -410,10 +371,11 @@ export default function BasicDatePicker({
             maxWidth: "200px",
             backgroundColor: "white",
             border: "#69686826",
-            "@media (max-width: 640px)": { // Tailwind's 'sm' breakpoint for mobile
+            "@media (max-width: 640px)": {
+              // Tailwind's 'sm' breakpoint for mobile
               right: "-100px", // Adjust the right position for small screens
-              top: "auto", 
-              zIndex: 40,// Adjust the top position as needed for mobile}
+              top: "auto",
+              zIndex: 40, // Adjust the top position as needed for mobile}
             },
           }}
           label="Select Date"

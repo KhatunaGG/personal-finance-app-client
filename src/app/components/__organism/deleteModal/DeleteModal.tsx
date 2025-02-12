@@ -3,6 +3,7 @@ import { CloseIcon } from "../../__atoms";
 import { Dispatch, SetStateAction } from "react";
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
+import axios from "axios";
 
 export type DeleteModalPropsType = {
   setIsDelete: Dispatch<SetStateAction<boolean>>;
@@ -59,14 +60,25 @@ const DeleteModal = ({
       const res = await axiosInstance.delete(endpoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+      console.log(endpoint, "endpoint")
 
       if (res.status === 200 || res.status === 201 || res.status === 204) {
         setIsDelete(false);
         if (isPotPage && getAllPots) getAllPots();
         if (!isPotPage && getBudgets) getBudgets();
       }
+      else {
+        console.log(`Failed to delete: ${res.data.message || 'Unknown error'}`);
+      }
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(`Axios error: ${error.response?.data?.message || 'An error occurred'}`);
+      } else if (error instanceof Error) {
+        console.log(`Error: ${error.message || 'An error occurred while deleting.'}`);
+      } else {
+        console.log('Error: Network or server issue');
+      }
+      
     }
   };
 
