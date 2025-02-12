@@ -334,6 +334,7 @@ const RecurringBillsSection = () => {
     setSearchTerm,
     setSortByValue,
     sortTransactions,
+    sortByValue
   } = useSortAndFilter(recurringBillsData || []);
 
   console.log(filteredAllTransactions, "filteredAllTransactions");
@@ -474,6 +475,7 @@ const RecurringBillsSection = () => {
                   setSortByDropdown={setSortByDropdown}
                   sortByDropdown={sortByDropdown}
                   setSortByValue={setSortByValue}
+                  sortByValue={sortByValue}
                 />
               </div>
 

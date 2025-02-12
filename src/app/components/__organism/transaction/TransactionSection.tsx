@@ -59,9 +59,12 @@ const TransactionSection = () => {
     filteredCategoryValue,
     setFilteredCategoryValue,
     sortTransactions,
+
   } = useSortAndFilter(allTransactions || []);
 
-  console.log(filteredAllTransactions, "filteredAllTransactions")
+
+
+
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -76,6 +79,7 @@ const TransactionSection = () => {
           const modifiedData = modifyData(res.data, "budget");
           setAllTransactions(modifiedData);
         }
+
       } catch (error) {
         console.error("Error fetching transactions: ", error);
       }
@@ -88,6 +92,12 @@ const TransactionSection = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+
+
+
+
+
+
 
   const handlePrevPage = () => {
     if (currentPage > 1) {

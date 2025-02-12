@@ -77,6 +77,11 @@
 //   };
 // };
 
+
+
+
+
+//OK with latest and oldest in TransactionSection
 import { useEffect, useState } from "react";
 import { RecurringBillsDataType } from "../components/__organism/recurringBills/RecurringBillsSection";
 import { TransactionType } from "../components/__organism/transaction/TransactionSection";
@@ -147,7 +152,13 @@ export const useSortAndFilter = (
           const bDate = new Date(
             isRecurringBill(b) ? b.dueDate : b.createdAt || 0
           );
-          return aDate.getTime() - bDate.getTime();
+          const aTime = isNaN(aDate.getTime())
+            ? Date.parse(a.createdAt || "")
+            : aDate.getTime();
+          const bTime = isNaN(bDate.getTime())
+            ? Date.parse(b.createdAt || "")
+            : bDate.getTime();
+          return aTime - bTime;
         });
 
       case "A to Z":
@@ -211,3 +222,7 @@ export const useSortAndFilter = (
     sortTransactions,
   };
 };
+
+
+
+
