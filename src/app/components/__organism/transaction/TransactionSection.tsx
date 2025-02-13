@@ -9,7 +9,7 @@ import { DataType } from "@/app/interfaces/interface";
 import { PotsDataType } from "../pots/PotsSection";
 import Pagination from "./Pagination";
 import Search from "./Search";
-import { SortFilterHeader, Title } from "../../__molecules";
+import { Loading, SortFilterHeader, Title } from "../../__molecules";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
 import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { ToastContainer } from "react-toastify";
@@ -48,8 +48,7 @@ const TransactionSection = () => {
   const [activeDatePicker, setActiveDatePicker] = useState<string | null>(null);
   const path = usePathname();
   const isTransactionsPage = path.includes("transactions");
-  const context = useContext(GlobalContext)
-
+  const context = useContext(GlobalContext);
 
   const {
     filteredAllTransactions,
@@ -59,10 +58,7 @@ const TransactionSection = () => {
     filteredCategoryValue,
     setFilteredCategoryValue,
     sortTransactions,
-
   } = useSortAndFilter(allTransactions || []);
-
-
 
 
 
@@ -79,7 +75,6 @@ const TransactionSection = () => {
           const modifiedData = modifyData(res.data, "budget");
           setAllTransactions(modifiedData);
         }
-
       } catch (error) {
         console.error("Error fetching transactions: ", error);
       }
@@ -93,12 +88,6 @@ const TransactionSection = () => {
     setSearchTerm(e.target.value);
   };
 
-
-
-
-
-
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -110,7 +99,6 @@ const TransactionSection = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-
 
   const modifyData = (
     data: (DataType | PotsDataType)[] | null | undefined,
@@ -148,7 +136,6 @@ const TransactionSection = () => {
       //   transaction.updatedAt = item.updatedAt;
       // }
 
-
       if ("createdAt" in item) {
         // Ensure createdAt is in ISO string format
         transaction.createdAt = new Date(item.createdAt ?? "").toISOString();
@@ -162,26 +149,27 @@ const TransactionSection = () => {
     });
   };
 
+
+  console.log(filteredAllTransactions, "filteredAllTransactions")
+
+
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
     (currentPage - 1) * (limit * 2),
     currentPage * (limit * 2)
   );
 
+  if (!context) return null;
+  const { minimize } = context;
 
-  if(!context) return null
-  const {minimize } = context;
-
-
-  
   return (
-    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"} transition-all duration-300 ease-in-out`}>
-      <div className="w-full h-full px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
-        {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
-          Transactions
-        </h1> */}
-
-        <Title  isTransactionsPage={isTransactionsPage} />
+    <section
+      className={`w-full h-full min-h-screen ${
+        minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"
+      } transition-all duration-300 ease-in-out`}
+    >
+      <div className="w-full h-full  px-4 pt-6 pb-[90px] md:pb-[113px] lg:py-8 md:px-10 lg:px-6 flex flex-col items-start justify-start gap-8">
+        <Title isTransactionsPage={isTransactionsPage} />
 
         <div className="w-full  p-0  md:p-8  bg-white flex flex-col gap-6 rounded-lg">
           <div className="FILTER flex items-center justify-between p-4 md:p-0">
@@ -206,42 +194,11 @@ const TransactionSection = () => {
           <SortFilterHeader />
           {isLoading ? (
             <div className="w-full h-screen flex items-center justify-center">
-              Loading...
+              {/* Loading... */}
+              <Loading />
             </div>
           ) : (
             <div className="BODY w-full min-h-[calc(100vh-300px)] flex items-center flex-col px-4 rounded-lg">
-              {/* {sortTransactions(paginatedTransactions).map((transaction, i) => {
-                const isFirstItem = i === 0;
-                const category =
-                  "category" in transaction
-                    ? transaction.category
-                    : "Unknown Category";
-                const categoryLogo =
-                  "categoryLogo" in transaction ? transaction.categoryLogo : "";
-                const color =
-                  "color" in transaction ? transaction.color : "defaultColor"; 
-                return (
-                  <TransactionItem
-                    key={i}
-                    category={category}
-                    createdAt={(transaction as TransactionType).createdAt}
-                    categoryLogo={categoryLogo}
-                    amount={transaction.amount}
-                    isFirstItem={isFirstItem}
-                    setInputChecked={setInputChecked}
-                    inputChecked={inputChecked}
-                    color={color}
-                    _id={transaction._id}
-                    setIsDatePickers={setIsDatePickers}
-                    isDatePickers={isDatePickers}
-                    activeDatePicker={activeDatePicker}
-                    setActiveDatePicker={setActiveDatePicker}
-                    allTransactions={allTransactions}
-                    resource={transaction.resource}
-                  />
-                );
-              })} */}
-
               {Array.isArray(allTransactions) && allTransactions.length > 0 ? (
                 sortTransactions(paginatedTransactions).map(
                   (transaction, i) => {
@@ -250,10 +207,18 @@ const TransactionSection = () => {
                       "category" in transaction
                         ? transaction.category
                         : "Unknown Category";
-                    const categoryLogo =
-                      "categoryLogo" in transaction
-                        ? transaction.categoryLogo
-                        : "";
+                    // const categoryLogo =
+                    //   "categoryLogo" in transaction
+                    //     ? transaction.categoryLogo
+                    //     : "";
+                    const categoryLogo = 'categoryLogo' in transaction ? (
+                      transaction.categoryLogo
+                    ) : (
+                      <div className="w-10 h-10 rounded-full" style={{ backgroundColor: transaction.color || "gray" }}></div>
+                    );
+
+
+
                     const color =
                       "color" in transaction
                         ? transaction.color
@@ -304,16 +269,3 @@ const TransactionSection = () => {
 };
 
 export default TransactionSection;
-
-
-
-
-
-
-
-
-
-
-
-
-

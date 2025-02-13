@@ -108,12 +108,6 @@
 
 // export default SideBar;
 
-
-
-
-
-
-
 //OK BEFORE MOBILE VERSION
 // "use client";
 // import React, { useContext } from "react";
@@ -125,8 +119,6 @@
 // import useAccessToken from "@/app/hooks/use-toke";
 // import { GlobalContext } from "@/app/context/Context";
 // import Image from "next/image";
-
-
 
 // export type NavLinkType = {
 //   name: string;
@@ -177,9 +169,9 @@
 //           ): (
 //             <Logo />
 //           )}
-      
+
 //         </div>
-        
+
 //         <div className="w-full flex flex-row justify-between lg:flex-col md:gap-1 bg-green-200 ">
 //           {navLinks.map((link, i) => {
 //             const isLinkActive = isActive(link);
@@ -280,19 +272,6 @@
 
 // export default SideBar;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 import React, { useContext } from "react";
 import Link from "next/link";
@@ -304,8 +283,6 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { GlobalContext } from "@/app/context/Context";
 import Image from "next/image";
 
-
-
 export type NavLinkType = {
   name: string;
   icon: React.ComponentType<IconType>;
@@ -313,8 +290,7 @@ export type NavLinkType = {
 
 const SideBar = () => {
   const path = usePathname();
-  const { user } = useAccessToken();
-  // const [minimize, setMinimize] = useState(false);
+  const { user, logout } = useAccessToken();
   const context = useContext(GlobalContext);
 
   const normalizePath = (str: string): string => {
@@ -346,18 +322,25 @@ const SideBar = () => {
       } transition-all duration-300 ease-in-out`}
     >
       <div className="text-[#B3B3B3] w-full px-4 md:px-10 lg:px-0 flex flex-row items-end justify-around lg:flex-col ">
-        <div className={`w-full pl-[11.59%] py-10 hidden lg:flex ${minimize && "flex items-start justify-center"} ${minimize && "lg:pl-0"}`}>
+        <div
+          className={`w-full pl-[11.59%] py-10 hidden lg:flex ${
+            minimize && "flex items-start justify-center"
+          } ${minimize && "lg:pl-0"}`}
+        >
           {minimize ? (
-
-          <div className="w-[12.48px] h-[21.44px]">
-                <Image src={"/assets/f.svg"} alt={"f-logo"} width={12.48} height={21.44} />
-          </div>
-          ): (
+            <div className="w-[12.48px] h-[21.44px]">
+              <Image
+                src={"/assets/f.svg"}
+                alt={"f-logo"}
+                width={12.48}
+                height={21.44}
+              />
+            </div>
+          ) : (
             <Logo />
           )}
-      
         </div>
-        
+
         <div className="w-full flex flex-row justify-between lg:flex-col md:gap-1  ">
           {navLinks.map((link, i) => {
             const isLinkActive = isActive(link);
@@ -394,9 +377,11 @@ const SideBar = () => {
                       {link.name ? link.name : ""}
                     </p>
                   </div>
-                  <div className={`w-full min-h-[5px] lg:hidden ${
+                  <div
+                    className={`w-full min-h-[5px] lg:hidden ${
                       isLinkActive ? "bg-[#277C78]" : ""
-                    }`}></div>
+                    }`}
+                  ></div>
                 </button>
               </Link>
             );
@@ -425,12 +410,12 @@ const SideBar = () => {
           </div>
 
           <div
+            onClick={logout}
             className={`relative group flex items-center gap-2 w-full pl-[9%] ${
               minimize && "pt-[84px] w-full "
             } `}
           >
             <LogOut />
-            {/* <span className="absolute left-[60px] top-1/2 transform -translate-y-1/2  -translate-x-1/2 bottom-full shadow-lg mb-1 text-xs text-[#B3B3B3] bg-[#201F24] p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"> */}
             <span
               className={`${
                 minimize
@@ -447,8 +432,13 @@ const SideBar = () => {
           onClick={() => setMinimize((prev) => !prev)}
           className="hidden lg:w-[92%] lg:rounded-r-lg lg:flex flex-row gap-[10px]"
         >
-          {/* <div className="flex flex-row items-center gap-4 py-4 pl-[11.81%] pt-[calc(100vh-432px)]"> */}
-          <div className={`flex flex-row items-center gap-4 py-4 pl-[11.81%] ${minimize && "w-full pl-[16%]"} ${minimize ? "pt-[calc(100vh-625px)]" : "pt-[calc(100vh-610px)]"}`}>
+          <div
+            className={`flex flex-row items-center gap-4 py-4 pl-[11.81%] ${
+              minimize && "w-full pl-[16%]"
+            } ${
+              minimize ? "pt-[calc(100vh-625px)]" : "pt-[calc(100vh-610px)]"
+            }`}
+          >
             <MinimizeMenu minimize={minimize} />
             <p className={`${minimize && "lg:hidden"}`}>Minimize Menu</p>
           </div>

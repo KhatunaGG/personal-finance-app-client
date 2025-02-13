@@ -267,7 +267,7 @@ import { usePathname } from "next/navigation";
 import Search from "../transaction/Search";
 import { useContext, useEffect, useState } from "react";
 import SortBySection from "../transaction/SortBySection";
-import { SortFilterHeader, Title } from "../../__molecules";
+import { Loading, SortFilterHeader, Title } from "../../__molecules";
 import TransactionItem from "../transaction/TransactionItem";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
@@ -312,6 +312,13 @@ export type RecurringBillsDataType = {
   category: string;
   color: string;
   checkId: string;
+
+
+
+
+
+
+
 };
 
 const RecurringBillsSection = () => {
@@ -334,90 +341,176 @@ const RecurringBillsSection = () => {
     setSearchTerm,
     setSortByValue,
     sortTransactions,
-    sortByValue
+    sortByValue,
   } = useSortAndFilter(recurringBillsData || []);
 
-  console.log(filteredAllTransactions, "filteredAllTransactions");
 
-  const updateRecurringBillsStatus = (bills: RecurringBillsDataType[]) => {
-    const today = dayjs();
-    const lastDayOfMonth = today.endOf("month").date();
 
-    return bills.map((bill) => {
-      const dueDay = parseInt(bill.dueDate.split(" - ")[1]);
-      const adjustedDueDay = Math.min(dueDay, lastDayOfMonth);
-      const dueDate = today.date(adjustedDueDay);
+  console.log(recurringBillsData, "recurringBillsData")
 
-      let amount: number;
-      let category: string;
-      let color: string;
+  // const updateRecurringBillsStatus = (bills: RecurringBillsDataType[]) => {
+  //   const today = dayjs();
+  //   const lastDayOfMonth = today.endOf("month").date();
 
-      if (bill.resource === "budget" && bill.budgetId) {
-        amount = bill.budgetId.amount;
-        category = bill.budgetId.category;
-        color = bill.budgetId.color ?? "defaultColor";
-      } else if (bill.resource === "pot" && bill.potId) {
-        amount = bill.potId.amount;
-        category = bill.potId.potName;
+  //   return bills.map((bill) => {
+  //     const dueDay = parseInt(bill.dueDate.split(" - ")[1]);
+  //     const adjustedDueDay = Math.min(dueDay, lastDayOfMonth);
+  //     const dueDate = today.date(adjustedDueDay);
 
-        color = bill.potId.color ?? "defaultColor";
-      } else {
-        return { ...bill, status: "upcoming" };
+  //     let amount: number;
+  //     let category: string;
+  //     let color: string;
+
+  //     if (bill.resource === "budget" && bill.budgetId) {
+  //       amount = bill.budgetId.amount;
+  //       category = bill.budgetId.category;
+  //       color = bill.budgetId.color ?? "defaultColor";
+  //     } else if (bill.resource === "pot" && bill.potId) {
+  //       amount = bill.potId.amount;
+  //       category = bill.potId.potName;
+
+  //       color = bill.potId.color ?? "defaultColor";
+  //     } else {
+  //       return { ...bill, status: "upcoming" };
+  //     }
+  //     let status = "upcoming";
+  //     let daysUntilDue = dueDate.diff(today, "days");
+
+  //     if (daysUntilDue < 0) {
+  //       const nextMonthDueDate = today.add(1, "month").date(dueDay);
+  //       daysUntilDue = nextMonthDueDate.diff(today, "days");
+  //     }
+
+  //     if (daysUntilDue <= 3 && daysUntilDue > 0) {
+  //       status = "dueSoon";
+  //     }
+  //     if (today.isSame(dueDate, "day")) {
+  //       status = "dueSoon";
+  //     }
+
+  //     if (today.isSame(dueDate, "day")) {
+  //       const isPaid = transactions.some((t) => {
+  //         if (isDataType(t)) {
+  //           return (
+  //             t.amount === amount &&
+  //             t.category === category &&
+  //             t.color === color &&
+  //             t.status === "paid"
+  //           );
+  //         }
+  //         return false;
+  //       });
+
+  //       if (isPaid) {
+  //         status = "paid";
+  //       }
+  //     }
+
+  //     if (today.isAfter(dueDate, "day") && status === "dueSoon") {
+  //       const isPaid = transactions.some((t) => {
+  //         if (isDataType(t)) {
+  //           return (
+  //             t.amount === amount &&
+  //             t.category === category &&
+  //             t.color === color &&
+  //             t.status === "paid"
+  //           );
+  //         }
+  //         return false;
+  //       });
+
+  //       if (!isPaid) {
+  //         status = "upcoming";
+  //       }
+  //     }
+
+  //     return { ...bill, status };
+  //   });
+  // };
+
+
+
+
+
+const updateRecurringBillsStatus = (bills: RecurringBillsDataType[]) => {
+  const today = dayjs();
+  const lastDayOfMonth = today.endOf("month").date();
+
+  return bills.map((bill) => {
+    const dueDay = parseInt(bill.dueDate.split(" - ")[1]);
+    const adjustedDueDay = Math.min(dueDay, lastDayOfMonth);
+    const dueDate = today.date(adjustedDueDay);
+
+    let amount: number;
+    let category: string;
+    let color: string;
+
+    if (bill.resource === "budget" && bill.budgetId) {
+      amount = bill.budgetId.amount;
+      category = bill.budgetId.category;
+      color = bill.budgetId.color ?? "defaultColor";
+    } else if (bill.resource === "pot" && bill.potId) {
+      amount = bill.potId.amount;
+      category = bill.potId.potName;
+      color = bill.potId.color ?? "defaultColor";
+    } else {
+      return { ...bill, status: "upcoming" };
+    }
+
+    let status = "upcoming";
+    let daysUntilDue = dueDate.diff(today, "days");
+
+    // Adjust for bills due next month if today's date is after the due date
+    if (daysUntilDue < 0) {
+      const nextMonthDueDate = today.add(1, "month").date(dueDay);
+      daysUntilDue = nextMonthDueDate.diff(today, "days");
+    }
+
+    // Update status based on days until due
+    if (daysUntilDue <= 3 && daysUntilDue > 0) {
+      status = "dueSoon";
+    } else if (today.isSame(dueDate, "day")) {
+      status = "dueSoon";
+    }
+
+    // Check if the bill has been paid
+    if (today.isSame(dueDate, "day")) {
+      const isPaid = transactions.some((t) => {
+        return (
+          isDataType(t) &&
+          t.amount === amount &&
+          t.category === category &&
+          t.color === color &&
+          t.status === "paid"
+        );
+      });
+
+      if (isPaid) {
+        status = "paid";
       }
-      let status = "upcoming";
-      let daysUntilDue = dueDate.diff(today, "days");
+    }
 
-      if (daysUntilDue < 0) {
-        const nextMonthDueDate = today.add(1, "month").date(dueDay);
-        daysUntilDue = nextMonthDueDate.diff(today, "days");
+    // If today is after due date and it's still "dueSoon", revert to "upcoming"
+    if (today.isAfter(dueDate, "day") && status === "dueSoon") {
+      const isPaid = transactions.some((t) => {
+        return (
+          isDataType(t) &&
+          t.amount === amount &&
+          t.category === category &&
+          t.color === color &&
+          t.status === "paid"
+        );
+      });
+
+      if (!isPaid) {
+        status = "upcoming";
       }
+    }
 
-      if (daysUntilDue <= 3 && daysUntilDue > 0) {
-        status = "dueSoon";
-      }
-      if (today.isSame(dueDate, "day")) {
-        status = "dueSoon";
-      }
+    return { ...bill, status };
+  });
+};
 
-      if (today.isSame(dueDate, "day")) {
-        const isPaid = transactions.some((t) => {
-          if (isDataType(t)) {
-            return (
-              t.amount === amount &&
-              t.category === category &&
-              t.color === color &&
-              t.status === "paid"
-            );
-          }
-          return false;
-        });
-
-        if (isPaid) {
-          status = "paid";
-        }
-      }
-
-      if (today.isAfter(dueDate, "day") && status === "dueSoon") {
-        const isPaid = transactions.some((t) => {
-          if (isDataType(t)) {
-            return (
-              t.amount === amount &&
-              t.category === category &&
-              t.color === color &&
-              t.status === "paid"
-            );
-          }
-          return false;
-        });
-
-        if (!isPaid) {
-          status = "upcoming";
-        }
-      }
-
-      return { ...bill, status };
-    });
-  };
 
   const getAllRecurringBills = async () => {
     try {
@@ -449,16 +542,11 @@ const RecurringBillsSection = () => {
 
   return (
     <section
-      className={`w-full h-full min-h-screen ${
+      className={`w-full h-full ${
         minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"
       } transition-all duration-300 ease-in-out`}
     >
       <div className="w-full h-full min-h-screen px-4 py-6 md:px-6 md:py-8 flex flex-col gap-8 ">
-        {/* <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
-        Recurring Bills
-      </h1> */}
-        {/* 
-      <Title isRecurringBills={isRecurringBills} /> */}
         <Title isRecurringBills={isRecurringBills} />
 
         <div className="w-full flex flex-col gap-6 lg:flex-row">
@@ -482,7 +570,8 @@ const RecurringBillsSection = () => {
               <SortFilterHeader isRecurringBills={isRecurringBills} />
               {isLoading ? (
                 <div className="w-full h-screen flex items-center justify-center">
-                  Loading...
+                  {/* Loading... */}
+                  <Loading />
                 </div>
               ) : (
                 <div className="w-full">
@@ -499,10 +588,15 @@ const RecurringBillsSection = () => {
                         "color" in transaction
                           ? transaction.color
                           : "defaultColor";
-                      const categoryLogo =
-                        "categoryLogo" in transaction
-                          ? transaction.category
-                          : "/assets/logos/logo12.svg";
+                      // const categoryLogo =
+                      //   "categoryLogo" in transaction
+                      //     ? transaction.categoryLogo
+                      //     : "/assets/logos/logo12.svg";
+                      const categoryLogo = 'categoryLogo' in transaction ? (
+                        transaction.categoryLogo
+                      ) : (
+                        <div className="w-10 h-10 rounded-full" style={{ backgroundColor: transaction.color || "gray" }}></div>
+                      );
 
                       return (
                         <TransactionItem

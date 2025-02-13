@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
-import { ProgressBar } from "../../__molecules";
+import { Loading, ProgressBar } from "../../__molecules";
 import { ColorEnum } from "@/app/schema/schema";
 
 export type PotModalPropsType = {
@@ -117,7 +117,10 @@ const PotModal = ({
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    <div className="w-full h-screen flex items-center justify-center">
+    {/* Loading... */}
+    <Loading />
+  </div>
   }
 
   return (

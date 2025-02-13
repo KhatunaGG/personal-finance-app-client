@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import useGroupedPots from "@/app/hooks/use-potGroup";
 import PotModal from "./PotModal";
 import PotItem from "./PotItem";
-import { Title } from "../../__molecules";
+import { Loading, Title } from "../../__molecules";
 
 export type PotsDataType = {
   potName: string;
@@ -22,9 +22,9 @@ export type PotsDataType = {
   createdAt: string;
   updatedAd: string;
 
-  resource?: string
+  resource?: string;
 
-  checkId: string
+  checkId: string;
 };
 
 export type GropedPotsType = {
@@ -36,9 +36,6 @@ export type GropedPotsType = {
   portSpendingTotalAmount: number;
   totalSaved: number;
   percentageSpent: number;
-
-
-
 };
 
 const PotsSection = () => {
@@ -84,14 +81,14 @@ const PotsSection = () => {
     }
   };
 
-
   // if (!context) return null;
   // const { isModal, setIsModal } = context;
 
   if (isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        Loading...
+        {/* Loading... */}
+        <Loading />
       </div>
     );
   }
@@ -115,11 +112,15 @@ const PotsSection = () => {
     }
   };
 
-  if(!context) return null
-  const {minimize, isModal, setIsModal } = context;
+  if (!context) return null;
+  const { minimize, isModal, setIsModal } = context;
 
   return (
-    <section className={`w-full h-full min-h-screen ${minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"} transition-all duration-300 ease-in-out`}>
+    <section
+      className={`w-full h-full min-h-screen ${
+        minimize ? "lg:pl-[88px]" : "lg:pl-[300px]"
+      } transition-all duration-300 ease-in-out`}
+    >
       {(withdrawMoney || potMoney) && (
         <PotModal
           potMoney={potMoney}
@@ -149,8 +150,6 @@ const PotsSection = () => {
       )}
 
       <div className="w-full h-full min-h-screen flex flex-col gap-y-8 pt-6 px-4 pb-[105px] md:pb-[113px] md:px-8 md:pt-8 lg:p-8 ">
-        
-        
         {/* <div className="w-full flex flex-row items-center justify-between">
           <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
             Pots
@@ -165,9 +164,7 @@ const PotsSection = () => {
           </button>
         </div> */}
 
-            <Title setIsModal={setIsModal} isPotPage={isPotPage} />
-
-
+        <Title setIsModal={setIsModal} isPotPage={isPotPage} />
 
         <div className="w-full flex flex-col gap-y-6  lg:flex-row lg:justify-between  lg:flex-wrap">
           {groupedPots.length > 0 &&

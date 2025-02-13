@@ -41,10 +41,10 @@ const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
 
         <div className="h-full grid grid-cols-2 gap-y-4 md:space-y-0 md:grid-cols-1 md:absolute  md:right-[15px] md:top-0 md:w-[40%] lg:w-[30%]">
           {budgets.map((item, i) => (
-            <div key={i} className="flex flex-row gap-4">
+            <div key={i} className="flex flex-row gap-4 max-h-[43px]">
               <div
                 style={{ backgroundColor: item.color }}
-                className={`w-[5px] bg-[${
+                className={`w-[5px]  bg-[${
                   item.color ?? "#000000"
                 }] h-full min-h-[43px] rounded-sm`}
               ></div>{" "}

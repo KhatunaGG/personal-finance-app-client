@@ -833,7 +833,7 @@ const Modal = ({
       <div className="w-full h-screen flex items-center justify-center">
         <div className=" w-[89.33%] md:max-w-[560px] md:w-[72.91%] lg:w-[38.88%] bg-white rounded-lg p-8 flex flex-col gap-[20px]">
           <div className="TITLE w-full flex items-center justify-between">
-            <h1 className="text-[#201F24] text-[32px] font-bold">
+            <h1 className="text-[#201F24] text-[20px]  md:text-[32px] font-bold">
               {isEdit
                 ? isPotPage
                   ? "Edit Pot"
@@ -881,17 +881,17 @@ const Modal = ({
                   <div className="border border-[#98908B] px-[20px] py-3 flex items-center justify-between gap-4 rounded-lg">
                     <input
                       type="text"
-                      className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
+                      className="w-full text-[#201F24] text-xs md:text-[14px] leading-[21px] font-normal outline-none border-none"
                       placeholder="Pot Name"
                       {...register("category")}
                       readOnly={isEdit}
                     />
                   </div>
                 ) : (
-                  <div className="CATEGORY border border-[#98908B] px-[20px] py-3 flex items-center justify-between gap-4 rounded-lg">
+                  <div className="border border-[#98908B] px-[20px] py-3 flex items-center justify-between gap-4 rounded-lg">
                     <input
                       type="text"
-                      className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
+                      className="w-full text-[#201F24] text-xs md:text-[14px] lg:text-base leading-[21px] font-normal outline-none border-none"
                       placeholder="Category"
                       {...register("category")}
                       value={category}
@@ -953,7 +953,7 @@ const Modal = ({
                 <div className="SPENDING border border-[#98908B] px-[20px] py-3 flex items-center justify-between gap-4 rounded-lg">
                   <input
                     type="text"
-                    className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none "
+                    className="w-full text-[#201F24] text-xs md:text-[14px] leading-[21px] font-normal outline-none border-none "
                     placeholder="Amount"
                     {...register("amount")}
                   />
@@ -985,7 +985,7 @@ const Modal = ({
 
                   <input
                     type="text"
-                    className={`w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none ${
+                    className={`w-full text-[#201F24] text-xs md:text-[14px] leading-[21px] font-normal outline-none border-none ${
                       color ? "pl-[20px]" : ""
                     }`}
                     placeholder="Color"
@@ -1004,7 +1004,7 @@ const Modal = ({
                   </button>
 
                   {isColorDropDownOpen && (
-                    <div className="COLOROPTIONS w-full absolute left-0 right-0 top-[80px] rounded-lg z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.3)] px-[20px] bg-white flex flex-col max-h-[200px] overflow-y-scroll">
+                    <div className="w-full absolute left-0 right-0 top-[80px] rounded-lg z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.3)] px-[20px] bg-white flex flex-col max-h-[200px] overflow-y-scroll">
                       {Object.values(ColorEnum).map((colorItem, i) => (
                         <div
                           key={i}

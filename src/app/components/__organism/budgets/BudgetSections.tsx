@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { BudgetPieChart, Title } from "../../__molecules";
+import { BudgetPieChart, Loading, Title } from "../../__molecules";
 import BudgetItem from "./BudgetItem";
 import Spending from "./Spending";
 import Modal from "../modal/Modal";
@@ -60,8 +60,10 @@ const BudgetSections = () => {
   if (isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        Loading...
+        {/* Loading... */}
+        <Loading />
       </div>
+
     );
   }
 
