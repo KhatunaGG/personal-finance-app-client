@@ -26,7 +26,7 @@
 
 // export default useAccessToken;
 
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "../libs/axiosInstance";
@@ -57,6 +57,16 @@ const useAccessToken = () => {
     }
   };
 
+  const logout = () => {
+    deleteCookie("accessToken"); 
+    setAccessToken(null); 
+    setUser(null); 
+    router.push("/sign-up"); 
+  };
+
+
+
+
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCookie("accessToken");
@@ -77,7 +87,7 @@ const useAccessToken = () => {
     }
   }, [accessToken]);
 
-  return { accessToken, isLoading, user };
+  return { accessToken, isLoading, user, logout };
 };
 
 export default useAccessToken;

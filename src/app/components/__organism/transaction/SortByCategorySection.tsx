@@ -99,14 +99,14 @@ const SortByCategorySection = ({
         <FilterIcon />
       </div>
 
-      <div className="TRANSITION-DROPDOWN hidden md:flex items-center gap-3 ">
+      <div className="hidden md:flex items-center gap-3 ">
         <p className="text-[#696868] font-normal">Category</p>
 
         <div
           onClick={() => {
             setFilteredCategoryDropdown(!filteredCategoryDropdown);
           }}
-          className="w-[177px] border relative border-[#98908B] rounded-md flex items-center gap-4 px-[20px] py-3 text-[#201F24]"
+          className="w-[177px] relative border border-[#98908B] rounded-md flex items-center gap-4 px-[20px] py-3 text-[#201F24]"
         >
           <input
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

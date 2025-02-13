@@ -104,6 +104,7 @@ import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useEffect, useState } from "react";
 import { TransactionType } from "../transaction/TransactionSection";
+import { Loading } from "../../__molecules";
 
 const TotalsFragment = () => {
   const { accessToken, isLoading } = useAccessToken();
@@ -159,8 +160,9 @@ const TotalsFragment = () => {
   if (isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        Loading...
-      </div>
+      {/* Loading... */}
+      <Loading />
+    </div>
     );
   }
 

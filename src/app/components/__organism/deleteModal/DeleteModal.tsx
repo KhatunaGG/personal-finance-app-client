@@ -23,35 +23,6 @@ const DeleteModal = ({
 }: DeleteModalPropsType) => {
   const { accessToken } = useAccessToken();
 
-  // const deleteCategory = async (category: string) => {
-  //   try {
-  //     let res;
-  //     if (isPotPage) {
-  //       res = await axiosInstance.delete(`/pot/category/${category}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
-  //       if (res.status === 200 || res.status === 201 || res.status === 204) {
-  //         setIsDelete(false);
-  //         if (getAllPots) getAllPots();
-  //       }
-  //     } else {
-  //       res = await axiosInstance.delete(`/budgets/category/${category}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
-  //       if (res.status === 200 || res.status === 201 || res.status === 204) {
-  //         setIsDelete(false);
-  //         if (getBudgets) getBudgets();
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const deleteCategory = async (category: string) => {
     try {
       const endpoint = isPotPage

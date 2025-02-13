@@ -18,20 +18,8 @@ const TransactionsFragment = ({
   transactions,
 }: TransactionsFragmentPropsType) => {
   return (
-    <section className="bg-white rounded-xl px-[20px] py-6 h-full w-full md:p-6 lg:p-8 flex flex-col ">
-      {/* <div className="w-full flex items-center justify-between">
-        <h2 className="font-bold text-[20px] text-[#201F24]">Transactions</h2>
-        <Link
-          href={"/transactions"}
-          className="flex flex-row items-center gap-3"
-        >
-          <p className="text-[14px] text-[#696868] font-normal">See Details</p>
-          <ArrowRight />
-        </Link>
-      </div> */}
-
+    <section className="bg-white rounded-xl px-[20px] py-6  w-full md:p-6 lg:p-8 flex flex-col ">
       <FragmentTitle isFragment={true} title={"Transactions"} />
-
       {transactions.length > 0 ? (
         <div className=" grid grid-cols-1 pt-[20px]  ">
           {transactions.map((transaction, i) => {
@@ -81,7 +69,7 @@ const TransactionsFragment = ({
           })}
         </div>
       ) : (
-        <div className="bg-white  w-full p-8 flex items-center justify-center gap-[20px] lg:max-h-[218px]">
+        <div className="bg-white  w-full p-8 flex items-center justify-center gap-[20px] lg:max-h-[218px]  mt-[32px]">
           <p className="text-[10px] text-[#696868]">
             No transactions available. Start by creating one!
           </p>{" "}
