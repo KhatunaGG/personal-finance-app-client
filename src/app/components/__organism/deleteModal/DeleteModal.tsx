@@ -11,7 +11,6 @@ export type DeleteModalPropsType = {
   getBudgets?: () => void;
   isPotPage?: boolean;
   getAllPots?: () => void;
-  
 };
 
 const DeleteModal = ({
@@ -31,25 +30,27 @@ const DeleteModal = ({
       const res = await axiosInstance.delete(endpoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      console.log(endpoint, "endpoint")
+      console.log(endpoint, "endpoint");
 
       if (res.status === 200 || res.status === 201 || res.status === 204) {
         setIsDelete(false);
         if (isPotPage && getAllPots) getAllPots();
         if (!isPotPage && getBudgets) getBudgets();
-      }
-      else {
-        console.log(`Failed to delete: ${res.data.message || 'Unknown error'}`);
+      } else {
+        console.log(`Failed to delete: ${res.data.message || "Unknown error"}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(`Axios error: ${error.response?.data?.message || 'An error occurred'}`);
+        console.log(
+          `Axios error: ${error.response?.data?.message || "An error occurred"}`
+        );
       } else if (error instanceof Error) {
-        console.log(`Error: ${error.message || 'An error occurred while deleting.'}`);
+        console.log(
+          `Error: ${error.message || "An error occurred while deleting."}`
+        );
       } else {
-        console.log('Error: Network or server issue');
+        console.log("Error: Network or server issue");
       }
-      
     }
   };
 

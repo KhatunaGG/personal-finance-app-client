@@ -11,13 +11,10 @@ export type LatestSpendingPropsType = {
 
 const LatestSpending = ({
   logo,
-  // category,
   amount,
   isLastEl,
   createdAt,
-  // updatedAt,
 }: LatestSpendingPropsType) => {
-
   return (
     <div
       className={`w-full grid grid-cols-[70%_30%] md:grid-cols-2 py-[20px] ${
@@ -36,7 +33,9 @@ const LatestSpending = ({
         <p className="text-[12px] text-[#696868] font-normal">{createdAt}</p>
       </div>
 
-        <p className="text-[14px] font-bold text-right">-${Math.abs(amount).toFixed(2)}</p>
+      <p className="text-[14px] font-bold text-right">
+        -${Math.abs(amount).toFixed(2)}
+      </p>
     </div>
   );
 };

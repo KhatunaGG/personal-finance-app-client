@@ -2,8 +2,6 @@ import React, { Dispatch, SetStateAction } from "react";
 
 export type ModalItemPropsType = {
   setIsDelete: Dispatch<SetStateAction<boolean>>;
-  // setIsModalItem: Dispatch<SetStateAction<boolean>>;
-
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   isPotPage?: boolean;

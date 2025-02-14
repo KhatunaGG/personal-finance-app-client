@@ -58,12 +58,7 @@ const PotModal = ({
   const filteredGropedData = groupedPots.find(
     (item) => item.potName === activePotModal?.potName
   );
-
-  const [input, setInput] = useState('')
-  console.log(input, "input from POTMODAL")
-
-  console.log(filteredGropedData, "filteredGropedData from POTMODAL");
-  console.log(potsData, "potsData from POTMODAL")
+  const [input, setInput] = useState("");
 
   const {
     register,
@@ -118,9 +113,8 @@ const PotModal = ({
 
   if (isLoading) {
     <div className="w-full h-screen flex items-center justify-center">
-    {/* Loading... */}
-    <Loading />
-  </div>
+      <Loading />
+    </div>;
   }
 
   return (
@@ -153,18 +147,12 @@ const PotModal = ({
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm text-[#696868] font-normal">New Amount</h2>
             <p className="text-[#201F24] font-bold text-[32px]">
-              {/* $ {filteredGropedData?.totalSaved.toFixed(2)} */}
-              $ { (Number(input) || 0).toFixed(2) }
+              {(Number(input) || 0).toFixed(2)}
             </p>
           </div>
 
           <div className="mb-[13px] overflow-hidden">
             <ProgressBar
-              // category={filteredGropedData?.potName}
-              // groupSpending={filteredGropedData?.portSpendingTotalAmount ?? 0}
-              // color={filteredGropedData?.color}
-              // groupTotalAmount={filteredGropedData?.totalSaved}
-              // groupTarget={filteredGropedData?.potTargetTotalAmount}
               isPotPage={true}
               filteredGropedData={filteredGropedData}
               withdrawMoney={withdrawMoney}
@@ -201,7 +189,9 @@ const PotModal = ({
                 className="w-full text-#201F24 text-2xl md:text-[14px] leading-[21px] font-normal outline-none border-none"
                 placeholder="Amount"
                 {...register("amount")}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setInput(e.target.value)
+                }
               />
               {errors.amount && (
                 <span className="absolute bottom-[-18px] right-[5px] italic text-[#CD2C2C] font-medium text-[12px] tracking-[-0.21px] rounded-md">

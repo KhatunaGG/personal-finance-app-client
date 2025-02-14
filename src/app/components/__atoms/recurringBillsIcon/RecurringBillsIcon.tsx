@@ -1,4 +1,3 @@
-
 const RecurringBillsIcon = () => {
   return (
     <svg

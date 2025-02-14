@@ -1,5 +1,5 @@
 "use client";
-import {  ModalItem, ProgressBar } from "../../__molecules";
+import { ModalItem, ProgressBar } from "../../__molecules";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
 import { DataType } from "@/app/interfaces/interface";

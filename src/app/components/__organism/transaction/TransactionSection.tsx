@@ -60,8 +60,6 @@ const TransactionSection = () => {
     sortTransactions,
   } = useSortAndFilter(allTransactions || []);
 
-
-
   useEffect(() => {
     const getAllTransactions = async () => {
       try {
@@ -132,12 +130,7 @@ const TransactionSection = () => {
       if ("createdAt" in item) {
         transaction.createdAt = item.createdAt;
       }
-      // if ("updatedAt" in item) {
-      //   transaction.updatedAt = item.updatedAt;
-      // }
-
       if ("createdAt" in item) {
-        // Ensure createdAt is in ISO string format
         transaction.createdAt = new Date(item.createdAt ?? "").toISOString();
       }
 
@@ -149,9 +142,7 @@ const TransactionSection = () => {
     });
   };
 
-
-  console.log(filteredAllTransactions, "filteredAllTransactions")
-
+  console.log(filteredAllTransactions, "filteredAllTransactions");
 
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
@@ -194,7 +185,6 @@ const TransactionSection = () => {
           <SortFilterHeader />
           {isLoading ? (
             <div className="w-full h-screen flex items-center justify-center">
-              {/* Loading... */}
               <Loading />
             </div>
           ) : (
@@ -207,17 +197,17 @@ const TransactionSection = () => {
                       "category" in transaction
                         ? transaction.category
                         : "Unknown Category";
-                    // const categoryLogo =
-                    //   "categoryLogo" in transaction
-                    //     ? transaction.categoryLogo
-                    //     : "";
-                    const categoryLogo = 'categoryLogo' in transaction ? (
-                      transaction.categoryLogo
-                    ) : (
-                      <div className="w-10 h-10 rounded-full" style={{ backgroundColor: transaction.color || "gray" }}></div>
-                    );
-
-
+                    const categoryLogo =
+                      "categoryLogo" in transaction ? (
+                        transaction.categoryLogo
+                      ) : (
+                        <div
+                          className="w-10 h-10 rounded-full"
+                          style={{
+                            backgroundColor: transaction.color || "gray",
+                          }}
+                        ></div>
+                      );
 
                     const color =
                       "color" in transaction
