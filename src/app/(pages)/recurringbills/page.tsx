@@ -1,9 +1,5 @@
-import { RecurringBillsSection } from '@/app/components/__organism'
-import React from 'react'
+import { RecurringBillsSection } from "@/app/components/__organism";
 
 export default function page() {
-  return (
-    <RecurringBillsSection />
-  )
+  return <RecurringBillsSection />;
 }
-

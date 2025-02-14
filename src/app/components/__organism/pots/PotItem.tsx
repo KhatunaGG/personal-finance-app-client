@@ -20,12 +20,8 @@ type PotItemPropsType = {
   setPotMoney: Dispatch<SetStateAction<boolean>>;
   setWithdrawMoney: Dispatch<SetStateAction<boolean>>;
   portSpendingTotalAmount: number;
-  // groupedPots: GropedPotsType[];
-  // isEdit: boolean;
-  // isModal: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   activePot: GropedPotsType | undefined;
-  // handleOpenModal: (value: string) => void;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   activeModalItem: number | null;
   setActiveModalItem: Dispatch<SetStateAction<number | null>>;
@@ -37,7 +33,6 @@ const PotItem = ({
   isPotPage,
   potName,
   color,
-  // amount,
   _id,
   totalSaved,
   percentageSpent,
@@ -48,14 +43,12 @@ const PotItem = ({
   portSpendingTotalAmount,
   setIsEdit,
   activePot,
-  // handleOpenModal,
   activeModalItem,
   setActiveModalItem,
   index,
   getAllPots,
-  setIsModal
+  setIsModal,
 }: PotItemPropsType) => {
-  // console.log(amount);
   const [isDelete, setIsDelete] = useState(false);
 
   const handleOpenModal = () => {
@@ -77,11 +70,7 @@ const PotItem = ({
           </h2>
         </div>
 
-        <div
-          // onClick={() => handleOpenModal(potName)}
-          onClick={handleOpenModal}
-          className="relative cursor-pointer"
-        >
+        <div onClick={handleOpenModal} className="relative cursor-pointer">
           <DotIcon />
 
           {activePot?.potName === potName && (
@@ -89,8 +78,6 @@ const PotItem = ({
               setIsDelete={setIsDelete}
               setIsEdit={setIsEdit}
               setIsModal={setIsModal}
-
-
               isPotPage={isPotPage}
             />
           )}
@@ -111,8 +98,6 @@ const PotItem = ({
             groupSpending={portSpendingTotalAmount}
             color={color}
             groupTotalAmount={potTargetTotalAmount}
-            // isPotPage={true}
-            // portSpendingTotalAmount={portSpendingTotalAmount}
             height={"8px"}
           />
         </div>

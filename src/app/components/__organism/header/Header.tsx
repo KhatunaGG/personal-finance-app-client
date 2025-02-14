@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-
 const Header = () => {
   return (
     <section className="flex items-center justify-center w-full h-[69.76px] bg-gray-900 rounded-b-[12px] lg:hidden ">
@@ -13,7 +12,6 @@ const Header = () => {
           layout="responsive"
           objectFit="contain"
         />
-
       </div>
     </section>
   );

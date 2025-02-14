@@ -37,31 +37,15 @@ export const schema = Yup.object().shape({
   amount: Yup.number()
     .typeError("Enter a valid amount")
     .required("Amount is required"),
-
   color: Yup.mixed<ColorEnum>()
     .oneOf(Object.values(ColorEnum), "Select color")
     .required("Select color"),
 });
 
-
-
 export const potSchema = Yup.object().shape({
-  category: Yup.string().required("Pot Name is required"),  
+  category: Yup.string().required("Pot Name is required"),
   amount: Yup.number().required("Amount is required"),
   color: Yup.mixed<ColorEnum>()
     .oneOf(Object.values(ColorEnum), "Select color")
     .required("Select color"),
 });
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,20 +8,7 @@ export type BillsFragmentPropsType = {
 const BillsFragment = ({ recurringBills }: BillsFragmentPropsType) => {
   return (
     <section className='bg-white rounded-xl px-[20px] py-6  w-full grid grid-cols-1  gap-8  md:px-0 md:py-0 md:p-6 lg:p-8 "'>
-      {/* <div className="w-full flex items-center justify-between">
-        <h2 className="font-bold text-[20px] text-[#201F24]">
-          Recurring Bills
-        </h2>
-        <Link
-          href={"/recurringbills"}
-          className="flex flex-row justify-between items-center gap-3"
-        >
-          <p>See Details</p>
-          <ArrowRight />
-        </Link>
-      </div> */}
       <FragmentTitle isFragment={true} title={"Recurring Bills"} />
-
       {recurringBills.length > 0 ? (
         <div className="w-full grid grid-cols-1 gap-y-3">
           {recurringBills.map((bill, i) => (

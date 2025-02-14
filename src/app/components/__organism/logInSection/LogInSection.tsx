@@ -1,105 +1,7 @@
-// import Image from "next/image";
-// import React from "react";
-// import Header from "../header/Header";
-
-// const SignUp = () => {
-//   return (
-//     <div className="w-full h-[calc(100vh-69.76px)] lg:h-screen flex lg:flex-row">
-//       <Header />
-//       <div className="flex-shrink-0 w-1/3 relative rounded-[12px] overflow-hidden hidden lg:flex">
-//         <Image
-//           src="/assets/hero.png"
-//           alt="Hero Image"
-//           layout="fill"
-//           objectFit="cover"
-//           className="hidden lg:flex"
-//         />
-
-//         <div className="">
-//           <h1 className="text-white">hello</h1>
-//         </div>
-//       </div>
-
-//       <div className="w-full lg:w-2/3 flex justify-center items-center lg:px-[9.2%]">
-//         <div className="w-full rounded-[12px] bg-white p-8 flex flex-col gap-8">
-//           <h1 className="text-[#201F24] font-bold text-[32px] leading-[1.2]">
-//             Login
-//           </h1>
-
-//           <form className="lg:w-full ">
-
-//             <div className="relative flex flex-col mb-4">
-//               <label
-//                 htmlFor="email"
-//                 className="text-gray-500 font-bold mb-1 text-[12px]"
-//               >
-//                 Email
-//               </label>
-//               <input
-//                 type="email"
-//                 className="border border-beige-500 py-3 px-5 rounded-[8px] outline-none"
-//               />
-//               <span className="absolute"></span>
-//             </div>
-
-//             <div className="relative flex flex-col mb-8 ">
-//               <label
-//                 htmlFor="email"
-//                 className="text-gray-500 font-bold mb-1 text-[12px]"
-//               >
-//                 Create Password
-//               </label>
-//               <div className=" w-full relative">
-//                 <input
-//                   type="password"
-//                   className="border border-beige-500 py-3 px-5 rounded-[8px] w-full outline-none"
-//                 />
-//                 <button className="absolute top-1/2 right-5 transform -translate-y-1/2 translate-x-1/2 w-6 h-6 cursor-pointer">
-//                   <Image
-//                     src="/assets/eye.png"
-//                     alt="eye"
-//                     layout="fill"
-//                     objectFit="contain"
-//                   />
-//                 </button>
-//               </div>
-
-//               <span className="absolute"></span>
-//             </div>
-
-//             <button
-//               type="submit"
-//               className="font-bold block text-[14px] text-white py-4 bg-gray-900 rounded-[8px] w-full"
-//             >
-//               CLogin
-//             </button>
-//           </form>
-
-//           <div className="flex items-center justify-center gap-2">
-//             <p className="text-gray-500 font-regular text-[14px]">
-//             Need to create an account?
-//             </p>
-//             <button className="text-gray-900">
-//               <a href="" className="font-bold text-[14px] underline">
-//               Sign Up
-//               </a>
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
-
-//*********************************************************************************************************** */
-
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -108,31 +10,19 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { Logo } from "../../__atoms";
+import { schema } from "@/app/schema/loginSchema";
 
 export type LogInType = {
   email: string;
   password: string;
 };
 
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required("Email cannot be empty")
-    .email("Looks like this is not an email"),
-  password: yup
-    .string()
-    .required("Password cannot be empty")
-    .matches(
-      /^(?=[A-Za-z0-9]*$)[A-Za-z0-9]{4,20}$/,
-      "Letters and Numbers only"
-    ),
-});
 
 const LogInSection = () => {
-  // const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const [accessToken, setAccessToken] = useState("");
-  console.log(accessToken)
+  console.log(accessToken);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -146,10 +36,13 @@ const LogInSection = () => {
   const onSubmit = async (data: LogInType) => {
     console.log(data, "data");
     try {
-      const res = await axiosInstance.post("/auth/sign-in", data);
+      const res = await axiosInstance.post("/auth/sign-in", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (res.status === 200 || res.status === 201) {
         const token = res.data.accessToken;
-        // setTokenFromCookie(token);
         setAccessToken(token);
         setCookie("accessToken", token, { maxAge: 60 * 60 });
         if (token) {
@@ -172,7 +65,6 @@ const LogInSection = () => {
       }
     }
   };
-
 
   return (
     <div className="w-vw min-h-screen bg-[#F2F3F7]  flex flex-row p-8">
@@ -227,18 +119,25 @@ const LogInSection = () => {
               </label>
               <div className=" w-full relative">
                 <input
-                  type="password"
+                  type={`${!showPassword ? "password" : "text"}`}
                   className="border border-beige-500 py-3 px-5 rounded-[8px] w-full outline-none"
                   placeholder="Password"
                   {...register("password")}
                 />
-                <button className="absolute top-1/2 right-5 transform -translate-y-1/2 translate-x-1/2 w-6 h-6 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute top-1/2 right-5 transform -translate-y-1/2 translate-x-1/2 w-6 h-6 cursor-pointer"
+                >
                   <Image
-                    src="/assets/eye.png"
+                    src={`${
+                      !showPassword
+                        ? "/assets/eye.png"
+                        : "/assets/eye-notShow.svg"
+                    }`}
                     alt="eye"
                     width={24}
                     height={24}
-                    // style={{ objectFit: "contain" }}
                   />
                 </button>
               </div>

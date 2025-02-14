@@ -1,17 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { PotDataStateType } from "../../__organism/modal/Modal";
-
-export type CloseIconPropsType = {
-  setIsModal?: Dispatch<SetStateAction<boolean>>;
-  setIsAddBudget?: Dispatch<SetStateAction<boolean>>;
-  setIsDelete?: Dispatch<SetStateAction<boolean>>;
-  setIsEdit?: Dispatch<SetStateAction<boolean>>;
-  setActiveModalItem?: Dispatch<SetStateAction<number | null>>;
-  setPotMoney?: Dispatch<SetStateAction<boolean>>;
-  setActivePotModal?: Dispatch<SetStateAction<PotDataStateType | null>>;
-  setWithdrawMoney?: Dispatch<SetStateAction<boolean>>;
-  setInput?: Dispatch<SetStateAction<string>>;
-};
+import { CloseIconPropsType } from "@/app/interfaces/interface";
 
 const CloseIcon = ({
   setIsModal,
@@ -36,8 +23,6 @@ const CloseIcon = ({
         setActivePotModal?.(null);
         setWithdrawMoney?.(false);
         setInput?.("");
-        // if (setActiveModalItem) setActiveModalItem(null);
-        // if (setIsEdit) setIsEdit(false);
       }}
       width="26"
       height="26"

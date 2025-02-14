@@ -21,9 +21,7 @@ export type PotsDataType = {
   _id: string;
   createdAt: string;
   updatedAd: string;
-
   resource?: string;
-
   checkId: string;
 };
 
@@ -81,13 +79,9 @@ const PotsSection = () => {
     }
   };
 
-  // if (!context) return null;
-  // const { isModal, setIsModal } = context;
-
   if (isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        {/* Loading... */}
         <Loading />
       </div>
     );
@@ -150,22 +144,7 @@ const PotsSection = () => {
       )}
 
       <div className="w-full h-full min-h-screen flex flex-col gap-y-8 pt-6 px-4 pb-[105px] md:pb-[113px] md:px-8 md:pt-8 lg:p-8 ">
-        {/* <div className="w-full flex flex-row items-center justify-between">
-          <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
-            Pots
-          </h1>
-          <button
-            onClick={() => {
-              setIsModal(true);
-            }}
-            className="bg-[#201F24] rounded-lg text-white text-[14px] font-bold text-right p-4 whitespace-nowrap"
-          >
-            + Add New Pot
-          </button>
-        </div> */}
-
         <Title setIsModal={setIsModal} isPotPage={isPotPage} />
-
         <div className="w-full flex flex-col gap-y-6  lg:flex-row lg:justify-between  lg:flex-wrap">
           {groupedPots.length > 0 &&
             groupedPots.map((pot, i) => (

@@ -1,4 +1,3 @@
-
 const PaginationArrowRight = () => {
   return (
     <svg

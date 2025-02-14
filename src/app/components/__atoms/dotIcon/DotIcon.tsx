@@ -1,4 +1,3 @@
-
 const DotIcon = () => {
   return (
     <svg
