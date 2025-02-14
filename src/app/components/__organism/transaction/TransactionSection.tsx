@@ -133,16 +133,12 @@ const TransactionSection = () => {
       if ("createdAt" in item) {
         transaction.createdAt = new Date(item.createdAt ?? "").toISOString();
       }
-
       if ("resource" in item) {
         transaction.resource = item.resource;
       }
-
       return transaction;
     });
   };
-
-  console.log(filteredAllTransactions, "filteredAllTransactions");
 
   const totalPages = Math.ceil(filteredAllTransactions.length / (limit * 2));
   const paginatedTransactions = sortTransactions(filteredAllTransactions).slice(
