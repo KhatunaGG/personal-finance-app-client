@@ -27,9 +27,7 @@ const BudgetSections = () => {
   const [categoryToEdit, setCategoryToEdit] = useState<GroupedCategory | null>(
     null
   );
-
   const groupedData = useGroupedData(data);
-  console.log(data, "data");
 
   useEffect(() => {
     if (activeModalItem !== null) {
