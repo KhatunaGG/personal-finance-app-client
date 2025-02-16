@@ -17,7 +17,6 @@ export type LogInType = {
   password: string;
 };
 
-
 const LogInSection = () => {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState("");
@@ -138,7 +137,7 @@ const LogInSection = () => {
                     alt="eye"
                     width={24}
                     height={24}
-                    style={{ width: 'auto', height: 'auto' }} 
+                    style={{ width: "24px", height: "24px" }}
                   />
                 </button>
               </div>

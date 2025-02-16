@@ -16,7 +16,6 @@ const Pagination = ({
   totalPages,
   setCurrentPage,
 }: PaginationPropsType) => {
-
   const getPaginationButtons = () => {
     let buttons: (number | string)[] = [];
     if (totalPages <= 4) {
@@ -82,4 +81,3 @@ const Pagination = ({
 };
 
 export default Pagination;
-

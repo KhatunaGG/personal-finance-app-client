@@ -2,7 +2,6 @@
 import { BudgetPieChart, FragmentTitle } from "../../__molecules";
 import { useGroupedData } from "@/app/hooks/use-categoryGrope";
 import { BudgetType } from "../modal/Modal";
-import { useEffect } from "react";
 import useAccessToken from "@/app/hooks/use-toke";
 import useBudgets from "@/app/hooks/use-budgets";
 
@@ -10,14 +9,14 @@ export type BudgetFragmentPropsType = {
   budgets: BudgetType[];
 };
 
-const BudgetFragment = ({ budgets }: BudgetFragmentPropsType) => {
+const BudgetFragment = ({ budgets = [] }: BudgetFragmentPropsType) => {
   const { accessToken } = useAccessToken();
-  const { data, getBudgets } = useBudgets(accessToken || "");
-  const groupedData = useGroupedData(data);
+  const { data } = useBudgets(accessToken ?? "");
 
-  useEffect(() => {
-    getBudgets();
-  }, []);
+  if (!Array.isArray(budgets)) {
+    console.error("Expected 'budgets' to be an array, but got:", budgets);
+  }
+  const groupedData = useGroupedData(data);
 
   return (
     <section className="w-full grid grid-cols-1 bg-white rounded-xl px-[20px] py-6 md:p-8 gap-y-[20px]">

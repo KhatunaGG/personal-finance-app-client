@@ -70,6 +70,7 @@ const PotModal = ({
   });
 
   const onSubmit = async (formData: MoneyEditType) => {
+    console.log(formData, "formData");
     try {
       if (potMoney && formData.amount <= 0) {
         toast.error("Amount should be greater than zero.");

@@ -23,8 +23,6 @@ export type DataPikersPropsType = {
   getAllRecurringBills?: () => Promise<void>;
   resource: string | undefined;
   categoryLogo: string | JSX.Element | undefined;
-
-
 };
 
 function getSuffix(day: number): string {
@@ -57,8 +55,6 @@ export default function BasicDatePicker({
 }: DataPikersPropsType) {
   const { accessToken } = useAccessToken();
 
- 
-
   const formattedRecurrentBillsDate = async (date: Dayjs | null) => {
     try {
       if (date) {
@@ -66,7 +62,6 @@ export default function BasicDatePicker({
         const ordinalSuffix = getSuffix(day);
         const formattedDate = `Monthly - ${day}${ordinalSuffix}`;
         await create(formattedDate);
-
       }
     } catch (error) {
       console.log(error);
@@ -74,6 +69,9 @@ export default function BasicDatePicker({
   };
 
   const create = async (dueDate: string) => {
+    if (!accessToken) {
+      return;
+    }
     try {
       const data = {
         transactionId,
@@ -126,7 +124,7 @@ export default function BasicDatePicker({
             "@media (max-width: 640px)": {
               right: "-100px",
               top: "auto",
-              zIndex: 40, 
+              zIndex: 40,
             },
           }}
           label="Select Date"

@@ -9,7 +9,6 @@ import { PotDataStateType } from "../components/__organism/modal/Modal";
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
-  // data?: DataType[];
   getBudgets?: () => void;
   setIsAddBudget?: Dispatch<SetStateAction<boolean>>;
   isAddBudget?: boolean;
