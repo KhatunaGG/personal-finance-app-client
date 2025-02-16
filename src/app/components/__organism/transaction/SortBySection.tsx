@@ -16,8 +16,6 @@ export const SortBySection = ({
   setSortByValue,
   sortByValue,
 }: SortBySectionPropsType) => {
-
-  
   const handleSortBy = (item: string) => {
     setSortByValue(item);
   };

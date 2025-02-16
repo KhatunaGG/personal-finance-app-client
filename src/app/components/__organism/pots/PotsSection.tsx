@@ -1,7 +1,6 @@
 "use client";
 import { GlobalContext } from "@/app/context/Context";
 import { useContext, useEffect, useState } from "react";
-
 import Modal, { PotDataStateType } from "../../__organism/modal/Modal";
 import { ColorEnum } from "@/app/schema/schema";
 import { usePathname } from "next/navigation";
@@ -54,6 +53,7 @@ const PotsSection = () => {
   );
   const [activeModalItem, setActiveModalItem] = useState<number | null>(null);
 
+
   useEffect(() => {
     if (activeModalItem !== null) {
       setActivePot(groupedPots[activeModalItem]);
@@ -64,9 +64,12 @@ const PotsSection = () => {
 
   useEffect(() => {
     getAllPots();
-  }, [potMoney, withdrawMoney]);
+  }, [potMoney, withdrawMoney, accessToken]);
 
   const getAllPots = async () => {
+    if (!accessToken) {
+      return;
+    }
     try {
       const res = await axiosInstance.get("/pot", {
         headers: {
@@ -88,6 +91,10 @@ const PotsSection = () => {
   }
 
   const handleClickPots = async (id: string) => {
+    if (!accessToken) {
+      return;
+    }
+    console.log(id, "id from pot Section HendleClick section");
     try {
       try {
         const res = await axiosInstance.get(`/pot/${id}`, {

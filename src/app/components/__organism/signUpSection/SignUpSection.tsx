@@ -153,7 +153,7 @@ const SignUpSection = () => {
                     alt="eye"
                     width={24}
                     height={24}
-                    style={{ width: "auto", height: "auto" }}
+                    style={{ width: "24px", height: "24px" }}
                   />
                 </button>
               </div>

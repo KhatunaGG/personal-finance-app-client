@@ -56,7 +56,6 @@ const TransactionItem = ({
 
   const checkExistingRecurringBill = async () => {
     if (!accessToken || !_id) return;
-
     try {
       const res = await axiosInstance.get("/recurring-bills", {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -87,7 +86,13 @@ const TransactionItem = ({
     }
 
     try {
-      let res = await axiosInstance.get("/recurring-bills");
+      if (!accessToken) {
+        return;
+      }
+
+      let res = await axiosInstance.get("/recurring-bills", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
       const data: TransactionOrRecurringBill[] = res.data || [];
       const exist = data.find((item) => item.checkId === id);
 

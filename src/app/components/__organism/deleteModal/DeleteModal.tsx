@@ -30,7 +30,6 @@ const DeleteModal = ({
       const res = await axiosInstance.delete(endpoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      console.log(endpoint, "endpoint");
 
       if (res.status === 200 || res.status === 201 || res.status === 204) {
         setIsDelete(false);

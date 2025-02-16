@@ -143,6 +143,9 @@ const RecurringBillsSection = () => {
   };
 
   const getAllRecurringBills = async () => {
+    if (!accessToken) {
+      return;
+    }
     try {
       const res = await axiosInstance.get("/recurring-bills", {
         headers: { Authorization: `Bearer ${accessToken}` },
