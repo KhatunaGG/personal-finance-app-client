@@ -1,9 +1,5 @@
-import { RecurringBillsDataType } from "./RecurringBillsSection";
+import { SummeryPropsType } from "@/app/interfaces/interface";
 import { RecurringBillsIcon } from "../../__atoms";
-
-export type SummeryPropsType = {
-  recurringBillsData: RecurringBillsDataType[] | undefined;
-};
 
 const Summary = ({ recurringBillsData }: SummeryPropsType) => {
   const result = recurringBillsData?.reduce(

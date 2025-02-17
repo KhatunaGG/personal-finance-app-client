@@ -5,35 +5,15 @@ import SortBySection from "./SortBySection";
 import SortByCategorySection from "./SortByCategorySection";
 import TransactionItem from "./TransactionItem";
 import useAccessToken from "@/app/hooks/use-toke";
-import { DataType } from "@/app/interfaces/interface";
-import { PotsDataType } from "../pots/PotsSection";
+import { DataType, PotsDataType, TransactionType } from "@/app/interfaces/interface";
 import Pagination from "./Pagination";
 import Search from "./Search";
 import { Loading, SortFilterHeader, Title } from "../../__molecules";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
-import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { ToastContainer } from "react-toastify";
 import { usePathname } from "next/navigation";
 import { GlobalContext } from "@/app/context/Context";
 
-export type TransactionType = {
-  category: string;
-  amount: number;
-  color: string;
-  categoryLogo?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  _id: string;
-  resource: string | undefined;
-
-  potId?: string;
-  budgetId?: string;
-  checkId: string;
-};
-
-export type TransactionOrRecurringBill =
-  | TransactionType
-  | RecurringBillsDataType;
 
 const TransactionSection = () => {
   const { accessToken, isLoading } = useAccessToken();

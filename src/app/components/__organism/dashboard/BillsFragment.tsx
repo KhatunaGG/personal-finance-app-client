@@ -1,9 +1,7 @@
-import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { FragmentTitle } from "../../__molecules";
+import { BillsFragmentPropsType } from "@/app/interfaces/interface";
 
-export type BillsFragmentPropsType = {
-  recurringBills: RecurringBillsDataType[];
-};
+
 
 const BillsFragment = ({ recurringBills }: BillsFragmentPropsType) => {
   return (

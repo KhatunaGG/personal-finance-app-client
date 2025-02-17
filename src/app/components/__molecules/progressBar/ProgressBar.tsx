@@ -1,19 +1,6 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
-import { FilteredGropedDataType } from "../../__organism/pots/PotModal";
-
-export type ProgressBarPropsType = {
-  category?: string;
-  groupSpending?: number;
-  color?: string;
-  groupTotalAmount?: number;
-  isPotPage?: boolean;
-  filteredGropedData?: FilteredGropedDataType;
-  withdrawMoney?: boolean;
-  potMoney?: boolean;
-  input?: string;
-  height?: string;
-};
+import { ProgressBarPropsType } from "@/app/interfaces/interface";
 
 const ProgressBar = ({
   groupSpending,

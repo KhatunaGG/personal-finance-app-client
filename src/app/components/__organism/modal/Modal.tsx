@@ -11,40 +11,12 @@ import {
   schema,
 } from "@/app/schema/schema";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
-import { ModalPropsType } from "@/app/interfaces/interface";
+import { BudgetType, ModalPropsType, NewDataStateType, PotType } from "@/app/interfaces/interface";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 import useAccessToken from "@/app/hooks/use-toke";
 
-export type BudgetType = {
-  category: CategoryEnum;
-  amount: number;
-  color: ColorEnum;
-  categoryLogo?: string;
-};
-
-export type NewDataStateType = {
-  category: CategoryEnum;
-  amount: number;
-  color: ColorEnum;
-  categoryLogo: string;
-};
-
-export type PotType = {
-  category: string;
-  amount: number;
-  color: ColorEnum;
-  categoryLogo?: string;
-};
-
-export type PotDataStateType = {
-  potName: string;
-  target: number;
-  amount: number;
-  color: ColorEnum;
-  _id: string;
-};
 
 const Modal = ({
   setIsModal,

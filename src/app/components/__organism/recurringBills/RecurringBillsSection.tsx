@@ -7,48 +7,15 @@ import { Loading, SortFilterHeader, Title } from "../../__molecules";
 import TransactionItem from "../transaction/TransactionItem";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
-import { ColorEnum } from "@/app/schema/schema";
 import { useSortAndFilter } from "@/app/hooks/use-sortAndFilter";
 import Summary from "./Summary";
 import dayjs from "dayjs";
-import { DataType } from "@/app/interfaces/interface";
-import { PotsDataType } from "../pots/PotsSection";
 import { GlobalContext } from "@/app/context/Context";
-
-export type RecurringBillsDataType = {
-  _id: string;
-  budgetId?: {
-    _id: string;
-    category: string;
-    amount: number;
-    categoryLogo: string;
-    color: ColorEnum | string | undefined;
-    resource: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  };
-  potId?: {
-    _id: string;
-    potName: string;
-    amount: number;
-    color: ColorEnum | string | undefined;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  };
-  dueDate: string;
-  resource: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-
-  status?: string;
-  amount: number;
-  category: string;
-  color: string;
-  checkId: string;
-};
+import {
+  DataType,
+  PotsDataType,
+  RecurringBillsDataType,
+} from "@/app/interfaces/interface";
 
 const RecurringBillsSection = () => {
   const path = usePathname();

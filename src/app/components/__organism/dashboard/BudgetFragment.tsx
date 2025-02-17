@@ -1,13 +1,10 @@
 "use client";
 import { BudgetPieChart, FragmentTitle } from "../../__molecules";
 import { useGroupedData } from "@/app/hooks/use-categoryGrope";
-import { BudgetType } from "../modal/Modal";
 import useAccessToken from "@/app/hooks/use-toke";
 import useBudgets from "@/app/hooks/use-budgets";
+import { BudgetFragmentPropsType } from "@/app/interfaces/interface";
 
-export type BudgetFragmentPropsType = {
-  budgets: BudgetType[];
-};
 
 const BudgetFragment = ({ budgets = [] }: BudgetFragmentPropsType) => {
   const { accessToken } = useAccessToken();

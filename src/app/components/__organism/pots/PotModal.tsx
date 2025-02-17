@@ -1,9 +1,7 @@
 "use client";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { PotDataStateType } from "../modal/Modal";
+import { ChangeEvent, useState } from "react";
 import { CloseIcon } from "../../__atoms";
 import useGroupedPots from "@/app/hooks/use-potGroup";
-import { PotsDataType } from "./PotsSection";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -11,34 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import { Loading, ProgressBar } from "../../__molecules";
-import { ColorEnum } from "@/app/schema/schema";
-
-export type PotModalPropsType = {
-  setPotMoney: Dispatch<SetStateAction<boolean>>;
-  potMoney: boolean;
-  setWithdrawMoney: Dispatch<SetStateAction<boolean>>;
-  withdrawMoney: boolean;
-  activePotModal: PotDataStateType | null;
-  setActivePotModal: Dispatch<SetStateAction<PotDataStateType | null>>;
-  potsData: PotsDataType[];
-};
-
-export type MoneyEditType = {
-  amount: number;
-};
-
-export type FilteredGropedDataType =
-  | {
-      potName: string;
-      amount: number;
-      color: ColorEnum;
-      _id: string;
-      potTargetTotalAmount: number;
-      portSpendingTotalAmount: number;
-      totalSaved: number;
-      percentageSpent: number;
-    }
-  | undefined;
+import { MoneyEditType, PotModalPropsType } from "@/app/interfaces/interface";
 
 export const moneySchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required"),

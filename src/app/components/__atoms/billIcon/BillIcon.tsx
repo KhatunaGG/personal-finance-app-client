@@ -1,6 +1,4 @@
-export type IconType = {
-  isLinkActive: boolean;
-};
+import { IconType } from "@/app/interfaces/interface";
 
 const BillIcon = ({ isLinkActive }: IconType) => {
   return (

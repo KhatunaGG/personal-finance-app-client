@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "../../__atoms";
-
-export type FragmentTitlePopsType = {
-  isFragment: boolean;
-  title: string;
-};
+import { FragmentTitlePopsType } from "@/app/interfaces/interface";
 
 const FragmentTitle = ({ title }: FragmentTitlePopsType) => {
   const validTitles = ["Budgets", "Pots", "Transactions"];

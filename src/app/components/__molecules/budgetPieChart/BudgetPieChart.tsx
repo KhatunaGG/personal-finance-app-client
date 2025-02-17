@@ -1,28 +1,8 @@
 "use client";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
-import { CategoryEnum, ColorEnum } from "@/app/schema/schema";
+import { BudgetPieChartPropsType } from "@/app/interfaces/interface";
 import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Label, Cell } from "recharts";
-
-export type BudgetPieChartPropsType = {
-  groupedData: {
-    category: string;
-    color: ColorEnum;
-    spending: number;
-    totalAmount: number;
-    categoryLogo: string;
-    remaining: number;
-  }[];
-  data: {
-    category: CategoryEnum;
-    amount: number;
-    color: ColorEnum;
-    categoryLogo: string;
-    createdAt?: string;
-    updatedAt?: string;
-    id: string;
-  }[];
-};
 
 const BudgetPieChart = ({ groupedData }: BudgetPieChartPropsType) => {
   const [mounted, setMounted] = useState(false);

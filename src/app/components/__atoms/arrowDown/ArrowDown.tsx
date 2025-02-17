@@ -1,6 +1,4 @@
-export type ArrowDownPropsType = {
-  rotated: boolean;
-};
+import { ArrowDownPropsType } from "@/app/interfaces/interface";
 
 const ArrowDown = ({ rotated }: ArrowDownPropsType) => {
   return (

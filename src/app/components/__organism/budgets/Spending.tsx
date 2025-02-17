@@ -1,8 +1,5 @@
-import { GroupedCategory } from "@/app/hooks/use-categoryGrope";
+import { SpendingPropsType } from "@/app/interfaces/interface";
 
-export type SpendingPropsType = {
-  groupedData: GroupedCategory[];
-};
 
 const Spending = ({ groupedData }: SpendingPropsType) => {
   const slicedGroupedData =

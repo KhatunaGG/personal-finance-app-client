@@ -2,8 +2,8 @@
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useEffect, useState } from "react";
-import { TransactionType } from "../transaction/TransactionSection";
 import { Loading } from "../../__molecules";
+import { TransactionType } from "@/app/interfaces/interface";
 
 const TotalsFragment = () => {
   const { accessToken, isLoading } = useAccessToken();

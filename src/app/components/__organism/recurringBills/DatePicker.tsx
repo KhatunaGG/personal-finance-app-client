@@ -5,25 +5,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
-import { ColorEnum } from "@/app/schema/schema";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-toke";
 import { toast } from "react-toastify";
+import { DataPikersPropsType } from "@/app/interfaces/interface";
 
-export type DataPikersPropsType = {
-  category: string;
-  amount: number;
-  transactionId: string;
-  color?: ColorEnum | string | undefined;
-  setIsDatePickers: React.Dispatch<React.SetStateAction<boolean>> | undefined;
-  setActiveDatePicker:
-    | React.Dispatch<React.SetStateAction<string | null>>
-    | undefined;
-  setIsExistingItem: React.Dispatch<React.SetStateAction<boolean>>;
-  getAllRecurringBills?: () => Promise<void>;
-  resource: string | undefined;
-  categoryLogo: string | JSX.Element | undefined;
-};
+
 
 function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {

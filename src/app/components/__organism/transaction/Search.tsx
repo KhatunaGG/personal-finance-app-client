@@ -1,9 +1,5 @@
+import { SearchPropsType } from "@/app/interfaces/interface";
 import { SearchIcon } from "../../__atoms";
-
-export type SearchPropsType = {
-  handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isRecurringBills?: boolean;
-};
 
 const Search = ({ handleSearchChange, isRecurringBills }: SearchPropsType) => {
   return (

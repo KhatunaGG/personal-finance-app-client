@@ -1,33 +1,10 @@
 "use client";
 import { DotIcon } from "../../__atoms";
 import { ModalItem, ProgressBar } from "../../__molecules";
-import { ColorEnum } from "@/app/schema/schema";
-import { GropedPotsType, PotsDataType } from "./PotsSection";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
+import { PotItemPropsType } from "@/app/interfaces/interface";
 
-type PotItemPropsType = {
-  isPotPage: boolean;
-  potName: string;
-  amount: number;
-  color: ColorEnum;
-  _id: string;
-  handleClickPots: (id: string) => void;
-  potsData: PotsDataType[];
-  totalSaved: number;
-  percentageSpent: number;
-  potTargetTotalAmount: number;
-  setPotMoney: Dispatch<SetStateAction<boolean>>;
-  setWithdrawMoney: Dispatch<SetStateAction<boolean>>;
-  portSpendingTotalAmount: number;
-  setIsEdit: Dispatch<SetStateAction<boolean>>;
-  activePot: GropedPotsType | undefined;
-  setIsModal: Dispatch<SetStateAction<boolean>>;
-  activeModalItem: number | null;
-  setActiveModalItem: Dispatch<SetStateAction<number | null>>;
-  index: number;
-  getAllPots: () => void;
-};
 
 const PotItem = ({
   isPotPage,

@@ -1,6 +1,6 @@
-export type SortFilterHeaderPropsType = {
-  isRecurringBills?: boolean;
-};
+import { SortFilterHeaderPropsType } from "@/app/interfaces/interface";
+
+
 const SortFilterHeader = ({ isRecurringBills }: SortFilterHeaderPropsType) => {
   return (
     <div

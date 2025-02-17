@@ -1,11 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { ModalItemPropsType } from "@/app/interfaces/interface";
 
-export type ModalItemPropsType = {
-  setIsDelete: Dispatch<SetStateAction<boolean>>;
-  setIsEdit: Dispatch<SetStateAction<boolean>>;
-  setIsModal: Dispatch<SetStateAction<boolean>>;
-  isPotPage?: boolean;
-};
 
 const ModalItem = ({
   setIsDelete,

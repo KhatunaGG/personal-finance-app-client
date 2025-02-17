@@ -39,10 +39,10 @@ const useAccessToken = () => {
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCookie("accessToken");
-      if (token) {
-        setAccessToken(token as string);
-      } else {
+      if (!token) {
         router.push("/sign-up");
+      } else {
+        setAccessToken(token as string);
       }
       setIsLoading(false);
     };

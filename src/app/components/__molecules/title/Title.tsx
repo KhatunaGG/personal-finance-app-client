@@ -1,14 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import { TiTlePropsType } from "@/app/interfaces/interface";
 
-export type TiTlePropsType = {
-  setIsModal?: Dispatch<SetStateAction<boolean>>;
-  setIsAddBudget?: Dispatch<SetStateAction<boolean>>;
-  isBudgetPage?: boolean;
-  isPotPage?: boolean;
-  isTransactionsPage?: boolean;
-  isDashboardPage?: boolean;
-  isRecurringBills?: boolean;
-};
 
 const Title = ({
   setIsModal,

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { PotsDataType } from "../components/__organism/pots/PotsSection";
+import { PotsDataType } from "../interfaces/interface";
+
 
 const useGroupedPots = (potsData: PotsDataType[]) => {
   const groupedPots = useMemo(() => {
