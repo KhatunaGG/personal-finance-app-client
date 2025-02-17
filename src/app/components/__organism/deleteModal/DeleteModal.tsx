@@ -1,17 +1,10 @@
 "use client";
 import { CloseIcon } from "../../__atoms";
-import { Dispatch, SetStateAction } from "react";
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import axios from "axios";
+import { DeleteModalPropsType } from "@/app/interfaces/interface";
 
-export type DeleteModalPropsType = {
-  setIsDelete: Dispatch<SetStateAction<boolean>>;
-  category: string;
-  getBudgets?: () => void;
-  isPotPage?: boolean;
-  getAllPots?: () => void;
-};
 
 const DeleteModal = ({
   setIsDelete,

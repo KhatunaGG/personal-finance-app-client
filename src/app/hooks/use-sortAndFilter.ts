@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { RecurringBillsDataType } from "../components/__organism/recurringBills/RecurringBillsSection";
-import { TransactionType } from "../components/__organism/transaction/TransactionSection";
+import { RecurringBillsDataType, TransactionType } from "../interfaces/interface";
+
 
 type TransactionOrRecurringBill = RecurringBillsDataType | TransactionType;
 

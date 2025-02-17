@@ -1,13 +1,8 @@
-import React, { Dispatch, SetStateAction } from "react";
 import { ArrowDown, FilterIcon } from "../../__atoms";
 import { sortCategory } from "@/app/commons/data";
+import { SortByCategorySectionPropsType } from "@/app/interfaces/interface";
 
-export type SortByCategorySectionPropsType = {
-  setFilteredCategoryValue: Dispatch<SetStateAction<string | undefined>>;
-  filteredCategoryValue: string | undefined;
-  filteredCategoryDropdown: boolean;
-  setFilteredCategoryDropdown: Dispatch<SetStateAction<boolean>>;
-};
+
 
 const SortByCategorySection = ({
   setFilteredCategoryValue,

@@ -11,11 +11,9 @@ import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { Logo } from "../../__atoms";
 import { schema } from "@/app/schema/loginSchema";
+import { LogInType } from "@/app/interfaces/interface";
 
-export type LogInType = {
-  email: string;
-  password: string;
-};
+
 
 const LogInSection = () => {
   const router = useRouter();

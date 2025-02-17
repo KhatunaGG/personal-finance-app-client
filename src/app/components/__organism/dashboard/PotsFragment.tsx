@@ -1,12 +1,8 @@
 "use client";
 import { PotLargeIcon } from "../../__atoms";
-import { PotsDataType } from "../pots/PotsSection";
 import { FragmentTitle } from "../../__molecules";
+import { PotsFragmentPropsType } from "@/app/interfaces/interface";
 
-export type PotsFragmentPropsType = {
-  pots: PotsDataType[];
-  potTotal: number;
-};
 
 const PotsFragment = ({ pots, potTotal }: PotsFragmentPropsType) => {
   return (

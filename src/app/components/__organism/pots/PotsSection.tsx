@@ -1,8 +1,7 @@
 "use client";
 import { GlobalContext } from "@/app/context/Context";
 import { useContext, useEffect, useState } from "react";
-import Modal, { PotDataStateType } from "../../__organism/modal/Modal";
-import { ColorEnum } from "@/app/schema/schema";
+import Modal  from "../../__organism/modal/Modal";
 import { usePathname } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
 import { axiosInstance } from "@/app/libs/axiosInstance";
@@ -12,28 +11,8 @@ import useGroupedPots from "@/app/hooks/use-potGroup";
 import PotModal from "./PotModal";
 import PotItem from "./PotItem";
 import { Loading, Title } from "../../__molecules";
+import { GropedPotsType, PotDataStateType, PotsDataType } from "@/app/interfaces/interface";
 
-export type PotsDataType = {
-  potName: string;
-  amount: number;
-  color: ColorEnum;
-  _id: string;
-  createdAt: string;
-  updatedAd: string;
-  resource?: string;
-  checkId: string;
-};
-
-export type GropedPotsType = {
-  potName: string;
-  amount: number;
-  color: string;
-  _id: string;
-  potTargetTotalAmount: number;
-  portSpendingTotalAmount: number;
-  totalSaved: number;
-  percentageSpent: number;
-};
 
 const PotsSection = () => {
   const context = useContext(GlobalContext);

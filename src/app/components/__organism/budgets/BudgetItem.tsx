@@ -2,25 +2,11 @@
 import { ModalItem, ProgressBar } from "../../__molecules";
 import { ArrowRight, DotIcon } from "../../__atoms";
 import Link from "next/link";
-import { DataType } from "@/app/interfaces/interface";
+import { BudgetItemPropsType } from "@/app/interfaces/interface";
 import LatestSpending from "./LatestSpending";
 import useLatestSpendingData from "@/app/hooks/use-latestSpending";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
-
-export type BudgetItemPropsType = {
-  category: string;
-  groupSpending: number;
-  color: string;
-  groupTotalAmount: number;
-  data: DataType[];
-  getBudgets: () => void;
-  setIsEdit: Dispatch<SetStateAction<boolean>>;
-  activeModalItem: number | null;
-  setActiveModalItem: Dispatch<SetStateAction<number | null>>;
-  index: number;
-  setIsModal: Dispatch<SetStateAction<boolean>>;
-};
 
 const BudgetItem = ({
   category,

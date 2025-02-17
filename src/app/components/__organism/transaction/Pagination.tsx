@@ -1,13 +1,7 @@
 "use client";
+import { PaginationPropsType } from "@/app/interfaces/interface";
 import { ArrowLeft, PaginationArrowRight } from "../../__atoms";
 
-export type PaginationPropsType = {
-  currentPage: number;
-  totalPages: number;
-  handlePrevPage: () => void;
-  handleNextPage: () => void;
-  setCurrentPage: (page: number) => void;
-};
 
 const Pagination = ({
   currentPage,

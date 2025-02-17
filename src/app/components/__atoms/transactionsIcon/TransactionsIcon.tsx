@@ -1,4 +1,5 @@
-import { IconType } from "../billIcon/BillIcon";
+import { IconType } from "@/app/interfaces/interface";
+
 
 const TransactionsIcon = ({ isLinkActive }: IconType) => {
   return (

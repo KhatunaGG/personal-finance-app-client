@@ -1,37 +1,15 @@
 "use client";
 import useAccessToken from "@/app/hooks/use-toke";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ColorEnum } from "@/app/schema/schema";
+import { useEffect, useState } from "react";
 import DatePickers from "../recurringBills/DatePicker";
 import { toast } from "react-toastify";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-import { RecurringBillsDataType } from "../recurringBills/RecurringBillsSection";
 import { CheckMark, ExclamationMark } from "../../__atoms";
-import { TransactionOrRecurringBill } from "./TransactionSection";
-
-export type TransactionItemPropsType = {
-  category: string;
-  createdAt?: string | undefined;
-  categoryLogo?: string | JSX.Element | undefined;
-  amount: number;
-  isFirstItem: boolean;
-  isRecurringBills?: boolean;
-  _id: string;
-  setInputChecked?: Dispatch<SetStateAction<string>>;
-  inputChecked?: string;
-  color?: ColorEnum | string | undefined;
-  setIsDatePickers?: Dispatch<SetStateAction<boolean>>;
-  isDatePickers?: boolean;
-  activeDatePicker?: string | null;
-  setActiveDatePicker?: Dispatch<SetStateAction<string | null>>;
-  dueDate?: string;
-  status?: string;
-  recurringBillsData?: RecurringBillsDataType[] | undefined;
-  getAllRecurringBills?: () => Promise<void>;
-  allTransactions?: TransactionOrRecurringBill[];
-  resource?: string;
-};
+import {
+  TransactionItemPropsType,
+  TransactionOrRecurringBill,
+} from "@/app/interfaces/interface";
 
 const TransactionItem = ({
   category,

@@ -1,14 +1,8 @@
 "use client";
 import { sortBy } from "@/app/commons/data";
 import { ArrowDown, SortIcon } from "../../__atoms";
-import { Dispatch, SetStateAction } from "react";
+import { SortBySectionPropsType } from "@/app/interfaces/interface";
 
-export type SortBySectionPropsType = {
-  setSortByDropdown: Dispatch<SetStateAction<boolean>>;
-  sortByDropdown: boolean;
-  setSortByValue: Dispatch<SetStateAction<string | undefined>>;
-  sortByValue?: string;
-};
 
 export const SortBySection = ({
   setSortByDropdown,

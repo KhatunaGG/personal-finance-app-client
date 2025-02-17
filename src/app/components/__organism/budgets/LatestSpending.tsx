@@ -1,13 +1,5 @@
+import { LatestSpendingPropsType } from "@/app/interfaces/interface";
 import Image from "next/image";
-
-export type LatestSpendingPropsType = {
-  logo: string;
-  category: string;
-  amount: number;
-  isLastEl: number;
-  createdAt?: string;
-  updatedAt?: string;
-};
 
 const LatestSpending = ({
   logo,

@@ -3,16 +3,12 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "@/app/commons/data";
-import { IconType } from "../../__atoms/billIcon/BillIcon";
 import { Logo, LogOut, MinimizeMenu } from "../../__atoms";
 import useAccessToken from "@/app/hooks/use-toke";
 import { GlobalContext } from "@/app/context/Context";
 import Image from "next/image";
+import { NavLinkType } from "@/app/interfaces/interface";
 
-export type NavLinkType = {
-  name: string;
-  icon: React.ComponentType<IconType>;
-};
 
 const SideBar = () => {
   const path = usePathname();
