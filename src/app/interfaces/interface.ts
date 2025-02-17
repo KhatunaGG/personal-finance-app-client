@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from "react";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
 import { GroupedCategory } from "../hooks/use-categoryGrope";
 import {} from "../components/__organism/pots/PotsSection";
-// import { RecurringBillsDataType } from "../components/__organism/recurringBills/RecurringBillsSection";
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
@@ -86,30 +85,6 @@ export type PotItemPropsType = {
   getAllPots: () => void;
 };
 
-// export type PotItemPropsType = {
-//   isPotPage: boolean;
-//   potName: string;
-//   amount: number;
-//   color: ColorEnum;
-//   _id: string;
-//   handleClickPots: (id: string) => void;
-//   potsData: PotsDataType[];
-//   totalSaved: number;
-//   percentageSpent: number;
-//   potTargetTotalAmount: number;
-//   setPotMoney: Dispatch<SetStateAction<boolean>>;
-//   setWithdrawMoney: Dispatch<SetStateAction<boolean>>;
-//   portSpendingTotalAmount: number;
-//   setIsEdit: Dispatch<SetStateAction<boolean>>;
-//   activePot: GropedPotsType | undefined;
-//   setIsModal: Dispatch<SetStateAction<boolean>>;
-//   activeModalItem: number | null;
-//   setActiveModalItem: Dispatch<SetStateAction<number | null>>;
-//   index: number;
-//   getAllPots: () => void;
-// };
-
-
 export type TransactionType = {
   category: string;
   amount: number;
@@ -119,7 +94,6 @@ export type TransactionType = {
   updatedAt?: string;
   _id: string;
   resource: string | undefined;
-
   potId?: string;
   budgetId?: string;
   checkId: string;
@@ -148,15 +122,12 @@ export type TransactionItemPropsType = {
   resource?: string;
 };
 
-
 export type SortBySectionPropsType = {
   setSortByDropdown: Dispatch<SetStateAction<boolean>>;
   sortByDropdown: boolean;
   setSortByValue: Dispatch<SetStateAction<string | undefined>>;
   sortByValue?: string;
 };
-
-
 
 export type TransactionOrRecurringBill =
   | TransactionType
@@ -249,10 +220,6 @@ export type PotModalPropsType = {
   potsData: PotsDataType[];
 };
 
-// export type MoneyEditType = {
-//   amount: number;
-// };
-
 export type FilteredGropedDataType =
   | {
       potName: string;
@@ -294,16 +261,6 @@ export type PotDataStateType = {
   color: ColorEnum;
   _id: string;
 };
-
-// const isTransaction = (
-//   transaction: TransactionType | PotsDataType
-// ): transaction is TransactionType => {
-//   return (transaction as TransactionType).category !== undefined;
-// };
-
-// export type TransactionsFragmentPropsType = {
-//   transactions: (TransactionType | PotsDataType)[];
-// };
 
 export type SpendingPropsType = {
   groupedData: GroupedCategory[];
@@ -356,19 +313,6 @@ export type MoneyEditType = {
   amount: number;
 };
 
-// export type FilteredGropedDataType =
-//   | {
-//       potName: string;
-//       amount: number;
-//       color: ColorEnum;
-//       _id: string;
-//       potTargetTotalAmount: number;
-//       portSpendingTotalAmount: number;
-//       totalSaved: number;
-//       percentageSpent: number;
-//     }
-//   | undefined;
-
 export type PotsDataType = {
   potName: string;
   amount: number;
@@ -406,21 +350,12 @@ export type DataPikersPropsType = {
   categoryLogo: string | JSX.Element | undefined;
 };
 
-// export type SortBySectionPropsType = {
-//   setSortByDropdown: Dispatch<SetStateAction<boolean>>;
-//   sortByDropdown: boolean;
-//   setSortByValue: Dispatch<SetStateAction<string | undefined>>;
-//   sortByValue?: string;
-// };
-
 export type SortByCategorySectionPropsType = {
   setFilteredCategoryValue: Dispatch<SetStateAction<string | undefined>>;
   filteredCategoryValue: string | undefined;
   filteredCategoryDropdown: boolean;
   setFilteredCategoryDropdown: Dispatch<SetStateAction<boolean>>;
 };
-
-
 
 export type SummeryPropsType = {
   recurringBillsData: RecurringBillsDataType[] | undefined;
@@ -442,8 +377,7 @@ export type PaginationPropsType = {
 export type SearchPropsType = {
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isRecurringBills?: boolean;
-}
-
+};
 
 export type RecurringBillsDataType = {
   _id: string;
