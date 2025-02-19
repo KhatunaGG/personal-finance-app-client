@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { RecurringBillsDataType, TransactionType } from "../interfaces/interface";
-
+import {
+  RecurringBillsDataType,
+  TransactionType,
+} from "../interfaces/interface";
 
 type TransactionOrRecurringBill = RecurringBillsDataType | TransactionType;
 

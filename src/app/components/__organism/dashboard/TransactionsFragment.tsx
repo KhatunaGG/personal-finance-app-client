@@ -1,7 +1,11 @@
 "use client";
 import Image from "next/image";
 import { FragmentTitle } from "../../__molecules";
-import { PotsDataType, TransactionsFragmentPropsType, TransactionType } from "@/app/interfaces/interface";
+import {
+  PotsDataType,
+  TransactionsFragmentPropsType,
+  TransactionType,
+} from "@/app/interfaces/interface";
 
 const isTransaction = (
   transaction: TransactionType | PotsDataType
