@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
 import { GroupedCategory } from "../hooks/use-categoryGrope";
-import {} from "../components/__organism/pots/PotsSection";
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;

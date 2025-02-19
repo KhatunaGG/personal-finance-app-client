@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3003'
+  baseURL: "https://personal-finance-app-server-khu2.onrender.com",
 });
