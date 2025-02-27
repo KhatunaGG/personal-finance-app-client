@@ -89,7 +89,7 @@ const SignUpSection = () => {
               <input
                 type="text"
                 className="border border-beige-500 py-3 px-5 rounded-[8px] outline-none"
-                placeholder="userName"
+                placeholder="Name"
                 {...register("userName")}
               />
               {errors.userName && (
