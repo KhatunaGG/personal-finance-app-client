@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import { DataType } from "../interfaces/interface";
-import { CategoryEnum, ColorEnum } from "../schema/schema";
-
-export type GroupedCategory = {
-  category: CategoryEnum;
-  spending: number;
-  totalAmount: number;
-  color: ColorEnum;
-  categoryLogo: string;
-  remaining: number;
-};
+import { DataType, GroupedCategory } from "../interfaces/interface";
 
 export const useGroupedData = (data: DataType[]) => {
   const [groupedData, setGroupedData] = useState<GroupedCategory[]>([]);

@@ -18,7 +18,6 @@ import { LogInType } from "@/app/interfaces/interface";
 const LogInSection = () => {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState("");
-  console.log(accessToken);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -31,7 +30,6 @@ const LogInSection = () => {
   });
 
   const onSubmit = async (data: LogInType) => {
-    console.log(data, "data");
     try {
       const res = await axiosInstance.post("/auth/sign-in", data, {
         headers: {

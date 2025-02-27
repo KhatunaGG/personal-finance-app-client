@@ -2,15 +2,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "../libs/axiosInstance";
-
-export type UserType = {
-  balance: number;
-  email: string;
-  remaining: number;
-  updatedAt: string;
-  userName: string;
-  _id: string;
-};
+import { UserType } from "../interfaces/interface";
 
 const useAccessToken = () => {
   const router = useRouter();

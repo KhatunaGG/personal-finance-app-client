@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { CategoryEnum, ColorEnum } from "../schema/schema";
-import { GroupedCategory } from "../hooks/use-categoryGrope";
+// import { GroupedCategory } from "../hooks/use-categoryGrope";
 
 export type ModalPropsType = {
   setIsModal: Dispatch<SetStateAction<boolean>>;
@@ -34,6 +34,24 @@ export type DataType = {
   status?: string;
   resource?: string;
   checkId: string;
+};
+
+export type GroupedCategory = {
+  category: CategoryEnum;
+  spending: number;
+  totalAmount: number;
+  color: ColorEnum;
+  categoryLogo: string;
+  remaining: number;
+};
+
+export type UserType = {
+  balance: number;
+  email: string;
+  remaining: number;
+  updatedAt: string;
+  userName: string;
+  _id: string;
 };
 
 export type CloseIconPropsType = {

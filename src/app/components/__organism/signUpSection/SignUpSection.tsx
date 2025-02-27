@@ -35,7 +35,6 @@ const SignUpSection = () => {
     console.log(data, "data");
     try {
       const res = await axiosInstance.post("/auth/sign-up", data);
-      console.log(res.config.url);
 
       if (res.status === 200 || res.status === 201) {
         reset();

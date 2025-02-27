@@ -1,5 +1,6 @@
+"use client";
+import useAccessToken from "@/app/hooks/use-toke";
 import { TiTlePropsType } from "@/app/interfaces/interface";
-
 
 const Title = ({
   setIsModal,
@@ -10,6 +11,8 @@ const Title = ({
   isDashboardPage,
   isRecurringBills,
 }: TiTlePropsType) => {
+  const { logout } = useAccessToken();
+
   const handleClick = () => {
     if (isBudgetPage) {
       setIsAddBudget?.(true);
@@ -38,6 +41,16 @@ const Title = ({
       <h1 className="w-full text-left text-[32px] text-[#201F24] font-bold">
         {pageTitle}
       </h1>
+
+      {isDashboardPage && (
+        <button
+          onClick={() => logout()}
+          className="px-4 py-2 bg-[#201F24] rounded-md whitespace-nowrap text-white text-xs lg:hidden"
+        >
+          Log out
+        </button>
+      )}
+
       {showButton && (
         <button
           onClick={handleClick}

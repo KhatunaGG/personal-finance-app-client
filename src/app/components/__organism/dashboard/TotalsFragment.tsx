@@ -45,7 +45,6 @@ const TotalsFragment = () => {
         if (entry.amount < 0) acc += entry.amount;
         return acc;
       }, 0);
-
       setIncome(totalIncome);
       setExpenses(totalExpenses);
     } else {
