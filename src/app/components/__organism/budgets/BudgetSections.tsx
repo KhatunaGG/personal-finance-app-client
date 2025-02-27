@@ -6,11 +6,12 @@ import Spending from "./Spending";
 import Modal from "../modal/Modal";
 import { usePathname } from "next/navigation";
 import useAccessToken from "@/app/hooks/use-toke";
-import { GroupedCategory, useGroupedData } from "@/app/hooks/use-categoryGrope";
+import {  useGroupedData } from "@/app/hooks/use-categoryGrope";
 import useBudgetUtils from "@/app/hooks/use-budgetUtils";
 import { GlobalContext } from "@/app/context/Context";
 import { ToastContainer } from "react-toastify";
 import useBudgets from "@/app/hooks/use-budgets";
+import { GroupedCategory } from "@/app/interfaces/interface";
 
 const BudgetSections = () => {
   const { accessToken, isLoading } = useAccessToken();
